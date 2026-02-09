@@ -1,0 +1,387 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+/* Configuration de base Cordova */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select: none;
+    user-select: none;                      /* PropriÃƒÂ©tÃƒÂ© standard pour la compatibilitÃƒÂ© */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    /* Padding pour ÃƒÂ©viter les zones "non sÃƒÂ©curisÃƒÂ©es" derriÃƒÂ¨re les encoches d'ÃƒÂ©cran */
+    padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px) env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
+}
+
+/* Container principal de connexion */
+.login-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Logo */
+.logo {
+    width: 100px;
+    height: 100px;
+    background: #667eea;
+    border-radius: 50%;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    overflow: hidden; /* Pour que l'image reste dans le cercle */
+}
+
+/* Image du logo */
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garde les proportions */
+    border-radius: 50%;
+}
+
+/* Titre */
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 300;
+    text-transform: none;
+}
+
+/* Groupes d'input */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.input-group label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e1e1e1;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: black;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+/* Groupe de boutons */
+.button-group {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+/* Styles des boutons */
+.btn {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #f8f9fa;
+    color: #666;
+    border: 2px solid #e1e1e1;
+}
+
+.btn-secondary:hover {
+    background: black;
+    transform: translateY(-2px);
+}
+
+.btn-connect {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Animation d'apparition */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation de clignotement (gardÃƒÂ©e de l'original) */
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+
+.blink {
+    animation: fade 3000ms infinite;
+    -webkit-animation: fade 3000ms infinite;
+}
+
+/* Mode responsive */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        margin-bottom: 10px;
+    }
+    
+    body {
+        padding: 10px;
+    }
+}
+
+/* Responsive landscape pour tablettes */
+@media screen and (min-aspect-ratio: 1/1) and (min-width: 400px) {
+    .login-container {
+        max-width: 450px;
+    }
+}
+
+/* Mode sombre */
+@media screen and (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    }
+    
+    .login-container {
+        background: rgba(45, 55, 72, 0.95);
+        color: white;
+    }
+    
+    h1 {
+        color: white;
+    }
+    
+    .input-group label {
+        color: #e2e8f0;
+    }
+    
+    .input-group input {
+        background: #4a5568;
+        border-color: #718096;
+        color: white;
+    }
+    
+    .input-group input::placeholder {
+        color: #a0aec0;
+    }
+    
+    .btn-secondary {
+        background: #4a5568;
+        color: #e2e8f0;
+        border-color: #718096;
+    }
+    
+    .device-info {
+        background: rgba(74, 85, 104, 0.3);
+        border-color: #718096;
+    }
+    
+    .device-info h3 {
+        color: #e2e8f0;
+    }
+    
+    #deviceInfo {
+        background: rgba(74, 85, 104, 0.5);
+        color: #e2e8f0;
+        border-left-color: #e2e8f0;
+    }
+
+    .network-connection-info {
+        background: rgba(74, 85, 104, 0.3);
+        border-color: #718096;
+    }
+    
+    .network-connection-info h3 {
+        color: #e2e8f0;
+    }
+    
+    #netInfo {
+        background: rgba(74, 85, 104, 0.5);
+        color: #e2e8f0;
+        border-left-color: #e2e8f0;
+    }
+}
+
+/* Informations du pÃƒÂ©riphÃƒÂ©rique */
+.device-info {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.device-info h3 {
+    margin: 0 0 15px 0;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.network-connection {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.network-connection h3 {
+    margin: 0 0 15px 0;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Styles pour la géolocalisation */
+.geolocation-info {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.geolocation-info h3 {
+    margin: 0 0 15px 0;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
+
+#geoInfo {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: 500;
+    color: #555;
+    font-size: 14px;
+}
+
+.info-value {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 14px;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
