@@ -1,0 +1,18 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "FrigoChef",
+  "short_name": "FrigoChef",
+  "version": "com.frigochef.app",
+  "description": "Application mobile intelligente pour générer des recettes personnalisées à partir des ingrédients de votre frigo",
+  "author": "MilFhey",
+  "icons": [
+    {
+      "src": "www/img/logo.png",
+      "type": "image/png",
+      "sizes": "undefinedxundefined"
+    }
+  ],
+  "start_url": "index.html",
+  "theme_color": "#f5f6fa"
+}

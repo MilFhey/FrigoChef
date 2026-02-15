@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.frigochef.app" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Permissions">
+        <param name="android-package" value="com.android.plugins.Permissions" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="BarcodeScanner">
+        <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
+    </feature>
+    <name>FrigoChef</name>
+    <description>Application mobile intelligente pour générer des recettes personnalisées à partir des ingrédients de votre frigo</description>
+    <author email="milfhey@github.com" href="https://github.com/MilFhey/FrigoChef">
+        MilFhey
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="geo:*" />
+    <icon src="www/img/logo.png" />
+    <icon density="ldpi" height="36" src="www/res/icon/android/ldpi.png" width="36" />
+    <icon density="mdpi" height="48" src="www/res/icon/android/mdpi.png" width="48" />
+    <icon density="hdpi" height="72" src="www/res/icon/android/hdpi.png" width="72" />
+    <icon density="xhdpi" height="96" src="www/res/icon/android/xhdpi.png" width="96" />
+    <icon density="xxhdpi" height="144" src="www/res/icon/android/xxhdpi.png" width="144" />
+    <icon density="xxxhdpi" height="192" src="www/res/icon/android/xxxhdpi.png" width="192" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/img/logo.png" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#4CAF50" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+</widget>

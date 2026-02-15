@@ -20,7 +20,8 @@
     "cordova-plugin-device": "^3.0.0",
     "cordova-plugin-geolocation": "^5.0.0",
     "cordova-plugin-network-information": "^3.0.0",
-    "cordova-plugin-splashscreen": "^6.0.1"
+    "cordova-plugin-splashscreen": "^6.0.1",
+    "phonegap-plugin-barcodescanner": "^8.1.0"
   },
   "cordova": {
     "platforms": [
@@ -35,6 +36,9 @@
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-geolocation": {
         "GPS_REQUIRED": "true"
+      },
+      "phonegap-plugin-barcodescanner": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
       }
     }
   }

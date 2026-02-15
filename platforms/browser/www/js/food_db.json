@@ -1,0 +1,3254 @@
+{
+  "foods": [
+    {
+      "name": "poulet",
+      "aliases": ["blanc de poulet", "filet de poulet", "escalope de poulet", "poulet cru"],
+      "per100g": {
+        "calories": 165,
+        "proteines": 31,
+        "glucides": 0,
+        "lipides": 3.6,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.08,
+        "vitamines": {
+          "B3": 13.7,
+          "B6": 0.6,
+          "B12": 0.3
+        },
+        "mineraux": {
+          "phosphore": 220,
+          "selenium": 27,
+          "zinc": 1.3
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "riz blanc",
+      "aliases": ["riz", "riz cuit"],
+      "per100g": {
+        "calories": 130,
+        "proteines": 2.7,
+        "glucides": 28,
+        "lipides": 0.3,
+        "fibres": 0.4,
+        "sucres": 0.1,
+        "sodium": 0.001,
+        "vitamines": {
+          "B1": 0.07,
+          "B3": 1.6
+        },
+        "mineraux": {
+          "magnesium": 12,
+          "phosphore": 43
+        }
+      },
+      "gi": "high"
+    },
+    {
+      "name": "riz complet",
+      "aliases": ["riz brun", "riz basmati complet"],
+      "per100g": {
+        "calories": 111,
+        "proteines": 2.6,
+        "glucides": 23,
+        "lipides": 0.9,
+        "fibres": 1.8,
+        "sucres": 0.4,
+        "sodium": 0.005,
+        "vitamines": {
+          "B1": 0.1,
+          "B3": 2.6,
+          "B6": 0.15
+        },
+        "mineraux": {
+          "magnesium": 43,
+          "phosphore": 83,
+          "fer": 0.4
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "pâtes",
+      "aliases": ["pâtes blanches", "pâtes cuites", "spaghetti", "macaroni"],
+      "per100g": {
+        "calories": 131,
+        "proteines": 5,
+        "glucides": 25,
+        "lipides": 1.1,
+        "fibres": 1.8,
+        "sucres": 0.6,
+        "sodium": 0.001,
+        "vitamines": {
+          "B1": 0.02,
+          "B3": 0.4,
+          "B9": 7
+        },
+        "mineraux": {
+          "fer": 0.5,
+          "magnesium": 18,
+          "phosphore": 58
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "tomate",
+      "aliases": ["tomates", "tomate fraîche"],
+      "per100g": {
+        "calories": 18,
+        "proteines": 0.9,
+        "glucides": 3.9,
+        "lipides": 0.2,
+        "fibres": 1.2,
+        "sucres": 2.6,
+        "sodium": 0.005,
+        "vitamines": {
+          "C": 14,
+          "A": 42,
+          "K": 7.9,
+          "B9": 15
+        },
+        "mineraux": {
+          "potassium": 237,
+          "phosphore": 24
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "oignon",
+      "aliases": ["oignons", "oignon jaune", "oignon blanc"],
+      "per100g": {
+        "calories": 40,
+        "proteines": 1.1,
+        "glucides": 9.3,
+        "lipides": 0.1,
+        "fibres": 1.7,
+        "sucres": 4.2,
+        "sodium": 0.004,
+        "vitamines": {
+          "C": 7.4,
+          "B6": 0.12,
+          "B9": 19
+        },
+        "mineraux": {
+          "potassium": 146,
+          "phosphore": 29,
+          "calcium": 23
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "carotte",
+      "aliases": ["carottes", "carotte crue"],
+      "per100g": {
+        "calories": 41,
+        "proteines": 0.9,
+        "glucides": 9.6,
+        "lipides": 0.2,
+        "fibres": 2.8,
+        "sucres": 4.7,
+        "sodium": 0.069,
+        "vitamines": {
+          "A": 835,
+          "C": 5.9,
+          "K": 13.2,
+          "B6": 0.14
+        },
+        "mineraux": {
+          "potassium": 320,
+          "calcium": 33,
+          "phosphore": 35
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "pomme de terre",
+      "aliases": ["pommes de terre", "patate", "patates"],
+      "per100g": {
+        "calories": 77,
+        "proteines": 2,
+        "glucides": 17,
+        "lipides": 0.1,
+        "fibres": 2.2,
+        "sucres": 0.8,
+        "sodium": 0.006,
+        "vitamines": {
+          "C": 19.7,
+          "B6": 0.3,
+          "B3": 1.1
+        },
+        "mineraux": {
+          "potassium": 425,
+          "phosphore": 57,
+          "magnesium": 23
+        }
+      },
+      "gi": "high"
+    },
+    {
+      "name": "œuf",
+      "aliases": ["oeufs", "œufs", "oeuf"],
+      "per100g": {
+        "calories": 155,
+        "proteines": 13,
+        "glucides": 1.1,
+        "lipides": 11,
+        "fibres": 0,
+        "sucres": 1.1,
+        "sodium": 0.124,
+        "vitamines": {
+          "A": 160,
+          "D": 2,
+          "B12": 0.89,
+          "B2": 0.46
+        },
+        "mineraux": {
+          "phosphore": 198,
+          "selenium": 30.7,
+          "fer": 1.8,
+          "zinc": 1.3
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "lait",
+      "aliases": ["lait entier", "lait demi-écrémé"],
+      "per100g": {
+        "calories": 61,
+        "proteines": 3.2,
+        "glucides": 4.8,
+        "lipides": 3.3,
+        "fibres": 0,
+        "sucres": 5.1,
+        "sodium": 0.044,
+        "vitamines": {
+          "A": 46,
+          "D": 0.05,
+          "B12": 0.45,
+          "B2": 0.18
+        },
+        "mineraux": {
+          "calcium": 113,
+          "phosphore": 84,
+          "potassium": 150
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "fromage",
+      "aliases": ["emmental", "comté", "gruyère", "cheddar"],
+      "per100g": {
+        "calories": 402,
+        "proteines": 25,
+        "glucides": 1.3,
+        "lipides": 33,
+        "fibres": 0,
+        "sucres": 0.5,
+        "sodium": 0.6,
+        "vitamines": {
+          "A": 250,
+          "D": 0.5,
+          "B12": 3.3,
+          "B2": 0.35
+        },
+        "mineraux": {
+          "calcium": 791,
+          "phosphore": 605,
+          "zinc": 4.6
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "pain blanc",
+      "aliases": ["pain", "baguette", "pain de mie"],
+      "per100g": {
+        "calories": 265,
+        "proteines": 9,
+        "glucides": 49,
+        "lipides": 3.2,
+        "fibres": 2.7,
+        "sucres": 5,
+        "sodium": 0.54,
+        "vitamines": {
+          "B1": 0.3,
+          "B3": 3.5,
+          "B9": 30
+        },
+        "mineraux": {
+          "fer": 1.8,
+          "magnesium": 25,
+          "phosphore": 91
+        }
+      },
+      "gi": "high"
+    },
+    {
+      "name": "pain complet",
+      "aliases": ["pain au blé complet", "pain aux céréales"],
+      "per100g": {
+        "calories": 247,
+        "proteines": 13,
+        "glucides": 41,
+        "lipides": 3.4,
+        "fibres": 6.8,
+        "sucres": 4.5,
+        "sodium": 0.5,
+        "vitamines": {
+          "B1": 0.4,
+          "B3": 4.3,
+          "B9": 43
+        },
+        "mineraux": {
+          "fer": 2.5,
+          "magnesium": 76,
+          "phosphore": 200,
+          "zinc": 1.8
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "bœuf",
+      "aliases": ["viande de boeuf", "steak", "boeuf haché"],
+      "per100g": {
+        "calories": 250,
+        "proteines": 26,
+        "glucides": 0,
+        "lipides": 17,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.072,
+        "vitamines": {
+          "B12": 2.6,
+          "B3": 6.4,
+          "B6": 0.5
+        },
+        "mineraux": {
+          "fer": 2.6,
+          "zinc": 6,
+          "phosphore": 200
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "saumon",
+      "aliases": ["filet de saumon", "saumon frais"],
+      "per100g": {
+        "calories": 208,
+        "proteines": 20,
+        "glucides": 0,
+        "lipides": 13,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.059,
+        "vitamines": {
+          "D": 11,
+          "B12": 3.2,
+          "B3": 8.5,
+          "B6": 0.6
+        },
+        "mineraux": {
+          "selenium": 41,
+          "phosphore": 252,
+          "potassium": 363
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "épinards",
+      "aliases": ["épinard", "feuilles d'épinard"],
+      "per100g": {
+        "calories": 23,
+        "proteines": 2.9,
+        "glucides": 3.6,
+        "lipides": 0.4,
+        "fibres": 2.2,
+        "sucres": 0.4,
+        "sodium": 0.079,
+        "vitamines": {
+          "A": 469,
+          "C": 28,
+          "K": 483,
+          "B9": 194
+        },
+        "mineraux": {
+          "fer": 2.7,
+          "calcium": 99,
+          "magnesium": 79,
+          "potassium": 558
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "brocoli",
+      "aliases": ["brocolis"],
+      "per100g": {
+        "calories": 34,
+        "proteines": 2.8,
+        "glucides": 7,
+        "lipides": 0.4,
+        "fibres": 2.6,
+        "sucres": 1.7,
+        "sodium": 0.033,
+        "vitamines": {
+          "C": 89,
+          "K": 102,
+          "A": 31,
+          "B9": 63
+        },
+        "mineraux": {
+          "potassium": 316,
+          "calcium": 47,
+          "fer": 0.7,
+          "magnesium": 21
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "avoine",
+      "aliases": ["flocons d'avoine", "porridge"],
+      "per100g": {
+        "calories": 389,
+        "proteines": 16.9,
+        "glucides": 66,
+        "lipides": 6.9,
+        "fibres": 10.6,
+        "sucres": 0.99,
+        "sodium": 0.002,
+        "vitamines": {
+          "B1": 0.76,
+          "B3": 0.96,
+          "B9": 56
+        },
+        "mineraux": {
+          "fer": 4.7,
+          "magnesium": 177,
+          "phosphore": 523,
+          "zinc": 4
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "banane",
+      "aliases": ["bananes"],
+      "per100g": {
+        "calories": 89,
+        "proteines": 1.1,
+        "glucides": 23,
+        "lipides": 0.3,
+        "fibres": 2.6,
+        "sucres": 12,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 8.7,
+          "B6": 0.4,
+          "A": 3
+        },
+        "mineraux": {
+          "potassium": 358,
+          "magnesium": 27,
+          "phosphore": 22
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "pomme",
+      "aliases": ["pommes"],
+      "per100g": {
+        "calories": 52,
+        "proteines": 0.3,
+        "glucides": 14,
+        "lipides": 0.2,
+        "fibres": 2.4,
+        "sucres": 10,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 4.6,
+          "K": 2.2,
+          "A": 3
+        },
+        "mineraux": {
+          "potassium": 107,
+          "phosphore": 11,
+          "calcium": 6
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "lentilles",
+      "aliases": ["lentilles cuites", "lentilles vertes"],
+      "per100g": {
+        "calories": 116,
+        "proteines": 9,
+        "glucides": 20,
+        "lipides": 0.4,
+        "fibres": 7.9,
+        "sucres": 1.8,
+        "sodium": 0.002,
+        "vitamines": {
+          "B9": 181,
+          "B1": 0.17,
+          "B6": 0.18
+        },
+        "mineraux": {
+          "fer": 3.3,
+          "magnesium": 36,
+          "phosphore": 180,
+          "potassium": 369,
+          "zinc": 1.3
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "pois chiches",
+      "aliases": ["pois chiche", "pois chiches cuits", "houmous"],
+      "per100g": {
+        "calories": 164,
+        "proteines": 8.9,
+        "glucides": 27,
+        "lipides": 2.6,
+        "fibres": 7.6,
+        "sucres": 4.8,
+        "sodium": 0.007,
+        "vitamines": {
+          "B9": 172,
+          "B6": 0.14,
+          "B1": 0.12
+        },
+        "mineraux": {
+          "fer": 2.9,
+          "magnesium": 48,
+          "phosphore": 168,
+          "potassium": 291,
+          "zinc": 1.5
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "quinoa",
+      "aliases": ["quinoa cuit"],
+      "per100g": {
+        "calories": 120,
+        "proteines": 4.4,
+        "glucides": 21,
+        "lipides": 1.9,
+        "fibres": 2.8,
+        "sucres": 0.9,
+        "sodium": 0.007,
+        "vitamines": {
+          "B1": 0.11,
+          "B2": 0.11,
+          "B9": 42
+        },
+        "mineraux": {
+          "fer": 1.5,
+          "magnesium": 64,
+          "phosphore": 152,
+          "potassium": 172,
+          "zinc": 1.1
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "huile d'olive",
+      "aliases": ["huile", "huile d'olive vierge"],
+      "per100g": {
+        "calories": 884,
+        "proteines": 0,
+        "glucides": 0,
+        "lipides": 100,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.002,
+        "vitamines": {
+          "E": 14.4,
+          "K": 60.2
+        },
+        "mineraux": {}
+      },
+      "gi": "low"
+    },
+    {
+      "name": "beurre",
+      "aliases": ["beurre doux", "beurre salé"],
+      "per100g": {
+        "calories": 717,
+        "proteines": 0.9,
+        "glucides": 0.1,
+        "lipides": 81,
+        "fibres": 0,
+        "sucres": 0.1,
+        "sodium": 0.011,
+        "vitamines": {
+          "A": 684,
+          "D": 1.5,
+          "E": 2.3
+        },
+        "mineraux": {
+          "calcium": 24,
+          "phosphore": 24
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "yaourt",
+      "aliases": ["yaourt nature", "yaourts"],
+      "per100g": {
+        "calories": 59,
+        "proteines": 3.5,
+        "glucides": 4.7,
+        "lipides": 3.3,
+        "fibres": 0,
+        "sucres": 4.7,
+        "sodium": 0.046,
+        "vitamines": {
+          "B12": 0.4,
+          "B2": 0.14,
+          "A": 27
+        },
+        "mineraux": {
+          "calcium": 121,
+          "phosphore": 95,
+          "potassium": 155
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "chocolat noir",
+      "aliases": ["chocolat", "chocolat 70%"],
+      "per100g": {
+        "calories": 598,
+        "proteines": 7.8,
+        "glucides": 45,
+        "lipides": 43,
+        "fibres": 11,
+        "sucres": 24,
+        "sodium": 0.02,
+        "vitamines": {
+          "E": 0.6,
+          "B3": 1.1
+        },
+        "mineraux": {
+          "fer": 11.9,
+          "magnesium": 228,
+          "potassium": 715,
+          "zinc": 3.3
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "amandes",
+      "aliases": ["amande"],
+      "per100g": {
+        "calories": 579,
+        "proteines": 21,
+        "glucides": 22,
+        "lipides": 50,
+        "fibres": 12,
+        "sucres": 4.4,
+        "sodium": 0.001,
+        "vitamines": {
+          "E": 25.6,
+          "B2": 1.1,
+          "B9": 44
+        },
+        "mineraux": {
+          "calcium": 269,
+          "magnesium": 270,
+          "phosphore": 481,
+          "potassium": 733,
+          "fer": 3.7
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "ail",
+      "aliases": ["gousse d'ail", "gousses d'ail"],
+      "per100g": {
+        "calories": 149,
+        "proteines": 6.4,
+        "glucides": 33,
+        "lipides": 0.5,
+        "fibres": 2.1,
+        "sucres": 1,
+        "sodium": 0.017,
+        "vitamines": {
+          "C": 31.2,
+          "B6": 1.2,
+          "B1": 0.2
+        },
+        "mineraux": {
+          "calcium": 181,
+          "phosphore": 153,
+          "potassium": 401,
+          "magnesium": 25,
+          "fer": 1.7
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "gingembre",
+      "aliases": ["gingembre frais", "racine de gingembre"],
+      "per100g": {
+        "calories": 80,
+        "proteines": 1.8,
+        "glucides": 18,
+        "lipides": 0.8,
+        "fibres": 2,
+        "sucres": 1.7,
+        "sodium": 0.013,
+        "vitamines": {
+          "C": 5,
+          "B6": 0.16,
+          "B3": 0.75
+        },
+        "mineraux": {
+          "potassium": 415,
+          "magnesium": 43,
+          "phosphore": 34,
+          "fer": 0.6
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "échalote",
+      "aliases": ["échalotes"],
+      "per100g": {
+        "calories": 72,
+        "proteines": 2.5,
+        "glucides": 17,
+        "lipides": 0.1,
+        "fibres": 3.2,
+        "sucres": 8,
+        "sodium": 0.012,
+        "vitamines": {
+          "C": 8,
+          "B6": 0.35,
+          "B9": 34
+        },
+        "mineraux": {
+          "potassium": 334,
+          "calcium": 37,
+          "phosphore": 60,
+          "fer": 1.2
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "citron",
+      "aliases": ["citrons", "jus de citron"],
+      "per100g": {
+        "calories": 29,
+        "proteines": 1.1,
+        "glucides": 9,
+        "lipides": 0.3,
+        "fibres": 2.8,
+        "sucres": 2.5,
+        "sodium": 0.002,
+        "vitamines": {
+          "C": 53,
+          "B9": 11,
+          "B6": 0.08
+        },
+        "mineraux": {
+          "potassium": 138,
+          "calcium": 26,
+          "phosphore": 16,
+          "magnesium": 8
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "persil",
+      "aliases": ["persil frais"],
+      "per100g": {
+        "calories": 36,
+        "proteines": 3,
+        "glucides": 6.3,
+        "lipides": 0.8,
+        "fibres": 3.3,
+        "sucres": 0.9,
+        "sodium": 0.056,
+        "vitamines": {
+          "C": 133,
+          "K": 1640,
+          "A": 421,
+          "B9": 152
+        },
+        "mineraux": {
+          "fer": 6.2,
+          "calcium": 138,
+          "potassium": 554,
+          "magnesium": 50
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "basilic",
+      "aliases": ["basilic frais"],
+      "per100g": {
+        "calories": 23,
+        "proteines": 3.2,
+        "glucides": 2.7,
+        "lipides": 0.6,
+        "fibres": 1.6,
+        "sucres": 0.3,
+        "sodium": 0.004,
+        "vitamines": {
+          "K": 414,
+          "A": 264,
+          "C": 18,
+          "B9": 68
+        },
+        "mineraux": {
+          "calcium": 177,
+          "fer": 3.2,
+          "magnesium": 64,
+          "potassium": 295
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "courgette",
+      "aliases": ["courgettes"],
+      "per100g": {
+        "calories": 17,
+        "proteines": 1.2,
+        "glucides": 3.1,
+        "lipides": 0.3,
+        "fibres": 1,
+        "sucres": 2.5,
+        "sodium": 0.008,
+        "vitamines": {
+          "C": 17.9,
+          "B6": 0.16,
+          "K": 4.3,
+          "B9": 24
+        },
+        "mineraux": {
+          "potassium": 261,
+          "magnesium": 18,
+          "phosphore": 38,
+          "calcium": 16
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "poivron",
+      "aliases": ["poivron rouge", "poivron vert", "poivrons"],
+      "per100g": {
+        "calories": 31,
+        "proteines": 1,
+        "glucides": 6,
+        "lipides": 0.3,
+        "fibres": 2.1,
+        "sucres": 4.2,
+        "sodium": 0.004,
+        "vitamines": {
+          "C": 127,
+          "A": 157,
+          "B6": 0.29,
+          "K": 4.9
+        },
+        "mineraux": {
+          "potassium": 211,
+          "phosphore": 26,
+          "magnesium": 12,
+          "fer": 0.4
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "aubergine",
+      "aliases": ["aubergines"],
+      "per100g": {
+        "calories": 25,
+        "proteines": 1,
+        "glucides": 6,
+        "lipides": 0.2,
+        "fibres": 3,
+        "sucres": 3.5,
+        "sodium": 0.002,
+        "vitamines": {
+          "C": 2.2,
+          "K": 3.5,
+          "B6": 0.08,
+          "B9": 22
+        },
+        "mineraux": {
+          "potassium": 229,
+          "magnesium": 14,
+          "phosphore": 24,
+          "calcium": 9
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "concombre",
+      "aliases": ["concombres"],
+      "per100g": {
+        "calories": 15,
+        "proteines": 0.7,
+        "glucides": 3.6,
+        "lipides": 0.1,
+        "fibres": 0.5,
+        "sucres": 1.7,
+        "sodium": 0.002,
+        "vitamines": {
+          "C": 2.8,
+          "K": 16.4,
+          "A": 5
+        },
+        "mineraux": {
+          "potassium": 147,
+          "magnesium": 13,
+          "phosphore": 24
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "champignons",
+      "aliases": ["champignon", "champignons de Paris"],
+      "per100g": {
+        "calories": 22,
+        "proteines": 3.1,
+        "glucides": 3.3,
+        "lipides": 0.3,
+        "fibres": 1,
+        "sucres": 2,
+        "sodium": 0.005,
+        "vitamines": {
+          "D": 0.2,
+          "B2": 0.4,
+          "B3": 3.6,
+          "B9": 17
+        },
+        "mineraux": {
+          "potassium": 318,
+          "phosphore": 86,
+          "selenium": 9.3,
+          "zinc": 0.5
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "haricots verts",
+      "aliases": ["haricot vert", "haricots verts cuits"],
+      "per100g": {
+        "calories": 31,
+        "proteines": 1.8,
+        "glucides": 7,
+        "lipides": 0.2,
+        "fibres": 2.7,
+        "sucres": 3.3,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 12.2,
+          "K": 43,
+          "A": 35,
+          "B9": 33
+        },
+        "mineraux": {
+          "potassium": 211,
+          "calcium": 37,
+          "magnesium": 25,
+          "fer": 1
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "petits pois",
+      "aliases": ["petit pois", "pois", "petits pois cuits"],
+      "per100g": {
+        "calories": 81,
+        "proteines": 5.4,
+        "glucides": 14,
+        "lipides": 0.4,
+        "fibres": 5.7,
+        "sucres": 5.7,
+        "sodium": 0.005,
+        "vitamines": {
+          "C": 40,
+          "K": 24.8,
+          "B9": 65,
+          "B1": 0.27
+        },
+        "mineraux": {
+          "phosphore": 108,
+          "potassium": 244,
+          "magnesium": 33,
+          "fer": 1.5
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "maïs",
+      "aliases": ["maïs doux", "maïs en boîte", "grains de maïs"],
+      "per100g": {
+        "calories": 86,
+        "proteines": 3.3,
+        "glucides": 19,
+        "lipides": 1.4,
+        "fibres": 2.7,
+        "sucres": 6.3,
+        "sodium": 0.015,
+        "vitamines": {
+          "C": 6.8,
+          "B1": 0.16,
+          "B9": 46,
+          "A": 9
+        },
+        "mineraux": {
+          "potassium": 270,
+          "phosphore": 89,
+          "magnesium": 37,
+          "fer": 0.5
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "salade",
+      "aliases": ["salade verte", "laitue", "salade romaine"],
+      "per100g": {
+        "calories": 15,
+        "proteines": 1.4,
+        "glucides": 2.9,
+        "lipides": 0.2,
+        "fibres": 1.3,
+        "sucres": 0.8,
+        "sodium": 0.028,
+        "vitamines": {
+          "A": 370,
+          "K": 126,
+          "C": 9.2,
+          "B9": 38
+        },
+        "mineraux": {
+          "potassium": 194,
+          "calcium": 36,
+          "phosphore": 29,
+          "fer": 0.9
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "chou",
+      "aliases": ["chou vert", "chou blanc"],
+      "per100g": {
+        "calories": 25,
+        "proteines": 1.3,
+        "glucides": 5.8,
+        "lipides": 0.1,
+        "fibres": 2.5,
+        "sucres": 3.2,
+        "sodium": 0.018,
+        "vitamines": {
+          "C": 36.6,
+          "K": 76,
+          "B9": 43,
+          "B6": 0.12
+        },
+        "mineraux": {
+          "potassium": 170,
+          "calcium": 40,
+          "phosphore": 26,
+          "magnesium": 12
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "chou romanesco",
+      "aliases": ["romanesco", "brocoli romanesco", "chou-fleur romanesco"],
+      "per100g": {
+        "calories": 27,
+        "proteines": 2.5,
+        "glucides": 5.1,
+        "lipides": 0.3,
+        "fibres": 2.4,
+        "sucres": 2.2,
+        "sodium": 0.015,
+        "vitamines": {
+          "C": 75,
+          "K": 120,
+          "B9": 57,
+          "B6": 0.18,
+          "E": 0.17
+        },
+        "mineraux": {
+          "potassium": 290,
+          "calcium": 28,
+          "phosphore": 52,
+          "magnesium": 17,
+          "fer": 0.5
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "haricots rouges",
+      "aliases": ["haricot rouge", "haricots rouges cuits"],
+      "per100g": {
+        "calories": 127,
+        "proteines": 8.7,
+        "glucides": 23,
+        "lipides": 0.5,
+        "fibres": 6.4,
+        "sucres": 0.3,
+        "sodium": 0.002,
+        "vitamines": {
+          "B9": 130,
+          "B1": 0.16,
+          "B6": 0.12,
+          "K": 8.4
+        },
+        "mineraux": {
+          "fer": 2.9,
+          "potassium": 403,
+          "phosphore": 142,
+          "magnesium": 45,
+          "zinc": 1
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "orange",
+      "aliases": ["oranges", "jus d'orange"],
+      "per100g": {
+        "calories": 47,
+        "proteines": 0.9,
+        "glucides": 12,
+        "lipides": 0.1,
+        "fibres": 2.4,
+        "sucres": 9.4,
+        "sodium": 0,
+        "vitamines": {
+          "C": 53.2,
+          "A": 11,
+          "B9": 30,
+          "B1": 0.09
+        },
+        "mineraux": {
+          "potassium": 181,
+          "calcium": 40,
+          "phosphore": 14,
+          "magnesium": 10
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "fraise",
+      "aliases": ["fraises"],
+      "per100g": {
+        "calories": 32,
+        "proteines": 0.7,
+        "glucides": 7.7,
+        "lipides": 0.3,
+        "fibres": 2,
+        "sucres": 4.9,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 58.8,
+          "K": 2.2,
+          "B9": 24,
+          "A": 1
+        },
+        "mineraux": {
+          "potassium": 153,
+          "calcium": 16,
+          "phosphore": 24,
+          "magnesium": 13
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "raisin",
+      "aliases": ["raisins", "raisin frais"],
+      "per100g": {
+        "calories": 69,
+        "proteines": 0.7,
+        "glucides": 18,
+        "lipides": 0.2,
+        "fibres": 0.9,
+        "sucres": 15,
+        "sodium": 0.002,
+        "vitamines": {
+          "C": 3.2,
+          "K": 14.6,
+          "B6": 0.09,
+          "B9": 2
+        },
+        "mineraux": {
+          "potassium": 191,
+          "calcium": 10,
+          "phosphore": 20,
+          "magnesium": 7
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "kiwi",
+      "aliases": ["kiwis"],
+      "per100g": {
+        "calories": 61,
+        "proteines": 1.1,
+        "glucides": 15,
+        "lipides": 0.5,
+        "fibres": 3,
+        "sucres": 9,
+        "sodium": 0.003,
+        "vitamines": {
+          "C": 92.7,
+          "K": 40.3,
+          "E": 1.5,
+          "B9": 25
+        },
+        "mineraux": {
+          "potassium": 312,
+          "calcium": 34,
+          "phosphore": 34,
+          "magnesium": 17
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "thon",
+      "aliases": ["thon en boîte", "thon au naturel"],
+      "per100g": {
+        "calories": 116,
+        "proteines": 26,
+        "glucides": 0,
+        "lipides": 1,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.35,
+        "vitamines": {
+          "D": 4.5,
+          "B12": 2.2,
+          "B3": 18.5,
+          "B6": 0.46
+        },
+        "mineraux": {
+          "selenium": 90,
+          "phosphore": 278,
+          "potassium": 252,
+          "magnesium": 30,
+          "fer": 1.3
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "miel",
+      "aliases": [],
+      "per100g": {
+        "calories": 304,
+        "proteines": 0.3,
+        "glucides": 82,
+        "lipides": 0,
+        "fibres": 0.2,
+        "sucres": 82,
+        "sodium": 0.004,
+        "vitamines": {
+          "C": 0.5,
+          "B2": 0.04,
+          "B9": 2
+        },
+        "mineraux": {
+          "calcium": 6,
+          "fer": 0.4,
+          "potassium": 52,
+          "phosphore": 4
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "crème fraîche",
+      "aliases": ["crème", "crème liquide"],
+      "per100g": {
+        "calories": 345,
+        "proteines": 2.2,
+        "glucides": 2.7,
+        "lipides": 36,
+        "fibres": 0,
+        "sucres": 2.7,
+        "sodium": 0.035,
+        "vitamines": {
+          "A": 305,
+          "D": 0.6,
+          "E": 1.1
+        },
+        "mineraux": {
+          "calcium": 70,
+          "phosphore": 67,
+          "potassium": 95
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "huile de tournesol",
+      "aliases": ["huile végétale"],
+      "per100g": {
+        "calories": 884,
+        "proteines": 0,
+        "glucides": 0,
+        "lipides": 100,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0,
+        "vitamines": {
+          "E": 41.1,
+          "K": 5.4
+        },
+        "mineraux": {}
+      },
+      "gi": "low"
+    },
+    {
+      "name": "farine",
+      "aliases": ["farine de blé", "farine blanche"],
+      "per100g": {
+        "calories": 364,
+        "proteines": 10,
+        "glucides": 76,
+        "lipides": 1,
+        "fibres": 2.7,
+        "sucres": 0.3,
+        "sodium": 0.002,
+        "vitamines": {
+          "B1": 0.07,
+          "B3": 1.2,
+          "B9": 22
+        },
+        "mineraux": {
+          "fer": 1.2,
+          "magnesium": 22,
+          "phosphore": 108,
+          "potassium": 107
+        }
+      },
+      "gi": "high"
+    },
+    {
+      "name": "sucre",
+      "aliases": ["sucre blanc", "sucre en poudre"],
+      "per100g": {
+        "calories": 387,
+        "proteines": 0,
+        "glucides": 100,
+        "lipides": 0,
+        "fibres": 0,
+        "sucres": 100,
+        "sodium": 0.001,
+        "vitamines": {},
+        "mineraux": {
+          "calcium": 1,
+          "fer": 0.05
+        }
+      },
+      "gi": "high"
+    },
+    {
+      "name": "riz basmati",
+      "aliases": ["basmati", "riz basmati cuit"],
+      "per100g": {
+        "calories": 121,
+        "proteines": 3,
+        "glucides": 25,
+        "lipides": 0.4,
+        "fibres": 0.6,
+        "sucres": 0.1,
+        "sodium": 0.001,
+        "vitamines": {
+          "B1": 0.07,
+          "B3": 1.5,
+          "B9": 8
+        },
+        "mineraux": {
+          "magnesium": 19,
+          "phosphore": 68,
+          "potassium": 35,
+          "fer": 0.2
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "coriandre",
+      "aliases": ["coriandre fraîche"],
+      "per100g": {
+        "calories": 23,
+        "proteines": 2.1,
+        "glucides": 3.7,
+        "lipides": 0.5,
+        "fibres": 2.8,
+        "sucres": 0.9,
+        "sodium": 0.046,
+        "vitamines": {
+          "K": 310,
+          "C": 27,
+          "A": 337,
+          "B9": 62
+        },
+        "mineraux": {
+          "calcium": 67,
+          "fer": 1.8,
+          "magnesium": 26,
+          "potassium": 521
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "cumin",
+      "aliases": ["cumin moulu"],
+      "per100g": {
+        "calories": 375,
+        "proteines": 18,
+        "glucides": 44,
+        "lipides": 22,
+        "fibres": 11,
+        "sucres": 2.2,
+        "sodium": 0.168,
+        "vitamines": {
+          "C": 7.7,
+          "B1": 0.63,
+          "B6": 0.44,
+          "A": 64
+        },
+        "mineraux": {
+          "fer": 66,
+          "calcium": 931,
+          "magnesium": 366,
+          "phosphore": 499
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "paprika",
+      "aliases": ["piment doux"],
+      "per100g": {
+        "calories": 282,
+        "proteines": 14,
+        "glucides": 54,
+        "lipides": 13,
+        "fibres": 34,
+        "sucres": 10,
+        "sodium": 0.068,
+        "vitamines": {
+          "C": 0.9,
+          "A": 2463,
+          "E": 29,
+          "B6": 2.1
+        },
+        "mineraux": {
+          "fer": 21,
+          "calcium": 229,
+          "magnesium": 178,
+          "potassium": 2280
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "curry",
+      "aliases": ["curry en poudre", "poudre de curry"],
+      "per100g": {
+        "calories": 325,
+        "proteines": 14,
+        "glucides": 55,
+        "lipides": 14,
+        "fibres": 53,
+        "sucres": 2.8,
+        "sodium": 0.052,
+        "vitamines": {
+          "C": 11,
+          "B6": 1.5,
+          "E": 25,
+          "A": 50
+        },
+        "mineraux": {
+          "fer": 29,
+          "calcium": 478,
+          "magnesium": 254,
+          "potassium": 1543
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "vinaigre",
+      "aliases": ["vinaigre de vin", "vinaigre blanc"],
+      "per100g": {
+        "calories": 18,
+        "proteines": 0,
+        "glucides": 0.04,
+        "lipides": 0,
+        "fibres": 0,
+        "sucres": 0.04,
+        "sodium": 0.008,
+        "vitamines": {},
+        "mineraux": {
+          "potassium": 2,
+          "calcium": 6,
+          "phosphore": 8
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "sauce soja",
+      "aliases": ["soja"],
+      "per100g": {
+        "calories": 53,
+        "proteines": 6,
+        "glucides": 4.9,
+        "lipides": 0.1,
+        "fibres": 0.8,
+        "sucres": 1.7,
+        "sodium": 5.49,
+        "vitamines": {
+          "B3": 2.6,
+          "B6": 0.15,
+          "B2": 0.15
+        },
+        "mineraux": {
+          "fer": 2.4,
+          "magnesium": 60,
+          "phosphore": 130,
+          "potassium": 217
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "noix de coco",
+      "aliases": ["coco râpé", "noix de coco râpée"],
+      "per100g": {
+        "calories": 354,
+        "proteines": 3.3,
+        "glucides": 15,
+        "lipides": 33,
+        "fibres": 9,
+        "sucres": 6.2,
+        "sodium": 0.02,
+        "vitamines": {
+          "C": 3.3,
+          "B9": 26,
+          "E": 0.2
+        },
+        "mineraux": {
+          "fer": 2.4,
+          "magnesium": 32,
+          "phosphore": 113,
+          "potassium": 356,
+          "zinc": 1.1
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "ananas",
+      "aliases": [],
+      "per100g": {
+        "calories": 50,
+        "proteines": 0.5,
+        "glucides": 13,
+        "lipides": 0.1,
+        "fibres": 1.4,
+        "sucres": 10,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 47.8,
+          "B6": 0.11,
+          "B1": 0.08,
+          "B9": 18
+        },
+        "mineraux": {
+          "potassium": 109,
+          "magnesium": 12,
+          "calcium": 13,
+          "fer": 0.3
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "poire",
+      "aliases": ["poires"],
+      "per100g": {
+        "calories": 57,
+        "proteines": 0.4,
+        "glucides": 15,
+        "lipides": 0.1,
+        "fibres": 3.1,
+        "sucres": 10,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 4.3,
+          "K": 4.4,
+          "B9": 7
+        },
+        "mineraux": {
+          "potassium": 116,
+          "calcium": 9,
+          "phosphore": 12,
+          "magnesium": 7
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "pêche",
+      "aliases": ["pêches"],
+      "per100g": {
+        "calories": 39,
+        "proteines": 0.9,
+        "glucides": 10,
+        "lipides": 0.3,
+        "fibres": 1.5,
+        "sucres": 8.4,
+        "sodium": 0,
+        "vitamines": {
+          "C": 6.6,
+          "A": 16,
+          "E": 0.7,
+          "K": 2.6
+        },
+        "mineraux": {
+          "potassium": 190,
+          "phosphore": 20,
+          "magnesium": 9,
+          "calcium": 6
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "abricot",
+      "aliases": ["abricots"],
+      "per100g": {
+        "calories": 48,
+        "proteines": 1.4,
+        "glucides": 11,
+        "lipides": 0.4,
+        "fibres": 2,
+        "sucres": 9.2,
+        "sodium": 0.001,
+        "vitamines": {
+          "A": 96,
+          "C": 10,
+          "E": 0.9,
+          "K": 3.3
+        },
+        "mineraux": {
+          "potassium": 259,
+          "calcium": 13,
+          "phosphore": 23,
+          "magnesium": 10,
+          "fer": 0.4
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "cerise",
+      "aliases": ["cerises"],
+      "per100g": {
+        "calories": 63,
+        "proteines": 1.1,
+        "glucides": 16,
+        "lipides": 0.2,
+        "fibres": 2.1,
+        "sucres": 13,
+        "sodium": 0,
+        "vitamines": {
+          "C": 7,
+          "A": 3,
+          "K": 2.1
+        },
+        "mineraux": {
+          "potassium": 222,
+          "calcium": 13,
+          "phosphore": 21,
+          "magnesium": 11
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "pastèque",
+      "aliases": ["melon d'eau"],
+      "per100g": {
+        "calories": 30,
+        "proteines": 0.6,
+        "glucides": 7.6,
+        "lipides": 0.2,
+        "fibres": 0.4,
+        "sucres": 6.2,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 8.1,
+          "A": 28,
+          "B6": 0.05
+        },
+        "mineraux": {
+          "potassium": 112,
+          "magnesium": 10,
+          "calcium": 7,
+          "phosphore": 11
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "melon",
+      "aliases": ["melon cantaloup"],
+      "per100g": {
+        "calories": 34,
+        "proteines": 0.8,
+        "glucides": 8,
+        "lipides": 0.2,
+        "fibres": 0.9,
+        "sucres": 7.9,
+        "sodium": 0.016,
+        "vitamines": {
+          "C": 36.7,
+          "A": 169,
+          "B9": 21,
+          "K": 2.5
+        },
+        "mineraux": {
+          "potassium": 267,
+          "magnesium": 12,
+          "calcium": 9,
+          "phosphore": 15
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "noix",
+      "aliases": ["noix de Grenoble"],
+      "per100g": {
+        "calories": 654,
+        "proteines": 15,
+        "glucides": 14,
+        "lipides": 65,
+        "fibres": 6.7,
+        "sucres": 2.6,
+        "sodium": 0.002,
+        "vitamines": {
+          "E": 0.7,
+          "B6": 0.54,
+          "B9": 98,
+          "K": 2.7
+        },
+        "mineraux": {
+          "magnesium": 158,
+          "phosphore": 346,
+          "potassium": 441,
+          "calcium": 98,
+          "fer": 2.9
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "noisettes",
+      "aliases": ["noisette"],
+      "per100g": {
+        "calories": 628,
+        "proteines": 15,
+        "glucides": 17,
+        "lipides": 61,
+        "fibres": 9.7,
+        "sucres": 4.3,
+        "sodium": 0,
+        "vitamines": {
+          "E": 15,
+          "B6": 0.56,
+          "B9": 113,
+          "K": 14.2
+        },
+        "mineraux": {
+          "magnesium": 163,
+          "phosphore": 290,
+          "potassium": 680,
+          "calcium": 114,
+          "fer": 4.7
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "cabillaud",
+      "aliases": ["morue", "colin", "poisson blanc"],
+      "per100g": {
+        "calories": 82,
+        "proteines": 18,
+        "glucides": 0,
+        "lipides": 0.7,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.054,
+        "vitamines": {
+          "B12": 0.9,
+          "B6": 0.23,
+          "B3": 2.2,
+          "D": 0.6
+        },
+        "mineraux": {
+          "phosphore": 203,
+          "selenium": 33,
+          "potassium": 413,
+          "magnesium": 32
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "sardines",
+      "aliases": ["sardine"],
+      "per100g": {
+        "calories": 208,
+        "proteines": 25,
+        "glucides": 0,
+        "lipides": 11,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.505,
+        "vitamines": {
+          "D": 4.8,
+          "B12": 8.9,
+          "B3": 5.2,
+          "B6": 0.17
+        },
+        "mineraux": {
+          "calcium": 382,
+          "phosphore": 490,
+          "fer": 2.9,
+          "selenium": 52
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "maquereau",
+      "aliases": [],
+      "per100g": {
+        "calories": 205,
+        "proteines": 19,
+        "glucides": 0,
+        "lipides": 14,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.09,
+        "vitamines": {
+          "D": 16.1,
+          "B12": 8.7,
+          "B3": 9.1,
+          "B6": 0.4
+        },
+        "mineraux": {
+          "selenium": 44,
+          "phosphore": 217,
+          "magnesium": 76,
+          "fer": 1.6
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "crevettes",
+      "aliases": ["crevette"],
+      "per100g": {
+        "calories": 99,
+        "proteines": 24,
+        "glucides": 0.2,
+        "lipides": 0.3,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.566,
+        "vitamines": {
+          "B12": 1.1,
+          "D": 0.2,
+          "E": 1.5,
+          "B3": 2.6
+        },
+        "mineraux": {
+          "selenium": 38,
+          "phosphore": 205,
+          "zinc": 1.6,
+          "fer": 0.5
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "dinde",
+      "aliases": ["blanc de dinde", "escalope de dinde"],
+      "per100g": {
+        "calories": 135,
+        "proteines": 30,
+        "glucides": 0,
+        "lipides": 0.7,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.055,
+        "vitamines": {
+          "B3": 11.8,
+          "B6": 0.81,
+          "B12": 0.4
+        },
+        "mineraux": {
+          "phosphore": 230,
+          "selenium": 32,
+          "zinc": 2,
+          "fer": 0.7
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "porc",
+      "aliases": ["viande de porc", "côtelette de porc"],
+      "per100g": {
+        "calories": 242,
+        "proteines": 27,
+        "glucides": 0,
+        "lipides": 14,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.062,
+        "vitamines": {
+          "B1": 0.87,
+          "B3": 5.4,
+          "B6": 0.4,
+          "B12": 0.7
+        },
+        "mineraux": {
+          "phosphore": 221,
+          "selenium": 38,
+          "zinc": 2.4,
+          "fer": 0.9
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "agneau",
+      "aliases": ["viande d'agneau", "gigot d'agneau"],
+      "per100g": {
+        "calories": 294,
+        "proteines": 25,
+        "glucides": 0,
+        "lipides": 21,
+        "fibres": 0,
+        "sucres": 0,
+        "sodium": 0.072,
+        "vitamines": {
+          "B12": 2.7,
+          "B3": 6.2,
+          "B6": 0.14
+        },
+        "mineraux": {
+          "fer": 1.9,
+          "zinc": 4.5,
+          "phosphore": 188,
+          "selenium": 27
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "mangue",
+      "aliases": ["mangues"],
+      "per100g": {
+        "calories": 60,
+        "proteines": 0.8,
+        "glucides": 15,
+        "lipides": 0.4,
+        "fibres": 1.6,
+        "sucres": 14,
+        "sodium": 0.001,
+        "vitamines": {
+          "C": 36.4,
+          "A": 54,
+          "E": 0.9,
+          "B6": 0.12
+        },
+        "mineraux": {
+          "potassium": 168,
+          "magnesium": 10,
+          "calcium": 11,
+          "phosphore": 14
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "papaye",
+      "aliases": [],
+      "per100g": {
+        "calories": 43,
+        "proteines": 0.5,
+        "glucides": 11,
+        "lipides": 0.3,
+        "fibres": 1.7,
+        "sucres": 7.8,
+        "sodium": 0.008,
+        "vitamines": {
+          "C": 60.9,
+          "A": 47,
+          "B9": 37,
+          "E": 0.3
+        },
+        "mineraux": {
+          "potassium": 182,
+          "calcium": 20,
+          "magnesium": 21,
+          "phosphore": 10
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "avocat",
+      "aliases": ["avocats"],
+      "per100g": {
+        "calories": 160,
+        "proteines": 2,
+        "glucides": 8.5,
+        "lipides": 15,
+        "fibres": 6.7,
+        "sucres": 0.7,
+        "sodium": 0.007,
+        "vitamines": {
+          "K": 21,
+          "E": 2.1,
+          "C": 10,
+          "B6": 0.26
+        },
+        "mineraux": {
+          "potassium": 485,
+          "magnesium": 29,
+          "phosphore": 52,
+          "fer": 0.6
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "tofu",
+      "aliases": ["soja"],
+      "per100g": {
+        "calories": 76,
+        "proteines": 8,
+        "glucides": 1.9,
+        "lipides": 4.8,
+        "fibres": 0.3,
+        "sucres": 0.7,
+        "sodium": 0.007,
+        "vitamines": {
+          "B1": 0.08,
+          "B6": 0.05,
+          "B9": 15
+        },
+        "mineraux": {
+          "calcium": 350,
+          "fer": 5.4,
+          "magnesium": 30,
+          "phosphore": 97
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "boulgour",
+      "aliases": ["blé concassé"],
+      "per100g": {
+        "calories": 83,
+        "proteines": 3.1,
+        "glucides": 19,
+        "lipides": 0.2,
+        "fibres": 4.5,
+        "sucres": 0.1,
+        "sodium": 0.005,
+        "vitamines": {
+          "B1": 0.06,
+          "B3": 1.8,
+          "B9": 18
+        },
+        "mineraux": {
+          "magnesium": 32,
+          "phosphore": 40,
+          "fer": 0.9,
+          "potassium": 68
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "semoule",
+      "aliases": ["couscous"],
+      "per100g": {
+        "calories": 112,
+        "proteines": 3.8,
+        "glucides": 23,
+        "lipides": 0.2,
+        "fibres": 1.4,
+        "sucres": 0.1,
+        "sodium": 0.005,
+        "vitamines": {
+          "B1": 0.06,
+          "B3": 0.98,
+          "B9": 15
+        },
+        "mineraux": {
+          "magnesium": 8,
+          "phosphore": 22,
+          "fer": 0.38,
+          "potassium": 58
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "orge",
+      "aliases": ["orge perlé"],
+      "per100g": {
+        "calories": 123,
+        "proteines": 2.3,
+        "glucides": 28,
+        "lipides": 0.4,
+        "fibres": 3.8,
+        "sucres": 0.3,
+        "sodium": 0.003,
+        "vitamines": {
+          "B3": 2.1,
+          "B1": 0.08,
+          "B9": 23
+        },
+        "mineraux": {
+          "magnesium": 22,
+          "phosphore": 54,
+          "fer": 1.2,
+          "potassium": 93
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "thym",
+      "aliases": ["thym frais", "thym séché"],
+      "per100g": {
+        "calories": 101,
+        "proteines": 5.6,
+        "glucides": 24,
+        "lipides": 1.7,
+        "fibres": 14,
+        "sucres": 1.7,
+        "sodium": 0.009,
+        "vitamines": {
+          "C": 160,
+          "A": 238,
+          "K": 1714,
+          "B9": 45
+        },
+        "mineraux": {
+          "fer": 17.5,
+          "calcium": 405,
+          "magnesium": 160,
+          "potassium": 609
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "romarin",
+      "aliases": ["romarin frais"],
+      "per100g": {
+        "calories": 131,
+        "proteines": 3.3,
+        "glucides": 20,
+        "lipides": 5.9,
+        "fibres": 14,
+        "sucres": 0,
+        "sodium": 0.026,
+        "vitamines": {
+          "C": 22,
+          "A": 146,
+          "B6": 0.34,
+          "B9": 109
+        },
+        "mineraux": {
+          "fer": 6.7,
+          "calcium": 317,
+          "magnesium": 91,
+          "potassium": 668
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "menthe",
+      "aliases": ["menthe fraîche"],
+      "per100g": {
+        "calories": 44,
+        "proteines": 3.3,
+        "glucides": 8.4,
+        "lipides": 0.7,
+        "fibres": 6.8,
+        "sucres": 0,
+        "sodium": 0.03,
+        "vitamines": {
+          "C": 13.3,
+          "A": 212,
+          "B9": 105,
+          "B2": 0.18
+        },
+        "mineraux": {
+          "fer": 11.9,
+          "calcium": 199,
+          "magnesium": 63,
+          "potassium": 458
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "moutarde",
+      "aliases": ["moutarde de Dijon"],
+      "per100g": {
+        "calories": 66,
+        "proteines": 3.6,
+        "glucides": 5.3,
+        "lipides": 3.3,
+        "fibres": 3.2,
+        "sucres": 2.7,
+        "sodium": 1.135,
+        "vitamines": {
+          "K": 5.4,
+          "C": 7.1,
+          "B9": 5
+        },
+        "mineraux": {
+          "calcium": 58,
+          "fer": 1.1,
+          "magnesium": 37,
+          "potassium": 138
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "olives",
+      "aliases": ["olive verte", "olive noire"],
+      "per100g": {
+        "calories": 115,
+        "proteines": 0.8,
+        "glucides": 6.3,
+        "lipides": 11,
+        "fibres": 3.2,
+        "sucres": 0,
+        "sodium": 0.735,
+        "vitamines": {
+          "E": 3.8,
+          "A": 17,
+          "K": 1.4
+        },
+        "mineraux": {
+          "fer": 3.3,
+          "calcium": 88,
+          "magnesium": 4,
+          "potassium": 8
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "câpres",
+      "aliases": ["câpre"],
+      "per100g": {
+        "calories": 23,
+        "proteines": 2.4,
+        "glucides": 4.9,
+        "lipides": 0.9,
+        "fibres": 3.2,
+        "sucres": 0.4,
+        "sodium": 2.348,
+        "vitamines": {
+          "K": 24.6,
+          "A": 69,
+          "C": 4.3
+        },
+        "mineraux": {
+          "fer": 1.7,
+          "calcium": 40,
+          "magnesium": 33,
+          "potassium": 40
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "cornichons",
+      "aliases": ["cornichon"],
+      "per100g": {
+        "calories": 11,
+        "proteines": 0.3,
+        "glucides": 2.3,
+        "lipides": 0.2,
+        "fibres": 1.2,
+        "sucres": 1.1,
+        "sodium": 1.208,
+        "vitamines": {
+          "K": 76.7,
+          "A": 21,
+          "C": 1
+        },
+        "mineraux": {
+          "calcium": 23,
+          "fer": 0.4,
+          "magnesium": 7,
+          "potassium": 23
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "betterave",
+      "aliases": ["betterave rouge", "betteraves"],
+      "per100g": {
+        "calories": 43,
+        "proteines": 1.6,
+        "glucides": 10,
+        "lipides": 0.2,
+        "fibres": 2.8,
+        "sucres": 6.8,
+        "sodium": 0.078,
+        "vitamines": {
+          "C": 4.9,
+          "B9": 109,
+          "B6": 0.07,
+          "K": 0.2
+        },
+        "mineraux": {
+          "potassium": 325,
+          "magnesium": 23,
+          "fer": 0.8,
+          "calcium": 16
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "céleri",
+      "aliases": ["céleri branche"],
+      "per100g": {
+        "calories": 14,
+        "proteines": 0.7,
+        "glucides": 3,
+        "lipides": 0.2,
+        "fibres": 1.6,
+        "sucres": 1.3,
+        "sodium": 0.08,
+        "vitamines": {
+          "K": 29.3,
+          "C": 3.1,
+          "A": 22,
+          "B9": 36
+        },
+        "mineraux": {
+          "potassium": 260,
+          "calcium": 40,
+          "magnesium": 11,
+          "phosphore": 24
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "radis",
+      "aliases": [],
+      "per100g": {
+        "calories": 16,
+        "proteines": 0.7,
+        "glucides": 3.4,
+        "lipides": 0.1,
+        "fibres": 1.6,
+        "sucres": 1.9,
+        "sodium": 0.039,
+        "vitamines": {
+          "C": 14.8,
+          "B9": 25,
+          "B6": 0.07,
+          "K": 1.3
+        },
+        "mineraux": {
+          "potassium": 233,
+          "calcium": 25,
+          "magnesium": 10,
+          "phosphore": 20
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "navet",
+      "aliases": ["navets"],
+      "per100g": {
+        "calories": 28,
+        "proteines": 0.9,
+        "glucides": 6.4,
+        "lipides": 0.1,
+        "fibres": 1.8,
+        "sucres": 3.8,
+        "sodium": 0.067,
+        "vitamines": {
+          "C": 21,
+          "B9": 15,
+          "B6": 0.09,
+          "K": 0.1
+        },
+        "mineraux": {
+          "potassium": 191,
+          "calcium": 30,
+          "magnesium": 11,
+          "phosphore": 27
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "potiron",
+      "aliases": ["courge", "citrouille"],
+      "per100g": {
+        "calories": 26,
+        "proteines": 1,
+        "glucides": 6.5,
+        "lipides": 0.1,
+        "fibres": 0.5,
+        "sucres": 2.8,
+        "sodium": 0.001,
+        "vitamines": {
+          "A": 426,
+          "C": 9,
+          "E": 1.1,
+          "B9": 16
+        },
+        "mineraux": {
+          "potassium": 340,
+          "calcium": 21,
+          "magnesium": 12,
+          "phosphore": 44
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "panais",
+      "aliases": [],
+      "per100g": {
+        "calories": 75,
+        "proteines": 1.2,
+        "glucides": 18,
+        "lipides": 0.3,
+        "fibres": 4.9,
+        "sucres": 4.8,
+        "sodium": 0.01,
+        "vitamines": {
+          "C": 17,
+          "K": 22.5,
+          "B9": 67,
+          "E": 1.5
+        },
+        "mineraux": {
+          "potassium": 375,
+          "magnesium": 29,
+          "phosphore": 71,
+          "calcium": 36
+        }
+      },
+      "gi": "medium"
+    },
+    {
+      "name": "endive",
+      "aliases": ["endives", "chicon"],
+      "per100g": {
+        "calories": 17,
+        "proteines": 0.9,
+        "glucides": 3.4,
+        "lipides": 0.1,
+        "fibres": 3.1,
+        "sucres": 0.3,
+        "sodium": 0.002,
+        "vitamines": {
+          "K": 297,
+          "A": 108,
+          "C": 2.8,
+          "B9": 37
+        },
+        "mineraux": {
+          "potassium": 211,
+          "calcium": 19,
+          "magnesium": 10,
+          "phosphore": 26
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "fenouil",
+      "aliases": [],
+      "per100g": {
+        "calories": 31,
+        "proteines": 1.2,
+        "glucides": 7.3,
+        "lipides": 0.2,
+        "fibres": 3.1,
+        "sucres": 3.9,
+        "sodium": 0.052,
+        "vitamines": {
+          "C": 12,
+          "K": 62.8,
+          "A": 48,
+          "B9": 27
+        },
+        "mineraux": {
+          "potassium": 414,
+          "calcium": 49,
+          "magnesium": 17,
+          "phosphore": 50
+        }
+      },
+      "gi": "low"
+    },
+    {
+      "name": "chou rouge",
+      "aliases": ["chou violet"],
+      "per100g": {"calories": 31, "proteines": 1.4, "glucides": 7.4, "lipides": 0.2, "fibres": 2.1, "sucres": 3.8, "sodium": 0.027, "vitamines": {"C": 57, "K": 38, "A": 56, "B6": 0.2}, "mineraux": {"potassium": 243, "calcium": 45, "fer": 0.8, "magnesium": 16}},
+      "gi": "low"
+    },
+    {
+      "name": "chou de bruxelles",
+      "aliases": ["choux de bruxelles"],
+      "per100g": {"calories": 43, "proteines": 3.4, "glucides": 9, "lipides": 0.3, "fibres": 3.8, "sucres": 2.2, "sodium": 0.025, "vitamines": {"C": 85, "K": 177, "B9": 61, "B6": 0.2}, "mineraux": {"potassium": 389, "calcium": 42, "fer": 1.4, "magnesium": 23}},
+      "gi": "low"
+    },
+    {
+      "name": "chou kale",
+      "aliases": ["kale", "chou frisé"],
+      "per100g": {"calories": 49, "proteines": 4.3, "glucides": 8.8, "lipides": 0.9, "fibres": 3.6, "sucres": 2.3, "sodium": 0.038, "vitamines": {"C": 120, "K": 704, "A": 500, "B6": 0.3}, "mineraux": {"potassium": 491, "calcium": 150, "fer": 1.5, "magnesium": 47}},
+      "gi": "low"
+    },
+    {
+      "name": "pak choi",
+      "aliases": ["bok choy", "chou chinois"],
+      "per100g": {"calories": 13, "proteines": 1.5, "glucides": 2.2, "lipides": 0.2, "fibres": 1, "sucres": 1.2, "sodium": 0.065, "vitamines": {"C": 45, "K": 46, "A": 223, "B9": 66}, "mineraux": {"potassium": 252, "calcium": 105, "fer": 0.8, "magnesium": 19}},
+      "gi": "low"
+    },
+    {
+      "name": "rutabaga",
+      "aliases": ["chou-navet"],
+      "per100g": {"calories": 37, "proteines": 1.2, "glucides": 8.6, "lipides": 0.2, "fibres": 2.3, "sucres": 4.5, "sodium": 0.02, "vitamines": {"C": 25, "B6": 0.1, "E": 0.3, "K": 0.3}, "mineraux": {"potassium": 305, "calcium": 43, "magnesium": 23, "phosphore": 53}},
+      "gi": "low"
+    },
+    {
+      "name": "topinambour",
+      "aliases": ["artichaut de jérusalem"],
+      "per100g": {"calories": 73, "proteines": 2, "glucides": 17.4, "lipides": 0.01, "fibres": 1.6, "sucres": 9.6, "sodium": 0.004, "vitamines": {"C": 4, "B1": 0.2, "B3": 1.3, "B9": 13}, "mineraux": {"potassium": 429, "fer": 3.4, "magnesium": 17, "phosphore": 78}},
+      "gi": "medium"
+    },
+    {
+      "name": "salsifis",
+      "aliases": [],
+      "per100g": {"calories": 82, "proteines": 3.3, "glucides": 18.6, "lipides": 0.2, "fibres": 3.3, "sucres": 2, "sodium": 0.02, "vitamines": {"C": 4, "B6": 0.3, "E": 0.3}, "mineraux": {"potassium": 380, "calcium": 60, "magnesium": 23, "fer": 0.7}},
+      "gi": "low"
+    },
+    {
+      "name": "roquette",
+      "aliases": ["arugula"],
+      "per100g": {"calories": 25, "proteines": 2.6, "glucides": 3.7, "lipides": 0.7, "fibres": 1.6, "sucres": 2, "sodium": 0.027, "vitamines": {"C": 15, "K": 108, "A": 119, "B9": 97}, "mineraux": {"potassium": 369, "calcium": 160, "fer": 1.5, "magnesium": 47}},
+      "gi": "low"
+    },
+    {
+      "name": "mâche",
+      "aliases": ["doucette"],
+      "per100g": {"calories": 21, "proteines": 2, "glucides": 3.6, "lipides": 0.4, "fibres": 1.5, "sucres": 0.5, "sodium": 0.004, "vitamines": {"C": 38, "K": 200, "A": 345, "B9": 35}, "mineraux": {"potassium": 459, "calcium": 38, "fer": 2.2, "magnesium": 13}},
+      "gi": "low"
+    },
+    {
+      "name": "cresson",
+      "aliases": [],
+      "per100g": {"calories": 11, "proteines": 2.3, "glucides": 1.3, "lipides": 0.1, "fibres": 0.5, "sucres": 0.2, "sodium": 0.041, "vitamines": {"C": 43, "K": 250, "A": 160, "E": 1}, "mineraux": {"potassium": 330, "calcium": 120, "fer": 0.2, "magnesium": 21}},
+      "gi": "low"
+    },
+    {
+      "name": "chou-fleur",
+      "aliases": ["choufleur"],
+      "per100g": {"calories": 25, "proteines": 1.9, "glucides": 5, "lipides": 0.3, "fibres": 2, "sucres": 1.9, "sodium": 0.030, "vitamines": {"C": 48, "K": 16, "B9": 57, "B6": 0.2}, "mineraux": {"potassium": 299, "calcium": 22, "magnesium": 15, "phosphore": 44}},
+      "gi": "low"
+    },
+    {
+      "name": "lentilles corail",
+      "aliases": ["lentilles rouges"],
+      "per100g": {"calories": 116, "proteines": 9, "glucides": 20, "lipides": 0.4, "fibres": 7.9, "sucres": 1.8, "sodium": 0.006, "vitamines": {"B1": 0.2, "B6": 0.2, "B9": 181}, "mineraux": {"fer": 3.3, "magnesium": 36, "potassium": 369, "phosphore": 180}},
+      "gi": "low"
+    },
+    {
+      "name": "lentilles vertes",
+      "aliases": [],
+      "per100g": {"calories": 116, "proteines": 9, "glucides": 20, "lipides": 0.4, "fibres": 7.9, "sucres": 1.8, "sodium": 0.006, "vitamines": {"B1": 0.2, "B6": 0.2, "B9": 181}, "mineraux": {"fer": 3.3, "magnesium": 36, "potassium": 369, "phosphore": 180}},
+      "gi": "low"
+    },
+    {
+      "name": "pois cassés",
+      "aliases": [],
+      "per100g": {"calories": 118, "proteines": 8.3, "glucides": 21.1, "lipides": 0.6, "fibres": 8.3, "sucres": 2.4, "sodium": 0.004, "vitamines": {"B1": 0.4, "B6": 0.1, "B9": 65}, "mineraux": {"fer": 1.9, "magnesium": 36, "potassium": 362, "phosphore": 139}},
+      "gi": "low"
+    },
+    {
+      "name": "haricots blancs",
+      "aliases": ["haricot blanc"],
+      "per100g": {"calories": 127, "proteines": 8.7, "glucides": 23.3, "lipides": 0.5, "fibres": 6.4, "sucres": 0.3, "sodium": 0.012, "vitamines": {"B1": 0.2, "B6": 0.2, "B9": 102}, "mineraux": {"fer": 2.1, "magnesium": 45, "potassium": 389, "calcium": 55}},
+      "gi": "low"
+    },
+    {
+      "name": "haricots noirs",
+      "aliases": ["haricot noir"],
+      "per100g": {"calories": 132, "proteines": 8.9, "glucides": 23.7, "lipides": 0.5, "fibres": 8.7, "sucres": 0.3, "sodium": 0.002, "vitamines": {"B1": 0.2, "B6": 0.1, "B9": 149}, "mineraux": {"fer": 2.1, "magnesium": 70, "potassium": 355, "calcium": 27}},
+      "gi": "low"
+    },
+    {
+      "name": "edamame",
+      "aliases": ["soja vert", "fèves de soja"],
+      "per100g": {"calories": 122, "proteines": 11, "glucides": 10, "lipides": 5, "fibres": 5, "sucres": 2, "sodium": 0.006, "vitamines": {"C": 6, "K": 26, "B9": 311, "B1": 0.2}, "mineraux": {"fer": 2.3, "calcium": 63, "magnesium": 64, "potassium": 436}},
+      "gi": "low"
+    },
+    {
+      "name": "tempeh",
+      "aliases": [],
+      "per100g": {"calories": 193, "proteines": 20.3, "glucides": 7.6, "lipides": 10.8, "fibres": 0, "sucres": 0, "sodium": 0.015, "vitamines": {"B2": 0.4, "B3": 2.6, "B6": 0.2, "B12": 0.1}, "mineraux": {"fer": 2.7, "calcium": 111, "magnesium": 81, "phosphore": 266}},
+      "gi": "low"
+    },
+    {
+      "name": "seitan",
+      "aliases": ["gluten de blé"],
+      "per100g": {"calories": 370, "proteines": 75, "glucides": 14, "lipides": 1.9, "fibres": 0.6, "sucres": 0, "sodium": 0.030, "vitamines": {"B3": 0.2, "B1": 0.1}, "mineraux": {"fer": 5.2, "calcium": 43, "phosphore": 250, "selenium": 42}},
+      "gi": "medium"
+    },
+    {
+      "name": "courgette jaune",
+      "aliases": ["courge d'été jaune"],
+      "per100g": {"calories": 17, "proteines": 1.2, "glucides": 3.1, "lipides": 0.3, "fibres": 1, "sucres": 2.5, "sodium": 0.008, "vitamines": {"C": 17, "A": 8, "B6": 0.2, "B9": 24}, "mineraux": {"potassium": 261, "magnesium": 18, "calcium": 16, "phosphore": 38}},
+      "gi": "low"
+    },
+    {
+      "name": "courge butternut",
+      "aliases": ["butternut", "doubeurre"],
+      "per100g": {"calories": 45, "proteines": 1, "glucides": 11.7, "lipides": 0.1, "fibres": 2, "sucres": 2.2, "sodium": 0.004, "vitamines": {"A": 532, "C": 21, "E": 1.4, "B6": 0.2}, "mineraux": {"potassium": 352, "magnesium": 34, "calcium": 48, "fer": 0.7}},
+      "gi": "medium"
+    },
+    {
+      "name": "courge spaghetti",
+      "aliases": [],
+      "per100g": {"calories": 31, "proteines": 0.6, "glucides": 7, "lipides": 0.6, "fibres": 1.5, "sucres": 2.8, "sodium": 0.017, "vitamines": {"C": 5.4, "A": 5, "B6": 0.1, "B9": 12}, "mineraux": {"potassium": 108, "calcium": 23, "magnesium": 12, "phosphore": 11}},
+      "gi": "low"
+    },
+    {
+      "name": "patate douce orange",
+      "aliases": ["patate douce"],
+      "per100g": {"calories": 86, "proteines": 1.6, "glucides": 20.1, "lipides": 0.1, "fibres": 3, "sucres": 4.2, "sodium": 0.055, "vitamines": {"A": 709, "C": 2.4, "B6": 0.2, "E": 0.3}, "mineraux": {"potassium": 337, "magnesium": 25, "calcium": 30, "fer": 0.6}},
+      "gi": "medium"
+    },
+    {
+      "name": "panais",
+      "aliases": [],
+      "per100g": {"calories": 75, "proteines": 1.2, "glucides": 18, "lipides": 0.3, "fibres": 4.9, "sucres": 4.8, "sodium": 0.010, "vitamines": {"C": 17, "K": 22, "B9": 67, "E": 1.5}, "mineraux": {"potassium": 375, "magnesium": 29, "calcium": 36, "phosphore": 71}},
+      "gi": "medium"
+    },
+    {
+      "name": "crosne",
+      "aliases": ["crosne du japon"],
+      "per100g": {"calories": 75, "proteines": 2.3, "glucides": 17, "lipides": 0.1, "fibres": 2, "sucres": 0, "sodium": 0.015, "vitamines": {"C": 4, "B1": 0.1}, "mineraux": {"potassium": 450, "fer": 0.9, "magnesium": 20, "calcium": 25}},
+      "gi": "low"
+    },
+    {
+      "name": "asperge blanche",
+      "aliases": ["asperges blanches"],
+      "per100g": {"calories": 20, "proteines": 2.2, "glucides": 3.9, "lipides": 0.1, "fibres": 1.5, "sucres": 1.9, "sodium": 0.002, "vitamines": {"C": 5.6, "K": 41, "B9": 52, "E": 1.1}, "mineraux": {"potassium": 202, "phosphore": 52, "calcium": 24, "fer": 2.1}},
+      "gi": "low"
+    },
+    {
+      "name": "artichaut",
+      "aliases": [],
+      "per100g": {"calories": 47, "proteines": 3.3, "glucides": 10.5, "lipides": 0.2, "fibres": 5.4, "sucres": 1, "sodium": 0.094, "vitamines": {"C": 11.7, "K": 14.8, "B9": 68, "B3": 1.1}, "mineraux": {"potassium": 370, "magnesium": 60, "calcium": 44, "fer": 1.3}},
+      "gi": "low"
+    },
+    {
+      "name": "poireau",
+      "aliases": [],
+      "per100g": {"calories": 61, "proteines": 1.5, "glucides": 14.2, "lipides": 0.3, "fibres": 1.8, "sucres": 3.9, "sodium": 0.020, "vitamines": {"C": 12, "K": 47, "A": 83, "B9": 64}, "mineraux": {"potassium": 180, "calcium": 59, "fer": 2.1, "magnesium": 28}},
+      "gi": "low"
+    },
+    {
+      "name": "oseille",
+      "aliases": [],
+      "per100g": {"calories": 22, "proteines": 2, "glucides": 3.2, "lipides": 0.7, "fibres": 2.9, "sucres": 0.5, "sodium": 0.004, "vitamines": {"C": 48, "A": 200, "K": 0, "B9": 13}, "mineraux": {"fer": 2.4, "calcium": 44, "magnesium": 103, "potassium": 390}},
+      "gi": "low"
+    },
+    {
+      "name": "pourpier",
+      "aliases": [],
+      "per100g": {"calories": 20, "proteines": 2, "glucides": 3.4, "lipides": 0.4, "fibres": 0, "sucres": 0, "sodium": 0.045, "vitamines": {"C": 21, "A": 44, "E": 12.2, "B3": 0.5}, "mineraux": {"magnesium": 68, "calcium": 65, "potassium": 494, "fer": 2}},
+      "gi": "low"
+    },
+    {
+      "name": "ail des ours",
+      "aliases": [],
+      "per100g": {"calories": 150, "proteines": 6.1, "glucides": 33.1, "lipides": 0.5, "fibres": 26.3, "sucres": 1, "sodium": 0.017, "vitamines": {"C": 31, "B6": 1.2, "B1": 0.2}, "mineraux": {"fer": 1.7, "calcium": 181, "magnesium": 25, "potassium": 401}},
+      "gi": "low"
+    },
+    {
+      "name": "soja jaune",
+      "aliases": ["fèves de soja sèches"],
+      "per100g": {"calories": 173, "proteines": 16.6, "glucides": 9.9, "lipides": 9, "fibres": 6, "sucres": 3, "sodium": 0.002, "vitamines": {"B1": 0.4, "B2": 0.2, "B9": 375, "K": 47}, "mineraux": {"fer": 5.1, "calcium": 197, "magnesium": 86, "potassium": 620}},
+      "gi": "low"
+    },
+    {
+      "name": "falafel",
+      "aliases": [],
+      "per100g": {"calories": 333, "proteines": 13.3, "glucides": 31.8, "lipides": 17.8, "fibres": 4.8, "sucres": 1, "sodium": 0.294, "vitamines": {"B1": 0.1, "B6": 0.2, "B9": 104, "E": 1.1}, "mineraux": {"fer": 3.4, "calcium": 54, "magnesium": 82, "potassium": 585}},
+      "gi": "medium"
+    },
+    {
+      "name": "houmous",
+      "aliases": ["hummus"],
+      "per100g": {"calories": 166, "proteines": 7.9, "glucides": 14.3, "lipides": 9.6, "fibres": 6, "sucres": 0.3, "sodium": 0.379, "vitamines": {"B6": 0.2, "B9": 59, "C": 4.4, "E": 1.4}, "mineraux": {"fer": 2.4, "calcium": 38, "magnesium": 71, "potassium": 228}},
+      "gi": "low"
+    },
+    {
+      "name": "tahini",
+      "aliases": ["tahin", "purée de sésame"],
+      "per100g": {"calories": 595, "proteines": 17, "glucides": 21, "lipides": 54, "fibres": 9.3, "sucres": 0.5, "sodium": 0.115, "vitamines": {"B1": 1.2, "B6": 0.1, "E": 0.2}, "mineraux": {"calcium": 426, "fer": 8.9, "magnesium": 95, "phosphore": 732}},
+      "gi": "low"
+    },
+    {
+      "name": "lait de coco",
+      "aliases": [],
+      "per100g": {"calories": 230, "proteines": 2.3, "glucides": 5.5, "lipides": 24, "fibres": 2.2, "sucres": 3.3, "sodium": 0.015, "vitamines": {"C": 2.8, "B1": 0.03, "B6": 0.03}, "mineraux": {"fer": 1.6, "magnesium": 37, "potassium": 263, "phosphore": 100}},
+      "gi": "low"
+    },
+    {
+      "name": "crème de coco",
+      "aliases": [],
+      "per100g": {"calories": 330, "proteines": 3.6, "glucides": 6.7, "lipides": 34.7, "fibres": 2.2, "sucres": 4.8, "sodium": 0.020, "vitamines": {"C": 1, "E": 0.2}, "mineraux": {"fer": 3.3, "magnesium": 46, "potassium": 497, "phosphore": 96}},
+      "gi": "low"
+    },
+    {
+      "name": "lait d'amande",
+      "aliases": [],
+      "per100g": {"calories": 24, "proteines": 1, "glucides": 3.4, "lipides": 1.1, "fibres": 0.4, "sucres": 0, "sodium": 0.063, "vitamines": {"E": 6.3, "D": 0.9, "B2": 0.2}, "mineraux": {"calcium": 184, "potassium": 67, "magnesium": 7, "phosphore": 52}},
+      "gi": "low"
+    },
+    {
+      "name": "lait d'avoine",
+      "aliases": [],
+      "per100g": {"calories": 47, "proteines": 1, "glucides": 6.7, "lipides": 1.5, "fibres": 0.8, "sucres": 4, "sodium": 0.050, "vitamines": {"D": 1, "B12": 0.4, "B2": 0.2}, "mineraux": {"calcium": 120, "potassium": 35, "phosphore": 75, "magnesium": 10}},
+      "gi": "medium"
+    },
+    {
+      "name": "lait de soja",
+      "aliases": [],
+      "per100g": {"calories": 54, "proteines": 3.3, "glucides": 6, "lipides": 1.8, "fibres": 0.6, "sucres": 4, "sodium": 0.051, "vitamines": {"B12": 0.4, "D": 1.1, "B2": 0.2}, "mineraux": {"calcium": 123, "potassium": 118, "magnesium": 25, "fer": 0.6}},
+      "gi": "low"
+    },
+    {
+      "name": "feta",
+      "aliases": ["fromage feta"],
+      "per100g": {"calories": 264, "proteines": 14.2, "glucides": 4.1, "lipides": 21.3, "fibres": 0, "sucres": 4.1, "sodium": 1.116, "vitamines": {"A": 125, "B12": 1.7, "B2": 0.8, "B6": 0.4}, "mineraux": {"calcium": 493, "phosphore": 337, "selenium": 15, "zinc": 2.9}},
+      "gi": "low"
+    },
+    {
+      "name": "mozzarella",
+      "aliases": [],
+      "per100g": {"calories": 280, "proteines": 22.2, "glucides": 2.2, "lipides": 21.6, "fibres": 0, "sucres": 1, "sodium": 0.373, "vitamines": {"A": 179, "B12": 2.3, "B2": 0.3}, "mineraux": {"calcium": 505, "phosphore": 354, "selenium": 17, "zinc": 2.9}},
+      "gi": "low"
+    },
+    {
+      "name": "parmesan",
+      "aliases": ["parmigiano"],
+      "per100g": {"calories": 431, "proteines": 38.5, "glucides": 3.2, "lipides": 28.6, "fibres": 0, "sucres": 0.8, "sodium": 1.529, "vitamines": {"A": 207, "B12": 1.2, "B2": 0.3, "D": 0.5}, "mineraux": {"calcium": 1184, "phosphore": 694, "selenium": 22, "zinc": 2.8}},
+      "gi": "low"
+    },
+    {
+      "name": "comté",
+      "aliases": [],
+      "per100g": {"calories": 409, "proteines": 27.2, "glucides": 0.5, "lipides": 32.5, "fibres": 0, "sucres": 0.5, "sodium": 0.180, "vitamines": {"A": 315, "B12": 1.4, "B2": 0.3, "D": 0.6}, "mineraux": {"calcium": 909, "phosphore": 605, "zinc": 4.6, "selenium": 12}},
+      "gi": "low"
+    },
+    {
+      "name": "chèvre frais",
+      "aliases": ["fromage de chèvre frais"],
+      "per100g": {"calories": 268, "proteines": 18.5, "glucides": 2.5, "lipides": 21.1, "fibres": 0, "sucres": 2.5, "sodium": 0.368, "vitamines": {"A": 407, "B12": 0.2, "B2": 0.5, "D": 0.2}, "mineraux": {"calcium": 140, "phosphore": 208, "potassium": 18, "zinc": 0.8}},
+      "gi": "low"
+    },
+    {
+      "name": "ricotta",
+      "aliases": [],
+      "per100g": {"calories": 174, "proteines": 11.3, "glucides": 3.04, "lipides": 13, "fibres": 0, "sucres": 0.3, "sodium": 0.084, "vitamines": {"A": 115, "B12": 0.3, "B2": 0.2}, "mineraux": {"calcium": 207, "phosphore": 158, "selenium": 14.5, "zinc": 1.2}},
+      "gi": "low"
+    },
+    {
+      "name": "mascarpone",
+      "aliases": [],
+      "per100g": {"calories": 429, "proteines": 4.8, "glucides": 4.8, "lipides": 44.4, "fibres": 0, "sucres": 3.2, "sodium": 0.055, "vitamines": {"A": 391, "E": 0.5}, "mineraux": {"calcium": 58, "phosphore": 65, "potassium": 73}},
+      "gi": "low"
+    },
+    {
+      "name": "champignon de paris brun",
+      "aliases": ["cremini"],
+      "per100g": {"calories": 26, "proteines": 3.3, "glucides": 4.3, "lipides": 0.3, "fibres": 0.6, "sucres": 1.7, "sodium": 0.006, "vitamines": {"D": 0.2, "B3": 4.5, "B2": 0.5, "B5": 2.1}, "mineraux": {"potassium": 448, "phosphore": 120, "selenium": 26, "cuivre": 0.5}},
+      "gi": "low"
+    },
+    {
+      "name": "champignon shiitake",
+      "aliases": ["shiitake"],
+      "per100g": {"calories": 34, "proteines": 2.2, "glucides": 6.8, "lipides": 0.5, "fibres": 2.5, "sucres": 2.4, "sodium": 0.009, "vitamines": {"D": 0.4, "B3": 3.9, "B5": 1.5, "B6": 0.3}, "mineraux": {"potassium": 304, "phosphore": 112, "selenium": 5.7, "zinc": 1}},
+      "gi": "low"
+    },
+    {
+      "name": "champignon portobello",
+      "aliases": ["portobello"],
+      "per100g": {"calories": 29, "proteines": 3.3, "glucides": 4.3, "lipides": 0.6, "fibres": 1.5, "sucres": 2.5, "sodium": 0.010, "vitamines": {"D": 0.3, "B3": 5.3, "B2": 0.5, "B5": 1.5}, "mineraux": {"potassium": 437, "phosphore": 135, "selenium": 17, "cuivre": 0.4}},
+      "gi": "low"
+    },
+    {
+      "name": "champignon pleurote",
+      "aliases": ["pleurote"],
+      "per100g": {"calories": 33, "proteines": 3.3, "glucides": 6.1, "lipides": 0.4, "fibres": 2.3, "sucres": 1.1, "sodium": 0.018, "vitamines": {"D": 0.7, "B3": 4.9, "B5": 1.3, "B2": 0.3}, "mineraux": {"potassium": 420, "phosphore": 120, "selenium": 2.6, "fer": 1.3}},
+      "gi": "low"
+    },
+    {
+      "name": "champignon enoki",
+      "aliases": ["enoki"],
+      "per100g": {"calories": 37, "proteines": 2.7, "glucides": 7.8, "lipides": 0.3, "fibres": 2.7, "sucres": 0.2, "sodium": 0.003, "vitamines": {"D": 1.1, "B3": 6.1, "B5": 1.5, "B1": 0.2}, "mineraux": {"potassium": 359, "phosphore": 105, "selenium": 2.2, "cuivre": 0.1}},
+      "gi": "low"
+    },
+    {
+      "name": "algue nori",
+      "aliases": ["nori"],
+      "per100g": {"calories": 35, "proteines": 5.8, "glucides": 5.1, "lipides": 0.3, "fibres": 0.3, "sucres": 0.5, "sodium": 0.048, "vitamines": {"C": 39, "A": 260, "B12": 54.5, "K": 2.6}, "mineraux": {"fer": 1.8, "calcium": 70, "magnesium": 2, "iode": 16}},
+      "gi": "low"
+    },
+    {
+      "name": "algue wakame",
+      "aliases": ["wakame"],
+      "per100g": {"calories": 45, "proteines": 3, "glucides": 9.1, "lipides": 0.6, "fibres": 0.5, "sucres": 0.7, "sodium": 0.872, "vitamines": {"C": 3, "A": 18, "K": 5.3, "B9": 196}, "mineraux": {"calcium": 150, "fer": 2.2, "magnesium": 107, "iode": 11}},
+      "gi": "low"
+    },
+    {
+      "name": "algue kombu",
+      "aliases": ["kombu", "kelp"],
+      "per100g": {"calories": 43, "proteines": 1.7, "glucides": 9.6, "lipides": 0.6, "fibres": 1.3, "sucres": 0.6, "sodium": 0.233, "vitamines": {"C": 3, "K": 66, "B9": 180, "A": 6}, "mineraux": {"iode": 2523, "calcium": 168, "fer": 2.8, "magnesium": 121}},
+      "gi": "low"
+    },
+    {
+      "name": "graines de lin",
+      "aliases": ["lin"],
+      "per100g": {"calories": 534, "proteines": 18.3, "glucides": 28.9, "lipides": 42.2, "fibres": 27.3, "sucres": 1.6, "sodium": 0.030, "vitamines": {"B1": 1.6, "B6": 0.5, "B9": 87, "E": 0.3}, "mineraux": {"magnesium": 392, "phosphore": 642, "potassium": 813, "calcium": 255}},
+      "gi": "low"
+    },
+    {
+      "name": "graines de tournesol",
+      "aliases": ["tournesol"],
+      "per100g": {"calories": 584, "proteines": 20.8, "glucides": 20, "lipides": 51.5, "fibres": 8.6, "sucres": 2.6, "sodium": 0.009, "vitamines": {"E": 35.2, "B1": 1.5, "B6": 1.3, "B9": 227}, "mineraux": {"magnesium": 325, "phosphore": 660, "selenium": 53, "fer": 5.3}},
+      "gi": "low"
+    },
+    {
+      "name": "graines de courge",
+      "aliases": ["courge graines"],
+      "per100g": {"calories": 559, "proteines": 30.2, "glucides": 10.7, "lipides": 49, "fibres": 6, "sucres": 1.4, "sodium": 0.007, "vitamines": {"E": 0.6, "K": 7.3, "B3": 4.9, "B9": 58}, "mineraux": {"magnesium": 592, "phosphore": 1233, "fer": 8.8, "zinc": 7.8}},
+      "gi": "low"
+    },
+    {
+      "name": "graines de pavot",
+      "aliases": ["pavot"],
+      "per100g": {"calories": 525, "proteines": 17.9, "glucides": 28.1, "lipides": 41.6, "fibres": 19.5, "sucres": 2.9, "sodium": 0.026, "vitamines": {"B1": 0.9, "B6": 0.2, "B9": 82, "E": 1.8}, "mineraux": {"calcium": 1438, "fer": 9.8, "magnesium": 347, "phosphore": 870}},
+      "gi": "low"
+    },
+    {
+      "name": "noix de cajou",
+      "aliases": ["cajou", "anacarde"],
+      "per100g": {"calories": 553, "proteines": 18.2, "glucides": 30.2, "lipides": 43.9, "fibres": 3.3, "sucres": 5.9, "sodium": 0.012, "vitamines": {"E": 0.9, "K": 34.1, "B6": 0.4, "B1": 0.4}, "mineraux": {"magnesium": 292, "phosphore": 593, "fer": 6.7, "zinc": 5.8}},
+      "gi": "low"
+    },
+    {
+      "name": "noix de pécan",
+      "aliases": ["pécan"],
+      "per100g": {"calories": 691, "proteines": 9.2, "glucides": 13.9, "lipides": 72, "fibres": 9.6, "sucres": 4, "sodium": 0, "vitamines": {"E": 1.4, "B1": 0.7, "B6": 0.2, "A": 3}, "mineraux": {"magnesium": 121, "phosphore": 277, "potassium": 410, "zinc": 4.5}},
+      "gi": "low"
+    },
+    {
+      "name": "noix de macadamia",
+      "aliases": ["macadamia"],
+      "per100g": {"calories": 718, "proteines": 7.9, "glucides": 13.8, "lipides": 75.8, "fibres": 8.6, "sucres": 4.6, "sodium": 0.005, "vitamines": {"E": 0.5, "B1": 1.2, "B6": 0.3}, "mineraux": {"magnesium": 130, "phosphore": 188, "potassium": 368, "calcium": 85}},
+      "gi": "low"
+    },
+    {
+      "name": "pignons de pin",
+      "aliases": ["pignons"],
+      "per100g": {"calories": 673, "proteines": 13.7, "glucides": 13.1, "lipides": 68.4, "fibres": 3.7, "sucres": 3.6, "sodium": 0.002, "vitamines": {"E": 9.3, "K": 53.9, "B1": 0.4, "B3": 4.4}, "mineraux": {"magnesium": 251, "phosphore": 575, "fer": 5.5, "zinc": 6.5}},
+      "gi": "low"
+    },
+    {
+      "name": "pistache",
+      "aliases": ["pistaches"],
+      "per100g": {"calories": 560, "proteines": 20.2, "glucides": 27.2, "lipides": 45.3, "fibres": 10.6, "sucres": 7.7, "sodium": 0.001, "vitamines": {"E": 2.9, "B6": 1.7, "B1": 0.9, "B9": 51}, "mineraux": {"potassium": 1025, "phosphore": 490, "magnesium": 121, "fer": 3.9}},
+      "gi": "low"
+    },
+    {
+      "name": "saucisse de Toulouse",
+      "aliases": ["saucisse", "saucisses de Toulouse"],
+      "per100g": {"calories": 330, "proteines": 15, "glucides": 1, "lipides": 30, "fibres": 0, "sucres": 0.5, "sodium": 1.2, "vitamines": {"B1": 0.5, "B3": 3.8, "B12": 1.2}, "mineraux": {"fer": 1.5, "zinc": 2.5, "phosphore": 180}},
+      "gi": "low"
+    },
+    {
+      "name": "saucisse de Strasbourg",
+      "aliases": ["knack", "saucisses de Strasbourg"],
+      "per100g": {"calories": 285, "proteines": 13, "glucides": 2, "lipides": 26, "fibres": 0, "sucres": 1, "sodium": 1.5, "vitamines": {"B1": 0.3, "B3": 3.2, "B12": 0.8}, "mineraux": {"fer": 1.2, "zinc": 2.1, "phosphore": 160}},
+      "gi": "low"
+    },
+    {
+      "name": "saucisse de Morteau",
+      "aliases": ["saucisses de Morteau"],
+      "per100g": {"calories": 310, "proteines": 16, "glucides": 0.5, "lipides": 27, "fibres": 0, "sucres": 0.3, "sodium": 1.4, "vitamines": {"B1": 0.6, "B3": 4.1, "B12": 1.5}, "mineraux": {"fer": 1.8, "zinc": 3.2, "phosphore": 195}},
+      "gi": "low"
+    },
+    {
+      "name": "saucisse de Montbéliard",
+      "aliases": ["saucisses de Montbéliard"],
+      "per100g": {"calories": 300, "proteines": 17, "glucides": 1, "lipides": 26, "fibres": 0, "sucres": 0.5, "sodium": 1.3, "vitamines": {"B1": 0.5, "B3": 4, "B12": 1.3}, "mineraux": {"fer": 1.6, "zinc": 2.8, "phosphore": 185}},
+      "gi": "low"
+    },
+    {
+      "name": "chorizo",
+      "aliases": ["chorizo espagnol"],
+      "per100g": {"calories": 455, "proteines": 24.1, "glucides": 2.4, "lipides": 38.3, "fibres": 0, "sucres": 2.4, "sodium": 1.89, "vitamines": {"B1": 0.5, "B3": 3.3, "B12": 1.2, "E": 0.7}, "mineraux": {"fer": 1.9, "zinc": 2.9, "phosphore": 200}},
+      "gi": "low"
+    },
+    {
+      "name": "merguez",
+      "aliases": ["merguez agneau-boeuf"],
+      "per100g": {"calories": 350, "proteines": 15, "glucides": 2, "lipides": 32, "fibres": 0.5, "sucres": 1, "sodium": 1.1, "vitamines": {"B1": 0.4, "B3": 4.5, "B12": 1.8}, "mineraux": {"fer": 2.2, "zinc": 3.5, "phosphore": 175}},
+      "gi": "low"
+    },
+    {
+      "name": "andouillette",
+      "aliases": ["andouillettes"],
+      "per100g": {"calories": 265, "proteines": 16, "glucides": 1, "lipides": 22, "fibres": 0, "sucres": 0.5, "sodium": 1.35, "vitamines": {"B3": 2.8, "B12": 0.9}, "mineraux": {"fer": 1.3, "zinc": 1.8, "phosphore": 140}},
+      "gi": "low"
+    },
+    {
+      "name": "saucisse de volaille",
+      "aliases": ["saucisses de poulet", "saucisse de dinde"],
+      "per100g": {"calories": 220, "proteines": 18, "glucides": 3, "lipides": 15, "fibres": 0, "sucres": 1.5, "sodium": 0.95, "vitamines": {"B3": 6.5, "B6": 0.4, "B12": 0.6}, "mineraux": {"fer": 0.9, "zinc": 1.5, "phosphore": 190}},
+      "gi": "low"
+    },
+    {
+      "name": "saucisse végétarienne",
+      "aliases": ["saucisse végétale", "saucisse vegan"],
+      "per100g": {"calories": 195, "proteines": 16, "glucides": 8, "lipides": 11, "fibres": 3.5, "sucres": 2, "sodium": 0.85, "vitamines": {"B12": 1.2, "B6": 0.3, "B2": 0.4}, "mineraux": {"fer": 3.2, "zinc": 2.1, "calcium": 95}},
+      "gi": "medium"
+    },
+    {
+      "name": "boudin noir",
+      "aliases": ["boudin"],
+      "per100g": {"calories": 379, "proteines": 14.4, "glucides": 14.6, "lipides": 30.5, "fibres": 0, "sucres": 1, "sodium": 1.05, "vitamines": {"B12": 2.5, "fer": 6.5, "B3": 1.9}, "mineraux": {"fer": 6.5, "zinc": 1.4, "phosphore": 132}},
+      "gi": "medium"
+    },
+    {
+      "name": "boudin blanc",
+      "aliases": ["boudin blanc de volaille"],
+      "per100g": {"calories": 315, "proteines": 11, "glucides": 6, "lipides": 28, "fibres": 0, "sucres": 1.5, "sodium": 1.2, "vitamines": {"B3": 3.2, "B6": 0.2, "B12": 0.5}, "mineraux": {"fer": 0.8, "zinc": 1.2, "phosphore": 120}},
+      "gi": "low"
+    },
+    {
+      "name": "chipolata",
+      "aliases": ["chipolatas"],
+      "per100g": {"calories": 310, "proteines": 14, "glucides": 2, "lipides": 28, "fibres": 0, "sucres": 1, "sodium": 1.15, "vitamines": {"B1": 0.4, "B3": 3.5, "B12": 1}, "mineraux": {"fer": 1.4, "zinc": 2.3, "phosphore": 165}},
+      "gi": "low"
+    },
+    {
+      "name": "jambon blanc",
+      "aliases": ["jambon de Paris", "jambon cuit"],
+      "per100g": {"calories": 107, "proteines": 19.2, "glucides": 0.7, "lipides": 2.7, "fibres": 0, "sucres": 0.7, "sodium": 1.05, "vitamines": {"B1": 0.8, "B3": 4.8, "B12": 0.7}, "mineraux": {"fer": 0.5, "zinc": 1.9, "phosphore": 220}},
+      "gi": "low"
+    },
+    {
+      "name": "jambon cru",
+      "aliases": ["jambon de Bayonne", "jambon serrano", "prosciutto"],
+      "per100g": {"calories": 145, "proteines": 26.9, "glucides": 0, "lipides": 3.5, "fibres": 0, "sucres": 0, "sodium": 2.34, "vitamines": {"B1": 0.5, "B3": 6.2, "B12": 0.8}, "mineraux": {"fer": 0.9, "zinc": 2.5, "phosphore": 270}},
+      "gi": "low"
+    },
+    {
+      "name": "bacon",
+      "aliases": ["lard fumé", "bacon tranché"],
+      "per100g": {"calories": 541, "proteines": 37, "glucides": 1.4, "lipides": 42, "fibres": 0, "sucres": 0, "sodium": 1.72, "vitamines": {"B1": 0.5, "B3": 9.4, "B12": 0.7}, "mineraux": {"fer": 0.8, "zinc": 3.2, "phosphore": 380}},
+      "gi": "low"
+    },
+    {
+      "name": "lardons",
+      "aliases": ["lardon"],
+      "per100g": {"calories": 458, "proteines": 21, "glucides": 1, "lipides": 41, "fibres": 0, "sucres": 0.5, "sodium": 1.8, "vitamines": {"B1": 0.6, "B3": 5.5, "B12": 0.6}, "mineraux": {"fer": 0.7, "zinc": 2.1, "phosphore": 250}},
+      "gi": "low"
+    },
+    {
+      "name": "salami",
+      "aliases": ["saucisson sec"],
+      "per100g": {"calories": 407, "proteines": 22.6, "glucides": 1.6, "lipides": 33.7, "fibres": 0, "sucres": 1.6, "sodium": 2.26, "vitamines": {"B1": 0.2, "B3": 4.5, "B12": 2.5}, "mineraux": {"fer": 1.6, "zinc": 2.9, "phosphore": 210}},
+      "gi": "low"
+    },
+    {
+      "name": "saucisson à l'ail",
+      "aliases": ["saucisson sec à l'ail"],
+      "per100g": {"calories": 415, "proteines": 23, "glucides": 2, "lipides": 35, "fibres": 0, "sucres": 1.5, "sodium": 2.1, "vitamines": {"B1": 0.3, "B3": 4.8, "B12": 2.7}, "mineraux": {"fer": 1.7, "zinc": 3.1, "phosphore": 225}},
+      "gi": "low"
+    },
+    {
+      "name": "rosette de Lyon",
+      "aliases": ["rosette"],
+      "per100g": {"calories": 425, "proteines": 24, "glucides": 1.8, "lipides": 36, "fibres": 0, "sucres": 1.8, "sodium": 2.15, "vitamines": {"B1": 0.25, "B3": 5.1, "B12": 2.8}, "mineraux": {"fer": 1.8, "zinc": 3.3, "phosphore": 230}},
+      "gi": "low"
+    },
+    {
+      "name": "pâté de campagne",
+      "aliases": ["pâté", "terrine de campagne"],
+      "per100g": {"calories": 295, "proteines": 14, "glucides": 2.5, "lipides": 26, "fibres": 0, "sucres": 1, "sodium": 1.1, "vitamines": {"A": 2500, "B12": 5.5, "B3": 4.2}, "mineraux": {"fer": 3.8, "zinc": 1.8, "phosphore": 180}},
+      "gi": "low"
+    },
+    {
+      "name": "rillettes",
+      "aliases": ["rillettes de porc", "rillettes du Mans"],
+      "per100g": {"calories": 463, "proteines": 14.7, "glucides": 0.3, "lipides": 44.6, "fibres": 0, "sucres": 0.3, "sodium": 1.32, "vitamines": {"B1": 0.4, "B3": 4.5, "B12": 0.8}, "mineraux": {"fer": 1.2, "zinc": 2.1, "phosphore": 160}},
+      "gi": "low"
+    },
+    {
+      "name": "foie gras",
+      "aliases": ["foie gras de canard"],
+      "per100g": {"calories": 462, "proteines": 11.4, "glucides": 4.7, "lipides": 43.8, "fibres": 0, "sucres": 1.5, "sodium": 0.7, "vitamines": {"A": 1000, "B12": 54, "B9": 65, "E": 1.5}, "mineraux": {"fer": 5.5, "zinc": 0.9, "phosphore": 140}},
+      "gi": "low"
+    },
+    {
+      "name": "canard",
+      "aliases": ["magret de canard", "viande de canard"],
+      "per100g": {"calories": 337, "proteines": 18.3, "glucides": 0, "lipides": 28.4, "fibres": 0, "sucres": 0, "sodium": 0.074, "vitamines": {"B3": 4.9, "B12": 0.4, "B6": 0.3}, "mineraux": {"fer": 2.7, "zinc": 2.4, "phosphore": 188}},
+      "gi": "low"
+    },
+    {
+      "name": "lapin",
+      "aliases": ["viande de lapin"],
+      "per100g": {"calories": 173, "proteines": 33, "glucides": 0, "lipides": 3.5, "fibres": 0, "sucres": 0, "sodium": 0.045, "vitamines": {"B12": 7.2, "B3": 6.8, "B6": 0.5}, "mineraux": {"fer": 1.5, "zinc": 1.5, "phosphore": 263}},
+      "gi": "low"
+    },
+    {
+      "name": "veau",
+      "aliases": ["viande de veau", "escalope de veau"],
+      "per100g": {"calories": 109, "proteines": 21.1, "glucides": 0, "lipides": 2.4, "fibres": 0, "sucres": 0, "sodium": 0.082, "vitamines": {"B12": 1.4, "B3": 8.9, "B6": 0.4}, "mineraux": {"fer": 0.9, "zinc": 3.3, "phosphore": 230}},
+      "gi": "low"
+    },
+    {
+      "name": "boulettes de viande",
+      "aliases": ["boulette", "boulettes de bœuf"],
+      "per100g": {"calories": 215, "proteines": 18, "glucides": 6, "lipides": 13, "fibres": 0.5, "sucres": 1.5, "sodium": 0.65, "vitamines": {"B12": 1.8, "B3": 4.5, "B6": 0.2}, "mineraux": {"fer": 2.1, "zinc": 4.2, "phosphore": 175}},
+      "gi": "low"
+    },
+    {
+      "name": "steak haché",
+      "aliases": ["bœuf haché 5%", "viande hachée"],
+      "per100g": {"calories": 176, "proteines": 21, "glucides": 0, "lipides": 10, "fibres": 0, "sucres": 0, "sodium": 0.070, "vitamines": {"B12": 2.2, "B3": 5.4, "B6": 0.4}, "mineraux": {"fer": 2.3, "zinc": 5.3, "phosphore": 195}},
+      "gi": "low"
+    },
+    {
+      "name": "escalope panée",
+      "aliases": ["escalope de poulet panée"],
+      "per100g": {"calories": 245, "proteines": 16, "glucides": 15, "lipides": 14, "fibres": 0.8, "sucres": 1, "sodium": 0.55, "vitamines": {"B3": 8.5, "B6": 0.3, "B12": 0.2}, "mineraux": {"fer": 0.8, "zinc": 1.1, "phosphore": 180}},
+      "gi": "medium"
+    },
+    {
+      "name": "nuggets de poulet",
+      "aliases": ["nuggets"],
+      "per100g": {"calories": 296, "proteines": 15.6, "glucides": 18.1, "lipides": 18.6, "fibres": 1.2, "sucres": 0.9, "sodium": 0.62, "vitamines": {"B3": 6.8, "B6": 0.2, "B12": 0.3}, "mineraux": {"fer": 0.9, "zinc": 1.2, "phosphore": 165}},
+      "gi": "medium"
+    },
+    {
+      "name": "calamar",
+      "aliases": ["calmar", "encornet", "seiche"],
+      "per100g": {"calories": 92, "proteines": 15.6, "glucides": 3.1, "lipides": 1.4, "fibres": 0, "sucres": 0, "sodium": 0.044, "vitamines": {"B12": 1.3, "B3": 2.2, "B2": 0.4}, "mineraux": {"fer": 0.7, "zinc": 1.5, "phosphore": 221, "selenium": 44}},
+      "gi": "low"
+    },
+    {
+      "name": "moules",
+      "aliases": ["moule"],
+      "per100g": {"calories": 86, "proteines": 11.9, "glucides": 3.7, "lipides": 2.2, "fibres": 0, "sucres": 0, "sodium": 0.369, "vitamines": {"B12": 16, "B9": 42, "C": 8}, "mineraux": {"fer": 3.9, "zinc": 1.6, "selenium": 44, "iode": 130}},
+      "gi": "low"
+    },
+    {
+      "name": "huîtres",
+      "aliases": ["huître"],
+      "per100g": {"calories": 68, "proteines": 9, "glucides": 3.9, "lipides": 1.6, "fibres": 0, "sucres": 0, "sodium": 0.510, "vitamines": {"B12": 16, "D": 0.3, "C": 8, "A": 90}, "mineraux": {"zinc": 78.6, "fer": 5.8, "selenium": 63, "iode": 60}},
+      "gi": "low"
+    },
+    {
+      "name": "Saint-Jacques",
+      "aliases": ["coquille saint-jacques", "noix de saint-jacques"],
+      "per100g": {"calories": 88, "proteines": 17.5, "glucides": 2.4, "lipides": 0.8, "fibres": 0, "sucres": 0, "sodium": 0.392, "vitamines": {"B12": 1.4, "B3": 1.5, "B6": 0.1}, "mineraux": {"phosphore": 334, "selenium": 18, "zinc": 1.5, "magnesium": 47}},
+      "gi": "low"
+    },
+    {
+      "name": "langoustine",
+      "aliases": ["langoustines"],
+      "per100g": {"calories": 90, "proteines": 19, "glucides": 1, "lipides": 1.2, "fibres": 0, "sucres": 0, "sodium": 0.370, "vitamines": {"B12": 1.8, "B3": 2.8, "E": 1.5}, "mineraux": {"selenium": 42, "phosphore": 205, "zinc": 1.8, "fer": 0.9}},
+      "gi": "low"
+    },
+    {
+      "name": "homard",
+      "aliases": [],
+      "per100g": {"calories": 89, "proteines": 18.8, "glucides": 0.5, "lipides": 0.9, "fibres": 0, "sucres": 0, "sodium": 0.423, "vitamines": {"B12": 1.3, "B3": 1.5, "E": 1}, "mineraux": {"selenium": 41, "phosphore": 157, "zinc": 3.4, "fer": 0.3}},
+      "gi": "low"
+    },
+    {
+      "name": "crabe",
+      "aliases": [],
+      "per100g": {"calories": 97, "proteines": 20.1, "glucides": 0, "lipides": 1.3, "fibres": 0, "sucres": 0, "sodium": 0.370, "vitamines": {"B12": 6, "B3": 2.3, "B6": 0.2}, "mineraux": {"selenium": 37, "phosphore": 175, "zinc": 4.7, "fer": 0.5}},
+      "gi": "low"
+    },
+    {
+      "name": "anchois",
+      "aliases": ["anchois marinés"],
+      "per100g": {"calories": 210, "proteines": 28.9, "glucides": 0, "lipides": 9.7, "fibres": 0, "sucres": 0, "sodium": 3.67, "vitamines": {"D": 11, "B12": 0.6, "B3": 19.9}, "mineraux": {"calcium": 232, "fer": 3.3, "selenium": 68, "phosphore": 174}},
+      "gi": "low"
+    },
+    {
+      "name": "hareng",
+      "aliases": ["hareng fumé"],
+      "per100g": {"calories": 158, "proteines": 18, "glucides": 0, "lipides": 9, "fibres": 0, "sucres": 0, "sodium": 0.090, "vitamines": {"D": 4.2, "B12": 13.7, "B3": 3.2}, "mineraux": {"selenium": 46, "phosphore": 236, "fer": 1.1, "calcium": 57}},
+      "gi": "low"
+    },
+    {
+      "name": "truite",
+      "aliases": ["truite arc-en-ciel"],
+      "per100g": {"calories": 148, "proteines": 20.5, "glucides": 0, "lipides": 6.6, "fibres": 0, "sucres": 0, "sodium": 0.052, "vitamines": {"D": 3.9, "B12": 4.3, "B3": 5.4, "B6": 0.4}, "mineraux": {"phosphore": 271, "selenium": 13, "fer": 0.7, "potassium": 481}},
+      "gi": "low"
+    },
+    {
+      "name": "bar",
+      "aliases": ["loup de mer"],
+      "per100g": {"calories": 97, "proteines": 18.4, "glucides": 0, "lipides": 2.0, "fibres": 0, "sucres": 0, "sodium": 0.080, "vitamines": {"D": 1.0, "B12": 1.5, "B3": 3.8}, "mineraux": {"selenium": 36, "phosphore": 210, "potassium": 256, "fer": 0.3}},
+      "gi": "low"
+    },
+    {
+      "name": "dorade",
+      "aliases": ["daurade"],
+      "per100g": {"calories": 86, "proteines": 19.4, "glucides": 0, "lipides": 1.1, "fibres": 0, "sucres": 0, "sodium": 0.050, "vitamines": {"B3": 6.2, "B12": 1.7, "B6": 0.4}, "mineraux": {"phosphore": 143, "selenium": 36, "potassium": 300, "fer": 0.9}},
+      "gi": "low"
+    },
+    {
+      "name": "colin",
+      "aliases": ["lieu noir"],
+      "per100g": {"calories": 76, "proteines": 17.0, "glucides": 0, "lipides": 0.6, "fibres": 0, "sucres": 0, "sodium": 0.086, "vitamines": {"B12": 3.2, "B3": 3.3, "B6": 0.3}, "mineraux": {"phosphore": 221, "selenium": 36, "potassium": 356, "fer": 0.4}},
+      "gi": "low"
+    },
+    {
+      "name": "sole",
+      "aliases": [],
+      "per100g": {"calories": 70, "proteines": 16.4, "glucides": 0, "lipides": 0.5, "fibres": 0, "sucres": 0, "sodium": 0.090, "vitamines": {"B12": 1.6, "B3": 2.3, "D": 0.4}, "mineraux": {"phosphore": 200, "selenium": 37, "potassium": 342, "fer": 0.3}},
+      "gi": "low"
+    },
+    {
+      "name": "lotte",
+      "aliases": ["baudroie"],
+      "per100g": {"calories": 76, "proteines": 14.5, "glucides": 0, "lipides": 1.5, "fibres": 0, "sucres": 0, "sodium": 0.100, "vitamines": {"B12": 1.0, "B3": 2.1, "B6": 0.3}, "mineraux": {"phosphore": 190, "selenium": 41, "potassium": 400, "fer": 0.3}},
+      "gi": "low"
+    },
+    {
+      "name": "raie",
+      "aliases": [],
+      "per100g": {"calories": 89, "proteines": 20, "glucides": 0, "lipides": 1.0, "fibres": 0, "sucres": 0, "sodium": 0.120, "vitamines": {"B12": 2.5, "B3": 2.5, "D": 0.5}, "mineraux": {"phosphore": 215, "selenium": 45, "potassium": 280, "calcium": 15}},
+      "gi": "low"
+    },
+    {
+      "name": "rouget",
+      "aliases": ["rouget-barbet"],
+      "per100g": {"calories": 115, "proteines": 19.4, "glucides": 0, "lipides": 3.8, "fibres": 0, "sucres": 0, "sodium": 0.065, "vitamines": {"B12": 2.0, "B3": 4.5, "D": 1.2}, "mineraux": {"phosphore": 180, "selenium": 40, "fer": 0.6, "potassium": 320}},
+      "gi": "low"
+    },
+    {
+      "name": "lieu jaune",
+      "aliases": [],
+      "per100g": {"calories": 88, "proteines": 19.3, "glucides": 0, "lipides": 0.9, "fibres": 0, "sucres": 0, "sodium": 0.074, "vitamines": {"B12": 2.8, "B3": 3.7, "B6": 0.4}, "mineraux": {"phosphore": 235, "selenium": 42, "potassium": 368, "fer": 0.4}},
+      "gi": "low"
+    },
+    {
+      "name": "turbot",
+      "aliases": [],
+      "per100g": {"calories": 95, "proteines": 16.1, "glucides": 0, "lipides": 3.0, "fibres": 0, "sucres": 0, "sodium": 0.150, "vitamines": {"B12": 1.2, "B3": 3.8, "D": 2.0}, "mineraux": {"phosphore": 174, "selenium": 46, "potassium": 240, "fer": 0.3}},
+      "gi": "low"
+    },
+    {
+      "name": "espadon",
+      "aliases": [],
+      "per100g": {"calories": 121, "proteines": 19.7, "glucides": 0, "lipides": 4.0, "fibres": 0, "sucres": 0, "sodium": 0.090, "vitamines": {"D": 16.6, "B12": 1.7, "B3": 10.0}, "mineraux": {"selenium": 56, "phosphore": 265, "potassium": 410, "magnesium": 25}},
+      "gi": "low"
+    }
+  ]
+}
+
