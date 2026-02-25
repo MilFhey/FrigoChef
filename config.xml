@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.frigochef.app" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>FrigoChef</name>
+    <description>Application mobile intelligente pour générer des recettes personnalisées à partir des ingrédients de votre frigo</description>
+    <author email="milfhey@github.com" href="https://github.com/MilFhey/FrigoChef">
+        MilFhey
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    
+    <!-- Permissions pour la géolocalisation -->
+    <allow-intent href="geo:*" />
+
+    <!-- Configuration des icônes pour Android -->
+    <icon src="www/img/logo.png" />
+
+    <!-- Icônes Android par densité avec dimensions spécifiques -->
+    <platform name="android">
+        <!-- ldpi: 36x36 px -->
+        <icon density="ldpi" src="www/res/icon/android/ldpi.png" width="36" height="36" />
+        <!-- mdpi: 48x48 px -->
+        <icon density="mdpi" src="www/res/icon/android/mdpi.png" width="48" height="48" />
+        <!-- hdpi: 72x72 px -->
+        <icon density="hdpi" src="www/res/icon/android/hdpi.png" width="72" height="72" />
+        <!-- xhdpi: 96x96 px -->
+        <icon density="xhdpi" src="www/res/icon/android/xhdpi.png" width="96" height="96" />
+        <!-- xxhdpi: 144x144 px -->
+        <icon density="xxhdpi" src="www/res/icon/android/xxhdpi.png" width="144" height="144" />
+        <!-- xxxhdpi: 192x192 px -->
+        <icon density="xxxhdpi" src="www/res/icon/android/xxxhdpi.png" width="192" height="192" />
+    </platform>
+
+    <!-- Préférences pour le splashscreen moderne (Android 12+) -->
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/img/logo.png" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#4CAF50" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
+    
+    <!-- PrÃ©fÃ©rences pour les versions Android antÃ©rieures -->
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+</widget>

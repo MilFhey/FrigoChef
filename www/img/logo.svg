@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="chefGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ee5253;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M165.8,76.1c-3.1-19.8-20.4-34.8-41-34.8c-8.8,0-16.9,2.8-23.6,7.5c-8-12.5-22-20.8-38-20.8c-20.5,0-37.9,13.9-42.5,32.7C9.2,65.6,0.5,78.3,0.5,93.1c0,20.4,16.6,37,37,37h125c20.4,0,37-16.6,37-37C199.5,81.8,185.1,71.7,165.8,76.1z" fill="url(#chefGradient)"/>
+  <rect x="25" y="130.1" class="st0" width="150" height="28" rx="14" ry="14" fill="#ff6b6b" opacity="0.8"/>
+  <path fill="#ffffff" d="M100,65 V95 M85,80 H115 M89,70 L111,90 M111,70 L89,90" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+  <path fill="#FFD700" d="M170,30l5,5l-5,5l-5-5L170,30z" >
+       <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="2s" repeatCount="indefinite" />
+  </path>
+</svg>
