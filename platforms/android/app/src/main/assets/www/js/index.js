@@ -2226,24 +2226,25 @@ function attachRecipeCardListeners(container) {
     const originalIngredients = JSON.parse(ingredientsJSON);
 
     const recipe = findRecipeByName(recipeName);
-    if (!recipe) return;
 
     // Bouton favori
     const favoriteBtn = card.querySelector(".favorite-btn");
-    favoriteBtn?.addEventListener("click", () => {
-      toggleFavorite(recipe);
-      const isNowFav = isFavorite(recipe.nom);
-      favoriteBtn.classList.toggle("active", isNowFav);
-      favoriteBtn.querySelector("span").textContent = isNowFav ? "❤️" : "🤍";
-    });
+    if (recipe) {
+      favoriteBtn?.addEventListener("click", () => {
+        toggleFavorite(recipe);
+        const isNowFav = isFavorite(recipe.nom);
+        favoriteBtn.classList.toggle("active", isNowFav);
+        favoriteBtn.querySelector("span").textContent = isNowFav ? "❤️" : "🤍";
+      });
 
-    // Bouton partage
-    const shareBtn = card.querySelector(".share-btn");
-    shareBtn?.addEventListener("click", () => shareRecipe(recipe));
+      // Bouton partage
+      const shareBtn = card.querySelector(".share-btn");
+      shareBtn?.addEventListener("click", () => shareRecipe(recipe));
 
-    // Bouton de publication dans la communauté
-    const publishBtn = card.querySelector(".publish-btn");
-    publishBtn?.addEventListener("click", () => publishToCommunity(recipe));
+      // Bouton de publication dans la communauté
+      const publishBtn = card.querySelector(".publish-btn");
+      publishBtn?.addEventListener("click", () => publishToCommunity(recipe));
+    }
 
     // Contrôle portions
     let currentPortions = originalPortions;
@@ -2287,6 +2288,9 @@ function findRecipeByName(name) {
     const fromHistory = entry.results?.recettes?.find((r) => r.nom === name);
     if (fromHistory) return fromHistory;
   }
+
+  const fromCommunity = appState.community.find((r) => r.nom === name);
+  if (fromCommunity) return fromCommunity;
 
   return window._currentRecipes?.find((r) => r.nom === name);
 }
