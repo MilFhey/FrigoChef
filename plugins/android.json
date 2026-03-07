@@ -1,0 +1,36 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.frigochef.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.frigochef.app"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.frigochef.app"
+    },
+    "cordova-plugin-camera": {
+      "ANDROIDX_CORE_VERSION": "1.6.+",
+      "PACKAGE_NAME": "com.frigochef.app"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.frigochef.app"
+    },
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "com.frigochef.app"
+    },
+    "phonegap-plugin-barcodescanner": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.frigochef.app"
+    }
+  },
+  "dependent_plugins": {}
+}
