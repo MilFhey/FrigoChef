@@ -1,915 +1,682 @@
-# 🍳 Frigo Chef - Application Mobile de Suggestions de Recettes
+# Frigo Chef AI — Fiche application
 
-> **Transformez les ingrédients de votre frigo en délicieuses recettes !**
-
-Une application mobile Cordova utilisant l'IA (OpenAI GPT-4) pour suggérer des recettes personnalisées basées sur les ingrédients disponibles, avec calcul nutritionnel complet et fonctionnalités hors ligne.
-
-[![Version](https://img.shields.io/badge/version-2.0.1-blue.svg)](https://github.com/MilFhey/FrigoChef)
-[![Platform](https://img.shields.io/badge/platform-Android-green.svg)](https://www.android.com/)
-[![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
+**Version :** 2.1.0
+**Date de mise à jour :** 6 mars 2026
+**Plateforme :** Android (Apache Cordova)
+**Type :** Application Mobile Hybride
+**Modèle IA :** GPT-4o-mini (OpenAI)
 
 ---
 
-## 📱 Aperçu
+## 📖 Table des Matières
 
-**Frigo Chef** est une application mobile intelligente qui vous aide à :
-- 📸 Analyser le contenu de votre frigo par photo
-- 🤖 Générer des recettes personnalisées avec l'IA
-- 📊 Calculer les valeurs nutritionnelles complètes
-- ⭐ Sauvegarder vos recettes favorites
-- 📴 Fonctionner hors ligne avec historique
+1. [Contexte du Projet](#contexte-du-projet)
+2. [Fonctionnalités Implémentées](#fonctionnalités-implémentées)
+3. [Guide d&#39;Utilisation Complet](#guide-dutilisation-complet)
+4. [Architecture Technique](#architecture-technique)
+5. [Base de Données Nutritionnelle](#base-de-données-nutritionnelle)
+6. [Installation &amp; Build](#installation--build)
+7. [Dépannage](#dépannage)
 
-### Captures d'Écran
+---
+
+## Contexte du projet
+
+### Origine et objectif
+
+**Problème résolu :**
+
+> Comment transformer les ingrédients disponibles dans son frigo en recettes délicieuses, tout en ayant des informations nutritionnelles complètes et fiables ?
+
+**Public Cible :**
+
+- Personnes souhaitant réduire le gaspillage alimentaire
+- Utilisateurs soucieux de leur nutrition
+- Personnes manquant d'inspiration culinaire
+- Étudiants et personnes actives (peu de temps, peu de budget)
+- Amateurs de gastronomie cherchant des défis créatifs
+
+### Valeur Ajoutée
+
+**Frigo Chef se distingue par :**
+
+1. **Intelligence Artificielle** : GPT-4o-mini pour recettes personnalisées + analyse visuelle
+2. **Double Mode Chef** : "C'est la Hess" (simple/rapide) ou "Surprends-moi" (chef étoilé créatif)
+3. **Nutrition Complète** : 260+ aliments locaux + 2M produits via OpenFoodFacts
+4. **Validation Utilisateur** : Contrôle total sur les ingrédients détectés avant génération
+5. **Analyse Multi-Mode** : Photo frigo, saisie manuelle, analyse assiette, scan code-barres, photo étiquette
+6. **Filtres Alimentaires** : 7 régimes/contraintes (végétarien, végan, sans gluten, halal, etc.)
+7. **Communauté** : Partage et découverte de recettes entre utilisateurs
+8. **Hors Ligne** : Historique + base locale accessibles sans internet
+
+### Technologie Choisie
+
+**Cordova (Hybride) plutôt que Native**
+
+| Avantages ✅                             | Inconvénients acceptés ⚠️          |
+| ---------------------------------------- | -------------------------------------- |
+| Développement rapide (HTML/CSS/JS)      | Performances légèrement inférieures |
+| Multi-plateformes (Android + iOS future) | Taille APK un peu plus grande (~8 MB)  |
+| Plugins riches (caméra, barcodescanner) |                                        |
+| Maintenance simplifiée                  |                                        |
+
+---
+
+## Fonctionnalités implémentées
+
+### 1. Génération de Recettes — Double Mode Chef
+
+#### Sélecteur de mode (en haut de l'accueil)
+
+Deux boutons permettent de choisir le style de génération avant toute action :
+
+| Bouton                    | Mode        | Description                                                      |
+| ------------------------- | ----------- | ---------------------------------------------------------------- |
+| 🍳**C'est la Hess** | `basique` | Recettes simples, rapides, peu d'ustensiles, réconfortantes     |
+| ⭐**Surprends-moi** | `etoile`  | Chef étoilé Michelin, créativité maximale, cuisines du monde |
+
+Le mode sélectionné est conservé pendant toute la session. Un toast de confirmation s'affiche au changement.
+
+---
+
+#### A. Mode "Photo du Frigo"
+
+**Flux complet :**
 
 ```
-[Accueil]  →  [Photo Frigo]  →  [Validation Ingrédients]  →  [Recettes + Nutrition]
+Photo frigo → IA détecte les ingrédients → Écran de validation → IA génère 2 recettes
+```
+
+**Étapes :**
+
+1. L'utilisateur prend une photo de son frigo (via l'appareil photo Cordova)
+2. GPT-4o Vision analyse l'image et retourne une liste JSON d'ingrédients + quantités + niveau de confiance
+3. **Écran de validation** affiché (voir section dédiée)
+4. Après confirmation → génération de 2 recettes selon le mode chef actif
+
+**Détails techniques :**
+
+- Image encodée en Base64 avant envoi
+- Badge de confiance affiché : Haute / Moyenne / Faible
+- Les condiments de base (sel, poivre) sont volontairement ignorés par le prompt de détection
+
+#### B. Mode "Saisie Manuelle"
+
+**Flux :**
+
+```
+Saisie texte → Passage direct à l'écran de validation → Génération recettes
+```
+
+- Champ textarea auto-redimensionnable
+- Séparation des ingrédients par virgules (ex: `poulet, riz, tomate, oignon`)
+- Même flux de validation que la photo
+
+#### C. Écran de Validation des Ingrédients
+
+Affiché entre la détection et la génération, quel que soit le mode d'entrée :
+
+![1772856291840](image/FICHE_APPLICATION_COMPLETE/1772856291840.png)
+
+**Actions disponibles :**
+
+- **Cliquer sur un input** → Modifier le nom ou la quantité d'un ingrédient
+- **[×]** → Supprimer un ingrédient erroné
+- **[+ Ajouter un ingrédient]** → Ajouter manuellement un ingrédient oublié
+- **[Valider et générer les recettes]** → Lancer la génération avec les ingrédients finaux
+
+---
+
+### 2. Prompts IA selon le mode chef
+
+![1772856573439](image/FICHE_APPLICATION_COMPLETE/1772856573439.png)
+
+#### Mode "C'est la Hess" 🍳
+
+- Philosophie : simple, accessible, peu de matériel
+- Techniques : poêle, casserole, four basique
+- Ingrédients supplémentaires : uniquement les basiques (sel, poivre, huile, beurre, ail, oignon)
+- Température IA : `0.6` (réponses cohérentes et classiques)
+- Ton : pédagogue, encourage à éviter le gaspillage
+
+#### Mode "Surprends-moi" ⭐
+
+- Philosophie : chef étoilé Michelin, audace, créativité
+- Exigence : les 2 recettes doivent être de **cuisines/techniques différentes**
+- Techniques : wok, papillote, braisé, poché, mariné, rôti, fusion…
+- Ingrédients supplémentaires : condiments créatifs, associations audacieuses
+- Température IA : `0.9` (réponses très créatives et variées)
+- Ton : chef passionné qui élève le niveau
+
+---
+
+### 4. Filtres Alimentaires & Régimes
+
+![1772856485462](image/FICHE_APPLICATION_COMPLETE/1772856485462.png)
+
+7 filtres disponibles dans les **Réglages**, persistants entre les sessions :
+
+| Filtre       | Icône | Exclusions appliquées                                                       |
+| ------------ | ------ | ---------------------------------------------------------------------------- |
+| Végétarien | 🥬     | Viande, poisson, fruits de mer, poulet, bœuf, porc, jambon, saucisse, bacon |
+| Végan       | 🌱     | Tout ce dessus + œufs, lait, fromage, beurre, crème, yaourt, miel          |
+| Sans gluten  | 🌾     | Pâtes, pain, farine de blé, semoule                                        |
+| Sans lactose | 🥛     | Lait, fromage, beurre, crème, yaourt                                        |
+| Halal        | ☪️   | Porc, bacon, jambon, alcool                                                  |
+| Low carb     | 🥑     | Réduction glucides dans la génération                                     |
+| < 20 min     | ⚡     | Recettes rapides uniquement                                                  |
+
+**Comportement :**
+
+- Les filtres actifs sont **injectés dans le prompt IA** sous forme de contraintes strictes avec liste explicite d'ingrédients interdits
+- Les filtres actifs sont **affichés en badges** au-dessus des recettes générées
+- Si un ingrédient interdit est présent, l'IA est instruite de ne pas l'utiliser et de proposer une alternative
+
+---
+
+### 4. Analyse nutritionnelle par recette
+
+**Déclenchement :** Automatique après chaque génération de recettes.
+
+**Pipeline de calcul :**
+
+1. Extraction de la quantité en grammes pour chaque ingrédient (parsing regex avec patterns multiples)
+2. Recherche dans la base locale (`food_db.json` — 260+ aliments)
+3. Si non trouvé localement → Fallback API OpenFoodFacts
+4. Calcul pondéré : `valeur = (nutriment/100g) × grammes_utilisés`
+5. Somme par recette → division par nombre de portions
+
+**Nutriments affichés par portion :**
+
+*Macronutriments :*
+
+![1772856709855](image/FICHE_APPLICATION_COMPLETE/1772856709855.png)
+
+- Calories (kcal) — avec total recalculé en temps réel si on change les portions
+- Protéines (g), Glucides (g), Lipides (g)
+
+*Essentiels :*
+
+![1772856730882](image/FICHE_APPLICATION_COMPLETE/1772856730882.png)
+
+- Fibres (g), Sucres (g), Sodium (mg)
+
+*Micronutriments (Top 4) :*
+
+![1772856747081](image/FICHE_APPLICATION_COMPLETE/1772856747081.png)
+
+- Top 4 vitamines parmi : A, C, D, E, K, B1, B2, B3, B6, B9, B12
+- Top 4 minéraux parmi : Ca, Fe, Mg, K, Zn, P, Sélénium
+- % AJR avec barre de progression visuelle
+
+*Index Glycémique :*
+
+- Estimation : `Faible` / `Modéré` / `Élevé` + mini-explication
+
+#### Contrôle des Portions
+
+![1772856771030](image/FICHE_APPLICATION_COMPLETE/1772856771030.png)
+
+**Au changement de portion :**
+
+- Quantités des ingrédients recalculées proportionnellement
+- Titre nutrition mis à jour : "par portion · X portions au total"
+- Calories : `X kcal/pers · Y kcal total` mis à jour en temps réel
+
+---
+
+### Page analyse
+
+Accessible via l'onglet **Analyse** dans la barre de navigation.
+
+#### A. Analyser une Assiette 🍽️
+
+**Flux :**
+
+```
+Photo assiette → IA détecte aliments + quantités → Calcul nutrition → Affichage + édition
+```
+
+**Prompt IA optimisé pour :**
+
+- Identifier chaque légume individuellement même s'ils sont mélangés
+- Détecter les sauces et condiments
+- Estimer les quantités en grammes (références standardisées)
+- Retourner un niveau de confiance
+
+**Interface de résultats :**
+
+![1772856887329](image/FICHE_APPLICATION_COMPLETE/1772856887329.png)
+
+**Fonctionnalités d'édition en temps réel :**
+
+- **[×]** → Supprimer un aliment → recalcul automatique
+- **[➕ Ajouter un ingrédient manquant]** → Formulaire inline (nom + quantité en g) → ajout + recalcul
+- Indicateur visuel si un aliment n'est pas dans la base
+
+**Sauvegarde :** Automatique dans l'historique des analyses.
+
+#### B. Analyser un produit
+
+**3 modes d'accès :**
+
+**Mode 1 — Scan Code-Barres (caméra)**
+
+![1772857068305](image/FICHE_APPLICATION_COMPLETE/1772857068305.png)
+
+**Mode 2 — Saisie manuelle du code-barres**
+
+![1772857086771](image/FICHE_APPLICATION_COMPLETE/1772857086771.png)
+
+**Mode 3 — Photo d'étiquette (fallback IA)**
+
+![1772857107773](image/FICHE_APPLICATION_COMPLETE/1772857107773.png)
+
+**Données affichées (via OpenFoodFacts) :**
+
+- Nom du produit + marque
+- Valeurs nutritionnelles pour 100g
+- Nutri-Score (A à E), Groupe NOVA (1 à 4)
+- Liste des ingrédients + Allergènes
+
+**Logique de verdict santé :**
+
+| Critère             | Seuil        | Impact               |
+| -------------------- | ------------ | -------------------- |
+| Sucres               | > 22.5g/100g | ⛔ Très sucré      |
+| Sel                  | > 1.5g/100g  | ⚠️ Trop salé      |
+| Acides gras saturés | > 5g/100g    | ⚠️ Trop gras       |
+| NOVA                 | 4            | ⛔ Ultra-transformé |
+| Nutri-Score          | D ou E       | ⛔ Défavorable      |
+
+**Badges verdict :** ✅ Sain / ⚠️ Limite / ⛔ Occasionnel
+
+---
+
+### 6. Page public
+
+Accessible via l'onglet **Public** dans la barre de navigation.
+
+#### Publication d'une recette
+
+Depuis n'importe quelle recette générée, un bouton **🌍 Publier** permet de la partager. Elle apparaît attribuée à "Anonyme" avec la date de publication. Une recette ne peut pas être publiée deux fois.
+
+#### Affichage en accordéon
+
+Les recettes communautaires s'affichent en **cartes accordéon repliées** :
+
+**En-tête (toujours visible) :**
+
+![1772857198934](image/FICHE_APPLICATION_COMPLETE/1772857198934.png)
+
+**Corps dépliable (clic sur la carte) :**
+
+- Liste complète des ingrédients avec cases à cocher + bouton [+] liste de courses
+- Étapes de préparation (avec minuteurs automatiques)
+- Astuce du chef
+- Boutons : ❤️ Favoris, 📤 Partager
+
+**Comportement :**
+
+- Un seul accordéon ouvert à la fois (fermeture automatique des autres)
+- Tri par date de publication (plus récentes en premier)
+
+---
+
+### 7. Gestion utilisateur
+
+#### A. Favoris
+
+- Ajout/suppression depuis n'importe quelle recette (bouton ❤️)
+- Accessibles hors ligne — Onglet **Favoris**
+- Stockés en `localStorage`
+
+#### B. Historique
+
+- 10 dernières sessions de génération conservées
+- Chaque entrée : ingrédients utilisés, recettes, nutrition, date
+- Bouton **"Refaire"** : relance la génération avec les mêmes ingrédients
+- Indicateur "🔌 Hors ligne" si pas de connexion
+- Onglet **Historique**
+
+#### C. Liste de courses
+
+![1772857298711](image/FICHE_APPLICATION_COMPLETE/1772857298711.png)
+
+- Ajout depuis une recette (bouton [+] à côté de chaque ingrédient)
+- Anti-doublon automatique
+- Cochage des articles achetés
+- Onglet **Courses**
+
+#### D. Minuteurs de cuisson
+
+![1772857319279](image/FICHE_APPLICATION_COMPLETE/1772857319279.png)
+
+- Détection automatique des durées dans les étapes ("cuire 20 minutes", "laisser mijoter 1h")
+- Bouton minuteur généré automatiquement
+- Décompte en temps réel — plusieurs minuteurs simultanés
+- Son (application ouverte) + Notification (application fermée et ouverte) via le plugin systèmecordova-plugin-local-notification
+
+#### E. Partage de recettes
+
+- Export texte formaté via API native de partage (WhatsApp, Email, SMS…)
+- Inclut : nom, ingrédients, étapes, astuce chef, valeurs nutritionnelles
+
+---
+
+### 8. Réglages
+
+- **Filtres alimentaires** : 7 toggles persistants
+- **Mode sombre** : Bascule dark theme complet
+- Sauvegardés en `localStorage` et rechargés au démarrage
+
+---
+
+### 9. Mode hors ligne
+
+| Fonctionnalité                     | Hors ligne               |
+| ----------------------------------- | ------------------------ |
+| Historique (10 dernières sessions) | ✅                       |
+| Favoris                             | ✅                       |
+| Calcul nutrition (base locale)      | ✅                       |
+| Minuteurs                           | ✅                       |
+| Liste de courses                    | ✅                       |
+| Génération de recettes            | ❌ (nécessite OpenAI)   |
+| Fallback OpenFoodFacts              | ❌ (nécessite internet) |
+| Lookup produit (code-barres)        | ❌ (nécessite internet) |
+
+---
+
+## Guide d'utilisation complet
+
+### Générer des recettes (Photo frigo)
+
+```
+1. Choisir mode chef : [🍳 C'est la Hess] ou [⭐ Surprends-moi]
+2. (Optionnel) Activer filtres dans Réglages
+3. Cliquer sur l'appareil photo → Prendre la photo
+4. Vérifier/modifier les ingrédients détectés
+5. Cliquer [✅ Valider & Cuisiner]
+6. 2 recettes s'affichent avec nutrition complète
+```
+
+### Générer des recettes (Saisie manuelle)
+
+```
+1. Saisir les ingrédients dans le champ texte (séparés par virgules)
+2. Cliquer [Générer les Recettes]
+3. Vérifier/modifier sur l'écran de validation
+4. Valider → Recettes générées
+```
+
+### Analyser une assiette
+
+```
+Onglet Analyse → "Analyser une Assiette"
+→ Prendre une photo (vue du dessus, bien éclairé)
+→ Attendre l'analyse IA (~10s)
+→ Voir les aliments détectés + nutrition totale
+→ Corriger si nécessaire (ajouter/retirer des items)
+```
+
+### Scanner un produit
+
+```
+Onglet Analyse → "Analyser un Produit"
+→ Option 1 : [📷 Scanner] → Pointer la caméra vers le code-barres
+→ Option 2 : Saisir le code-barres manuellement (8-13 chiffres) + [Rechercher]
+→ Option 3 : [📷 Photo étiquette] → Photo du tableau nutritionnel
+
+→ Résultats : nutrition / Nutri-Score / NOVA / allergènes / verdict
+```
+
+### Page communauté
+
+```
+Publier une recette :
+→ Depuis une recette générée → Bouton [🌍 Publier]
+
+Consulter les recettes :
+→ Onglet "Public"
+→ Cliquer sur une carte pour déplier les détails
+→ ❤️ Favoris / 📤 Partager / [+] Ajouter ingrédients à la liste
+```
+
+### Configurer les filtres
+
+```
+Onglet Réglages → Section "Filtres alimentaires"
+→ Activer/désactiver : Végétarien, Végan, Sans gluten, Sans lactose, Halal, Low carb, < 20 min
+→ Les filtres s'appliquent automatiquement à la prochaine génération
 ```
 
 ---
 
-## ✨ Fonctionnalités Principales
+## Architecture technique
 
-### 🍽️ Génération de Recettes Intelligente
+### Stack technologique
 
-- **3 Modes de Saisie :**
-  - 📸 Photo du frigo (reconnaissance IA)
-  - ⌨️ Saisie manuelle des ingrédients
-  - 📋 Historique des recettes précédentes
+| Couche             | Technologie                                                                |
+| ------------------ | -------------------------------------------------------------------------- |
+| Frontend           | HTML5 / CSS3 / JavaScript ES6+ (Vanilla)                                   |
+| Mobile             | Apache Cordova 12.0.0                                                      |
+| IA                 | OpenAI GPT-4o-mini                                                         |
+| Nutrition locale   | `food_db.json` (260+ aliments)                                           |
+| Nutrition produits | OpenFoodFacts API v2                                                       |
+| Stockage           | `localStorage` (JSON)                                                    |
+| Plugins Cordova    | Camera, Device, Network, Barcodescanner, Splashscreen, Android Permissions |
 
-- **Validation Interactive :**
-  - Liste modifiable des ingrédients détectés
-  - Ajout/suppression d'ingrédients
-  - Contrôle total avant génération
+### Modules principaux
 
-- **Recettes Personnalisées :**
-  - 2 recettes générées par requête
-  - Adaptées aux préférences utilisateur
-  - Temps de préparation et difficulté
-  - Astuce du chef incluse
+**`www/js/index.js`** (~3 400 lignes)
 
-### 📊 Analyse Nutritionnelle Complète
+- Gestion complète UI / vues / navigation
+- Appels API OpenAI (recettes, détection ingrédients, analyse assiette, lecture étiquette)
+- Double mode chef (basique / étoile) avec prompts distincts
+- Filtres alimentaires (construction prompt + exclusions explicites)
+- Écran de validation des ingrédients
+- Contrôle des portions (recalcul ingrédients + calories en temps réel)
+- Minuteurs multi-simultanés avec détection automatique
+- Historique, Favoris, Liste de courses
+- Communauté (publication + affichage accordéon)
+- Mode hors ligne
 
-- **Macronutriments :**
-  - Calories
-  - Protéines, Glucides, Lipides
-  - Fibres, Sucres, Sodium
+**`www/js/nutrition.js`** (~670 lignes)
 
-- **Micronutriments :**
-  - Top 4 vitamines & minéraux
-  - % des Apports Journaliers Recommandés (AJR)
-  - Valeurs exactes affichées
+- `calculateRecipeNutrition()` : pipeline complet de calcul
+- `findFood()` / `findFoodWithFallback()` : recherche locale + OpenFoodFacts
+- `getTopMicronutrients()` : sélection Top 4 vitamines/minéraux + % AJR
+- `estimateGlycemicIndex()` : heuristique IG
+- `renderNutritionCard()` : rendu HTML avec `data-calories-per-serving` pour recalcul dynamique
+- Normalisation sodium automatique (mg ↔ g)
 
-- **Index Glycémique :**
-  - Estimation (Faible / Modéré / Élevé)
-  - Explication contextuelle
+**`www/js/openfoodfacts.js`** (~200 lignes)
 
-- **Base de Données :**
-  - **100 aliments locaux** (USDA, ANSES)
-  - **+2M produits** via OpenFoodFacts (fallback)
-  - Cache intelligent pour performances
+- `scanBarcode()` : plugin Cordova barcodescanner
+- `getProductByBarcode(barcode)` : API OFF `/api/v2/product/`
+- `searchProducts(query)` : recherche textuelle (fallback)
+- `mapOFFProductToNutrition(product)` : normalisation des clés
+- `computeHealthVerdict()` : scoring santé (sucres, sel, graisses, NOVA, Nutri-Score)
+- Cache mémoire des résultats OFF
 
-### 🎯 Fonctionnalités Avancées
+**`www/js/food_db.json`** (~6 000 lignes)
 
-- **Gestion de Portions :**
-  - Ajustement dynamique des quantités
-  - Calcul automatique des calories/portion
+- 260+ aliments de base
+- Valeurs USDA / ANSES / Ciqual
+- Aliases pour matching flexible
 
-- **Liste de Courses :**
-  - Ajout d'ingrédients d'un clic
-  - Gestion de catégories
-  - Export/partage
+### Navigation (7 onglets)
 
-- **Favoris :**
-  - Sauvegarde des recettes préférées
-  - Accès hors ligne
-  - Synchronisation locale
-
-- **Minuteurs Intégrés :**
-  - Détection automatique des temps de cuisson
-  - Notifications sonores
-  - Multi-minuteurs simultanés
-
-- **Partage :**
-  - Export recette (texte formaté)
-  - Partage via apps natives
-
-### 📴 Mode Hors Ligne
-
-- Historique des 10 dernières recettes
-- Base nutritionnelle locale (100 aliments)
-- Favoris accessibles sans internet
-- Indication claire du statut
+| Onglet     | Icône | Vue                                           |
+| ---------- | ------ | --------------------------------------------- |
+| Cuisiner   | 🏠     | Accueil + sélecteur mode chef + génération |
+| Public     | 🌍     | Communauté (accordéon)                      |
+| Favoris    | ❤️   | Recettes sauvegardées                        |
+| Analyse    | 🔬     | Assiette + Produit (scan/manuel/photo)        |
+| Courses    | 🛒     | Liste de courses                              |
+| Historique | 📋     | Historique des sessions                       |
+| Réglages  | ⚙️   | Filtres alimentaires + Dark mode              |
 
 ---
 
-## 🛠️ Technologies Utilisées
+## Base de données nutritionnelle
 
-### Frontend
-- **Apache Cordova** 12.0.0 - Framework mobile hybride
-- **HTML5 / CSS3 / JavaScript ES6+** - Interface utilisateur
-- **Vanilla JS** - Pas de framework lourd, performances optimales
+### 260+ Aliments locaux
 
-### Backend / APIs
-- **OpenAI GPT-4 Turbo** - Génération de recettes IA
-- **OpenFoodFacts API** - Base nutritionnelle (fallback)
-- **USDA / ANSES** - Données nutritionnelles locales
+**Sources :** USDA FoodData Central + Table Ciqual ANSES (France)
 
-### Plugins Cordova
-- `cordova-plugin-camera` - Prise de photo ✅ (frigo + assiette)
-- `cordova-plugin-device` - Informations appareil ✅
-- `cordova-plugin-geolocation` - Localisation ✅
-- `cordova-plugin-network-information` - Détection connexion ✅
-- `cordova-plugin-splashscreen` - Écran de démarrage ✅
-- `phonegap-plugin-barcodescanner` - Scan code-barres ✅ (analyse produits)
+**Catégories couvertes :**
 
-### Outils de Développement
-- **Node.js** 24.6.0
-- **npm** - Gestion des dépendances
-- **Android SDK** - Build Android
-- **Gradle** 8.13 - Build system Android
+- 🥩 Protéines animales (12) : Poulet, Bœuf, Dinde, Porc, Agneau, Saumon, Thon, Cabillaud, Sardines, Maquereau, Crevettes, Œuf
+- 🌾 Céréales & féculents (11) : Riz blanc, Riz complet, Riz basmati, Pâtes, Pain blanc, Pain complet, Quinoa, Boulgour, Semoule, Orge, Avoine
+- 🫘 Légumineuses (4) : Lentilles, Pois chiches, Haricots rouges, Tofu
+- 🥦 Légumes (35+) : dont Choux romanesco, Butternut, Poireau, Blette, Artichaut, Radis noir, Topinambour, Kale, Bok choy, etc.
+- 🍎 Fruits (25+) : dont Figue, Litchi, Goyave, Fruit de la passion, Carambole, Physalis, etc.
+- 🥑 Oléagineux & graines (12+) : Amandes, Noix, Cajou, Pistaches, Graines de sésame, Chia, Lin, etc.
+- 🧀 Laitiers (8+) : Lait, Fromage (plusieurs types), Yaourt, Fromage blanc, etc.
+- 🫒 Matières grasses (4) : Huile d'olive, Huile de tournesol, Beurre, Crème fraîche
+- 🧄 Aromates & épices (20+) : Ail, Gingembre, Échalote, Citron, Persil, Basilic, Curcuma, Piment, Curry, Sumac, Za'atar, Harissa, etc.
+- 🍫 Autres (15+) : Chocolat noir, Cacao en poudre, Miso, Levure nutritionnelle, etc.
+
+**Format de chaque entrée :**
+
+```json
+{
+  "name": "poulet",
+  "aliases": ["blanc de poulet", "filet de poulet", "chicken"],
+  "per100g": {
+    "calories": 165,
+    "proteines": 31,
+    "glucides": 0,
+    "lipides": 3.6,
+    "fibres": 0,
+    "sucres": 0,
+    "sodium": 0.08,
+    "vitamines": { "B3": 13.7, "B6": 0.6, "B12": 0.3 },
+    "mineraux": { "phosphore": 220, "selenium": 27, "zinc": 1.3 }
+  },
+  "gi": "low"
+}
+```
+
+### Stratégie de matching
+
+1. **Recherche exacte** sur `name`
+2. **Recherche par alias** sur `aliases[]`
+3. **Recherche partielle** (contenance dans les deux sens)
+4. **Normalisation** : minuscules, suppression accents
+5. **Fallback OpenFoodFacts** : recherche textuelle si toujours introuvable
+
+### Fallback OpenFoodFacts (+2M Produits)
+
+- Utilisé si aliment non trouvé localement
+- Utilisé pour tous les produits industriels (scan code-barres)
+- Cache mémoire pour éviter les appels répétés
+- Correction automatique sodium : si valeur > 10g/100g → division par 1000
 
 ---
 
-## 📦 Installation
+## Installation & build
 
 ### Prérequis
 
 ```bash
-# Node.js & npm
-node -v  # v24.6.0+
-npm -v   # v10+
-
-# Cordova CLI
-npm install -g cordova
-
-# Android SDK (pour build Android)
-# Télécharger depuis https://developer.android.com/studio
+node -v          # Node.js 24.6.0+
+cordova -v       # Cordova CLI (npm install -g cordova)
+java -version    # JDK 17+
+# Android Studio + SDK configuré ($ANDROID_HOME)
 ```
 
-### Variables d'Environnement (Windows)
-
-```powershell
-# Android SDK
-$env:ANDROID_HOME = "C:\Users\[USER]\AppData\Local\Android\Sdk"
-$env:Path += ";$env:ANDROID_HOME\platform-tools"
-$env:Path += ";$env:ANDROID_HOME\tools"
-
-# Java JDK
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-17"
-```
-
-### Clonage du Projet
+### Installation
 
 ```bash
 git clone https://github.com/MilFhey/FrigoChef.git
 cd FrigoChef
-```
-
-### Installation des Dépendances
-
-```bash
-# Dépendances npm
 npm install
-
-# Restaurer les plateformes Cordova
 cordova platform add android
 cordova platform add browser
-
-# Restaurer les plugins
-cordova plugin add cordova-plugin-camera
-cordova plugin add cordova-plugin-device
-cordova plugin add cordova-plugin-geolocation
-cordova plugin add cordova-plugin-network-information
-cordova plugin add cordova-plugin-splashscreen
-cordova plugin add phonegap-plugin-barcodescanner
 ```
 
-### Configuration de la Clé API OpenAI
+### Configuration clé API OpenAI
 
-**⚠️ IMPORTANT :** L'application nécessite une clé API OpenAI pour fonctionner.
-
-1. Obtenez une clé API sur [platform.openai.com](https://platform.openai.com/)
-2. Ouvrez `www/js/index.js`
-3. Remplacez la clé à la ligne ~9 :
+Éditer `www/js/index.js` — objet `CONFIG` (~ligne 12) :
 
 ```javascript
-const OPENAI_API_KEY = "VOTRE_CLE_API_ICI";
+const CONFIG = {
+  API_KEY: "VOTRE_CLE_API_ICI",
+  // ...
+};
 ```
 
-**💡 Sécurité :** Pour la production, utilisez une solution backend pour protéger votre clé API.
-
----
-
-## 🚀 Utilisation
-
-### Développement - Navigateur
+### Build
 
 ```bash
-# Lancer dans le navigateur
+# Navigateur (développement)
 cordova run browser
 
-# Avec live reload (si plugin installé)
-cordova run browser -- --live-reload
-```
-
-Ouvre l'application sur `http://localhost:8000`
-
-### Développement - Émulateur Android
-
-```bash
-# Lancer l'émulateur Android Studio
-# Puis :
-cordova run android
-```
-
-### Build Production
-
-```bash
-# Build debug
+# Android (debug)
 cordova build android
 
-# Build release (nécessite signature)
-cordova build android --release
-
-# APK généré dans :
+# APK généré :
 # platforms/android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-### Installation sur Mobile
+---
 
-**Méthode 1 : Via câble USB**
-```bash
-# Activer débogage USB sur le mobile
-# Connecter en USB
-adb devices
-cordova run android --device
+## Statistiques du Projet
+
 ```
+Lignes de Code Total :  ~9 000
+  - JavaScript (index.js)  :  ~3 400
+  - JavaScript (nutrition) :  ~670
+  - JavaScript (OFF)       :  ~200
+  - CSS                    :  ~2 700
+  - HTML                   :  ~450
+  - JSON (food_db)         :  ~6 000
 
-**Méthode 2 : APK manuel**
-1. Copier `platforms/android/app/build/outputs/apk/debug/app-debug.apk`
-2. Transférer sur le mobile
-3. Installer (autoriser sources inconnues)
-
-**Script automatique fourni :**
-```bash
-.\install-on-phone.ps1
+Base Nutrition Locale    :  260+ aliments
+Base OFF (fallback)      :  +2 000 000 produits
+Modèle IA                :  GPT-4o-mini
+Plugins Cordova          :  6
+Taille APK (debug)       :  ~8 MB
 ```
 
 ---
 
-## 📖 Guide d'Utilisation
+## Cas d'usage réels
 
-### Première Utilisation
+**Scénario 1 — L'étudiant pressé**
 
-1. **Lancer l'application**
-2. **Choisir une méthode de saisie :**
-   - Photo du frigo
-   - Saisie manuelle
-   - Historique
+> "J'ai du poulet et du riz, que faire ?"
+> → Photo frigo → Mode "C'est la Hess" → 2 recettes rapides en 30s
 
-3. **Valider les ingrédients :**
-   - Vérifier la liste détectée
-   - Ajouter/supprimer si nécessaire
-   - Cliquer "Valider et générer"
+**Scénario 2 — Le Foodie créatif**
 
-4. **Découvrir vos recettes :**
-   - 2 recettes adaptées
-   - Valeurs nutritionnelles complètes
-   - Ajuster les portions
-   - Sauvegarder en favoris
+> "J'ai les mêmes ingrédients, mais je veux épater mes amis"
+> → Photo frigo → Mode "Surprends-moi" → Recettes fusion créatives et variées
 
-### Fonctionnalités Détaillées
+**Scénario 3 — Le suivi nutritionnel**
 
-**Ajustement des Portions :**
-- Cliquez sur +/- à côté de "Portions"
-- Quantités et calories s'ajustent automatiquement
+> "Combien de calories dans ce plat au restau ?"
+> → Analyse → Assiette → Photo → Estimation nutrition en temps réel
 
-**Minuteurs de Cuisson :**
-- Détection automatique des temps ("cuire 20 minutes")
-- Clic sur l'icône ⏱️ pour démarrer
-- Notification sonore en fin de cuisson
+**Scénario 4 — Le consommateur averti**
 
-**Liste de Courses :**
-- Clic sur "+" à côté d'un ingrédient
-- Accès via menu "Liste"
-- Cocher les articles achetés
+> "Ce yaourt est-il vraiment sain ?"
+> → Analyse → Produit → Scanner → Nutri-Score + NOVA + verdict
 
-**Favoris :**
-- Clic sur ❤️ pour sauvegarder
-- Accès via onglet "Favoris"
-- Disponible hors ligne
+**Scénario 5 — Le régime végan**
+
+> "Je suis végan, quelles recettes avec ce que j'ai ?"
+> → Réglages → Activer "Végan" → Photo frigo → Recettes 100% végétales garanties
+
+**Scénario 6 — La découverte communautaire**
+
+> "Je cherche de l'inspiration sans utiliser l'IA"
+> → Onglet Public → Parcourir les recettes partagées → Déplier pour voir les détails
 
 ---
 
-## 📊 Architecture du Projet
-
-### Structure des Fichiers
-
-```
-MYFIRSTAPP/
-├── www/                          # Sources de l'application
-│   ├── index.html               # Page principale
-│   ├── css/
-│   │   └── index.css            # Styles complets (~1400 lignes)
-│   ├── js/
-│   │   ├── index.js             # Logique principale (~2500 lignes)
-│   │   ├── nutrition.js         # Calcul nutritionnel
-│   │   ├── openfoodfacts.js     # API OpenFoodFacts
-│   │   └── food_db.json         # Base nutritionnelle (100 aliments)
-│   └── img/                     # Images et logos
-│
-├── platforms/                    # Plateformes natives
-│   ├── android/                 # Build Android
-│   └── browser/                 # Build navigateur
-│
-├── plugins/                      # Plugins Cordova
-│   ├── cordova-plugin-camera/
-│   ├── cordova-plugin-device/
-│   └── ...
-│
-├── config.xml                    # Configuration Cordova
-├── package.json                  # Dépendances npm
-│
-└── docs/                         # Documentation
-    ├── ENRICHISSEMENT_50_ALIMENTS.md
-    ├── INTEGRATION_OPENFOODFACTS_COMPLETE.md
-    ├── CORRECTION_SODIUM.md
-    ├── GUIDE_COMMANDES_CORDOVA.md
-    └── SOURCES_NUTRITION.md
-```
-
-### Modules Principaux
-
-**`index.js` - Contrôleur Principal**
-- Gestion de l'interface utilisateur
-- Appels API OpenAI
-- Gestion de l'historique et favoris
-- Événements et interactions
-
-**`nutrition.js` - Module Nutritionnel**
-- Calcul des valeurs nutritionnelles
-- Recherche dans base locale (100 aliments)
-- Fallback OpenFoodFacts
-- Estimation index glycémique
-- Cache intelligent
-
-**`openfoodfacts.js` - API OpenFoodFacts**
-- Recherche de produits
-- Scan code-barres
-- Mapping données nutritionnelles
-
-**`food_db.json` - Base Nutritionnelle**
-- 100 aliments de base
-- Valeurs USDA / ANSES
-- Format standardisé
-
----
-
-## 🗄️ Base de Données Nutritionnelle
-
-### 100 Aliments Locaux
-
-**Catégories :**
-- 🥩 Protéines (12) : Poulet, Bœuf, Dinde, Porc, Agneau, Saumon, Thon, etc.
-- 🌾 Céréales (11) : Riz, Pâtes, Pain, Quinoa, Boulgour, etc.
-- 🫘 Légumineuses (4) : Lentilles, Pois chiches, Haricots rouges, Tofu
-- 🥕 Légumes (25) : Tomate, Carotte, Courgette, Poivron, etc.
-- 🍎 Fruits (18) : Banane, Pomme, Orange, Kiwi, Mangue, etc.
-- 🥜 Oléagineux (5) : Amandes, Noix, Noisettes, Noix de coco
-- 🥛 Laitiers (3) : Lait, Fromage, Yaourt
-- 🧈 Matières grasses (4) : Huile d'olive, Beurre, Crème
-- 🌿 Aromates (13) : Ail, Basilic, Curry, Cumin, etc.
-- 🥫 Condiments (9) : Miel, Sauce soja, Moutarde, etc.
-
-### Fallback OpenFoodFacts
-
-**+2 millions de produits** accessibles en ligne :
-- Produits industriels
-- Marques spécifiques
-- Produits internationaux
-- Cache automatique des résultats
-
-### Taux de Couverture
-
-- Recettes simples : **95-100%** ✅
-- Recettes moyennes : **90-95%** ✅
-- Recettes complexes : **85-90%** ✅
-
----
-
-## 🎨 Interface Utilisateur
-
-### Design
-
-- **Material Design** inspiré
-- **Responsive** - S'adapte aux écrans
-- **Animations fluides** - Transitions CSS
-- **Thème vert nature** - Cohérent avec la cuisine
-
-### Composants Clés
-
-**Cartes de Recettes :**
-- Header avec nom et tags
-- Contrôle de portions
-- Liste d'ingrédients cochable
-- Étapes numérotées
-- Minuteurs intégrés
-- Carte nutritionnelle
-- Actions (favoris, partage)
-
-**Navigation :**
-- Onglets principaux (Accueil, Favoris, Historique)
-- Menu latéral (Liste de courses, Paramètres)
-- Fil d'Ariane contextuel
-
-**Feedback Utilisateur :**
-- Toasts de notification
-- Indicateurs de chargement
-- Messages d'erreur clairs
-- Mode hors ligne visible
-
----
-
-## 🔐 Sécurité & Confidentialité
-
-### Données Locales
-
-- **Historique** : Stocké localement (localStorage)
-- **Favoris** : Stocké localement
-- **Cache** : En mémoire (session)
-- **Aucune donnée** envoyée à des serveurs tiers (sauf OpenAI/OpenFoodFacts)
-
-### API OpenAI
-
-- Clé API stockée dans le code (⚠️ À sécuriser en production)
-- Requêtes HTTPS
-- Pas de stockage des conversations
-- Données anonymes
-
-### Permissions Android
-
-```xml
-<!-- Caméra pour photo du frigo -->
-<uses-permission android:name="android.permission.CAMERA" />
-
-<!-- Stockage pour photos -->
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-<!-- Internet pour API -->
-<uses-permission android:name="android.permission.INTERNET" />
-
-<!-- Réseau pour détection hors ligne -->
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-```
-
----
-
-## 🧪 Tests
-
-### Tests Manuels Recommandés
-
-**Test 1 : Génération Recette Basique**
-```
-1. Saisir "poulet, riz, tomate"
-2. Valider
-3. Vérifier 2 recettes générées
-4. Vérifier valeurs nutritionnelles
-```
-
-**Test 2 : Ajustement Portions**
-```
-1. Générer une recette
-2. Cliquer sur + pour augmenter portions
-3. Vérifier quantités et calories ajustées
-```
-
-**Test 3 : Mode Hors Ligne**
-```
-1. Activer mode avion
-2. Accéder à l'historique
-3. Vérifier recettes disponibles
-4. Vérifier indication "hors ligne"
-```
-
-**Test 4 : Favoris**
-```
-1. Générer une recette
-2. Cliquer sur ❤️
-3. Aller dans onglet Favoris
-4. Vérifier recette sauvegardée
-```
-
-**Test 5 : Nutrition OpenFoodFacts**
-```
-1. Saisir "pâtes, parmesan"
-2. Vérifier logs console
-3. Confirmer recherche OpenFoodFacts pour parmesan
-4. Vérifier valeurs nutritionnelles cohérentes
-```
-
-### Débuggage
-
-**Console Browser (F12) :**
-```javascript
-// Logs de nutrition
-✅ Trouvé en local: poulet
-🔍 Recherche OpenFoodFacts: parmesan
-✅ Trouvé sur OpenFoodFacts: parmesan
-
-// Warnings
-⚠️ OpenFoodFacts: Sodium suspect (1200 g), conversion mg → g
-```
-
-**Logs Android :**
-```bash
-adb logcat | Select-String "chromium"
-```
-
-**Remote Debugging :**
-```
-1. Lancer app sur mobile
-2. Chrome sur PC → chrome://inspect
-3. Cliquer "Inspect"
-```
-
----
-
-## 🐛 Problèmes Connus & Solutions
-
-### Erreur : "Cannot find module cordova"
-
-**Cause :** Mauvaise commande
-```bash
-# ❌ Incorrect
-npx run cordova browser
-
-# ✅ Correct
-cordova run browser
-```
-
-### Sodium Très Élevé (>10000mg)
-
-**Cause :** Incohérence OpenFoodFacts (mg vs g)
-**Solution :** Correction automatique en v2.0.1
-**Détails :** Voir `CORRECTION_SODIUM.md`
-
-### Build Android Échoue
-
-**Vérifications :**
-```bash
-# Java JDK installé ?
-java -version
-
-# Android SDK configuré ?
-echo $env:ANDROID_HOME
-
-# Gradle accessible ?
-gradle -v
-```
-
-**Solution :** Voir `ANDROID_BUILD_FIX.md`
-
-### Plugins Cordova Manquants
-
-```bash
-# Réinstaller tous les plugins
-cordova plugin ls
-cordova plugin add [plugin-name]
-```
-
----
-
-## ❓ FAQ - Questions Fréquentes
-
-### Comment fonctionne le scan code-barres ?
-
-**Oui, c'est implémenté !** Le scan code-barres est **fonctionnel** dans la v2.0.1.
-
-**Comment l'utiliser :**
-1. Accéder au mode "Analyse"
-2. Choisir "Analyser un produit"
-3. Scanner le code-barres
-4. Obtenir infos nutritionnelles via OpenFoodFacts
-
-**Fonctionnalités :**
-- ✅ Scan avec caméra
-- ✅ Récupération données OpenFoodFacts
-- ✅ Affichage nutrition complète
-- ✅ Cache des résultats
-
-### L'analyse d'assiette fonctionne-t-elle ?
-
-**Oui !** L'analyse d'assiette est **implémentée** et fonctionnelle.
-
-**Comment l'utiliser :**
-1. Accéder au mode "Analyse"
-2. Choisir "Analyser une assiette"
-3. Prendre une photo de votre plat
-4. L'IA estime les aliments et quantités
-5. Calcul nutritionnel automatique
-
-**Note :** Les estimations sont approximatives (basées sur vision IA).
-
-### OpenFoodFacts est-il utilisé ?
-
-**Oui, pleinement intégré !** OpenFoodFacts est utilisé de **deux manières** :
-
-**1. Fallback nutritionnel :**
-- Recherche ingrédients manquants dans la base locale
-- +2M produits accessibles
-- Cache intelligent
-
-**2. Scan code-barres :**
-- Analyse de produits industriels
-- Données nutritionnelles complètes
-- Nutri-Score (si disponible dans API)
-
-**Ce qui fonctionne :**
-- ✅ Scan code-barres
-- ✅ Recherche produits
-- ✅ Données nutritionnelles
-- ✅ Cache résultats
-- ✅ Fallback intelligent
-
-### Quelles sont les prochaines améliorations ?
-
-**v2.2+ prévu :**
-- Nutri-Score et NOVA **visuels** améliorés
-- Profils utilisateurs personnalisés
-- Objectifs nutritionnels
-- Tracking journalier
-- Backend sécurisé
-- Sync cloud
-
-### Comment contribuer ?
-
-Consultez `CONTRIBUTING.md` pour le processus complet. Toutes les contributions sont bienvenues !
-
----
-
-## 📈 Roadmap / Améliorations Futures
-
-> **✅ Note :** L'analyse d'assiette et le scan code-barres sont **déjà implémentés** en v2.0.1
-
-### Version 2.2 (Prévue Q2 2026)
-
-**Profils & Personnalisation :**
-- [ ] Profils utilisateurs (objectifs nutritionnels)
-- [ ] Suggestions basées sur objectifs personnels
-- [ ] Filtres alimentaires avancés (végétarien, vegan, sans gluten, halal, etc.)
-- [ ] Gestion des allergies et intolérances
-
-**Tracking & Statistiques :**
-- [ ] Journal alimentaire quotidien
-- [ ] Historique nutritionnel hebdo/mensuel
-- [ ] Graphiques et tendances
-- [ ] Rappels et notifications
-
-### Version 2.5 (Prévue Q3 2026)
-
-**Social & Partage :**
-- [ ] Partage de recettes communautaire
-- [ ] Notation et commentaires
-- [ ] Profils publics
-- [ ] Collections de recettes
-
-**Planning :**
-- [ ] Planificateur de menus hebdomadaires
-- [ ] Génération automatique liste de courses
-- [ ] Intégration calendrier
-
-### Version 3.0 (Prévue Q4 2026)
-
-**Backend & Infrastructure :**
-- [ ] Backend Node.js sécurisé
-- [ ] Base de données cloud (Firebase/MongoDB)
-- [ ] Synchronisation multi-devices
-- [ ] API REST publique
-
-**Plateformes :**
-- [ ] Version iOS
-- [ ] Progressive Web App (PWA)
-- [ ] Extension navigateur
-
-**Qualité & Tests :**
-- [ ] Tests unitaires (Jest)
-- [ ] Tests E2E (Appium)
-- [ ] CI/CD (GitHub Actions)
-- [ ] Monitoring et analytics
-
----
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! Voici comment participer :
-
-### Processus
-
-1. **Fork** le projet
-2. **Créer une branche** (`git checkout -b feature/AmazingFeature`)
-3. **Commit** vos changements (`git commit -m 'Add AmazingFeature'`)
-4. **Push** vers la branche (`git push origin feature/AmazingFeature`)
-5. **Ouvrir une Pull Request**
-
-### Guidelines
-
-- Code en **JavaScript ES6+**
-- Commentaires en **français**
-- Respecter la structure existante
-- Tester avant de commit
-- Documenter les nouvelles fonctionnalités
-
-### Ajouter des Aliments à la Base
-
-**Format `food_db.json` :**
-```json
-{
-  "name": "nom_aliment",
-  "aliases": ["alias1", "alias2"],
-  "per100g": {
-    "calories": 0,
-    "proteines": 0,
-    "glucides": 0,
-    "lipides": 0,
-    "fibres": 0,
-    "sucres": 0,
-    "sodium": 0,
-    "vitamines": {
-      "C": 0,  // mg (sauf A, D, K, B9, B12 en µg)
-    },
-    "mineraux": {
-      "calcium": 0,  // mg (sauf selenium en µg)
-    }
-  },
-  "gi": "low|medium|high"
-}
-```
-
-**Sources recommandées :**
-- USDA FoodData Central
-- Table Ciqual (ANSES)
-
----
-
-## 📝 Licence
-
-Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-```
-MIT License
-
-Copyright (c) 2026 Frigo Chef
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-[...]
-```
-
----
-
-## 👥 Auteurs & Remerciements
-
-### Développement
-- **Développeur Principal** - [MilFhey](https://github.com/MilFhey)
-
-### Remerciements
-- **OpenAI** - GPT-4 Turbo API
-- **OpenFoodFacts** - Base de données nutritionnelle
-- **USDA** - Données nutritionnelles
-- **ANSES** - Table Ciqual
-- **Apache Cordova** - Framework mobile
-- **Communauté Open Source**
-
----
-
-## 📞 Contact & Support
-
-### Issues GitHub
-Pour les bugs et demandes de fonctionnalités :
-[https://github.com/MilFhey/FrigoChef/issues](https://github.com/MilFhey/FrigoChef/issues)
-
-### Documentation
-- **Guide Complet** : Ce README
-- **Guide Commandes** : `GUIDE_COMMANDES_CORDOVA.md`
-- **Nutrition** : `SOURCES_NUTRITION.md`
-- **Corrections** : `CORRECTION_SODIUM.md`, `CORRECTIONS_NUTRITION.md`
-
-### Communauté
-- **Discussions** : GitHub Discussions
-- **Wiki** : [Wiki du projet](https://github.com/MilFhey/FrigoChef/wiki)
-
----
-
-## 📊 Statistiques du Projet
-
-```
-Lignes de Code Total  : ~5,500
-  - JavaScript        : ~3,000
-  - CSS               : ~1,400
-  - HTML              : ~300
-  - JSON              : ~800
-
-Fichiers              : ~50
-Commits               : 35+
-Taille Projet         : ~15 MB
-Taille APK            : ~8 MB
-```
-
----
-
-## 🎯 État du Projet
-
-**Version Actuelle :** v2.0.1  
-**Status :** ✅ Production Ready - Application Complète  
-**Dernière Mise à Jour :** 11 février 2026  
-
-### ✅ Fonctionnalités Implémentées
-
-**Génération de Recettes :**
-- ✅ Photo frigo → Détection IA (GPT-4 Vision)
-- ✅ Saisie manuelle d'ingrédients
-- ✅ Validation interactive avant génération
-- ✅ 2 recettes personnalisées par requête
-- ✅ Minuteurs de cuisson automatiques
-- ✅ Partage de recettes
-
-**Analyse Nutritionnelle Complète :**
-- ✅ **Analyse d'assiette** (photo → estimation nutrition) ⭐ **IMPLÉMENTÉ**
-- ✅ **Scan code-barres** (produits via OpenFoodFacts) ⭐ **IMPLÉMENTÉ**
-- ✅ Calcul nutritionnel (100 aliments + 2M produits OpenFoodFacts)
-- ✅ Macronutriments complets
-- ✅ Micronutriments (vitamines & minéraux + % AJR)
-- ✅ Index glycémique estimé
-- ✅ Cache intelligent
-- ✅ Correction sodium automatique
-
-**Gestion Utilisateur :**
-- ✅ Gestion portions dynamique
-- ✅ Favoris (localStorage)
-- ✅ Historique (10 dernières recettes)
-- ✅ Liste de courses
-- ✅ Mode hors ligne complet
-
-### 🚧 Améliorations Futures (v2.2+)
-
-**Profils & Personnalisation :**
-- 🚧 Profils utilisateurs (objectifs nutritionnels)
-- 🚧 Tracking nutritionnel journalier
-- 🚧 Filtres avancés (vegan, halal, allergies)
-- 🚧 Graphiques nutritionnels interactifs
-
-**Infrastructure :**
-- 🚧 Backend Node.js sécurisé
-- 🚧 Base de données cloud (sync multi-devices)
-- 🚧 Version iOS
-- 🚧 Tests automatisés (Jest, Appium)
-
----
-
-## 🚀 Quick Start
-
-```bash
-# Clone
-git clone https://github.com/MilFhey/FrigoChef.git
-cd FrigoChef
-
-# Install
-npm install
-cordova platform add android
-
-# Configure OpenAI API Key
-# Éditer www/js/index.js ligne 9
-
-# Run
-cordova run browser  # Navigateur
-# OU
-cordova run android  # Émulateur Android
-```
-
----
-
-## 🌟 Fonctionnalités Uniques
-
-**Ce qui rend Frigo Chef unique :**
-
-1. **IA Contextuelle** - Recettes adaptées à VOS ingrédients
-2. **Nutrition Complète** - 100 aliments + 2M produits
-3. **Validation Intelligente** - Contrôle avant génération
-4. **Hors Ligne** - Fonctionne sans internet
-5. **Cache Intelligent** - Performances optimales
-6. **Minuteurs Intégrés** - Détection automatique
-7. **Open Source** - Code transparent et modifiable
-
----
-
-**Transformez votre frigo en source d'inspiration culinaire ! 🍳**
-
----
-
-*Made with ❤️ and 🤖 AI*
+**Date de mise à jour :** 6 mars 2026
+**Version Application :** 2.1.0
+**Status :** Production Ready ✅

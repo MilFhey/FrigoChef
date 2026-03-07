@@ -659,8 +659,8 @@ function renderNutritionCard(nutrition, gi) {
   ` : "";
 
   return `
-    <div class="nutrition-card">
-      <h4>📊 Valeurs nutritionnelles <small>(par portion - ${servings} portion${servings > 1 ? 's' : ''} au total)</small></h4>
+    <div class="nutrition-card" data-calories-per-serving="${perServing.calories}" data-original-servings="${servings}">
+      <h4>📊 Valeurs nutritionnelles <small>(par portion · ${servings} portion${servings > 1 ? 's' : ''} au total)</small></h4>
       ${macrosHTML}
       ${essentialsHTML}
       ${microsHTML}

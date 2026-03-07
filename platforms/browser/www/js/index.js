@@ -10,7 +10,8 @@ let chefMode = "basique"; // "basique" ou "etoile"
 
 // Configuration
 const CONFIG = {
-  API_KEY: "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",
+  API_KEY:
+    "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",
   API_URL: "https://api.openai.com/v1/chat/completions",
   MODEL: "gpt-4o-mini",
   MAX_TOKENS: 1500,
@@ -23,6 +24,7 @@ const STORAGE_KEYS = {
   SETTINGS: "frigoChef_settings",
   SHOPPING_LIST: "frigoChef_shoppingList",
   NUTRITION_HISTORY: "frigoChef_nutritionHistory",
+  COMMUNITY: "frigoChef_community",
 };
 
 // État de l'app
@@ -31,20 +33,52 @@ let appState = {
   history: [],
   settings: {
     dietaryFilters: [],
+    darkMode: false,
   },
   shoppingList: [],
   nutritionHistory: [],
+  community: [],
 };
 
 // Filtres disponibles
 const DIETARY_FILTERS = [
-  { id: "vegetarian", label: "Végétarien", icon: "🥬", prompt: "végétarien (sans viande ni poisson)" },
-  { id: "vegan", label: "Végan", icon: "🌱", prompt: "végan (sans aucun produit animal)" },
-  { id: "gluten-free", label: "Sans gluten", icon: "🌾", prompt: "sans gluten" },
-  { id: "lactose-free", label: "Sans lactose", icon: "🥛", prompt: "sans lactose ni produits laitiers" },
+  {
+    id: "vegetarian",
+    label: "Végétarien",
+    icon: "🥬",
+    prompt: "végétarien (sans viande ni poisson)",
+  },
+  {
+    id: "vegan",
+    label: "Végan",
+    icon: "🌱",
+    prompt: "végan (sans aucun produit animal)",
+  },
+  {
+    id: "gluten-free",
+    label: "Sans gluten",
+    icon: "🌾",
+    prompt: "sans gluten",
+  },
+  {
+    id: "lactose-free",
+    label: "Sans lactose",
+    icon: "🥛",
+    prompt: "sans lactose ni produits laitiers",
+  },
   { id: "halal", label: "Halal", icon: "☪️", prompt: "halal" },
-  { id: "low-carb", label: "Low carb", icon: "🥑", prompt: "faible en glucides" },
-  { id: "quick", label: "< 20 min", icon: "⚡", prompt: "rapide à préparer (moins de 20 minutes)" },
+  {
+    id: "low-carb",
+    label: "Low carb",
+    icon: "🥑",
+    prompt: "faible en glucides",
+  },
+  {
+    id: "quick",
+    label: "< 20 min",
+    icon: "⚡",
+    prompt: "rapide à préparer (moins de 20 minutes)",
+  },
 ];
 
 function onDeviceReady() {
@@ -59,7 +93,9 @@ function onDeviceReady() {
   renderNutritionHistory();
 
   // Charger la base de données alimentaire
-  loadFoodDatabase().catch(err => console.error("Erreur chargement food_db:", err));
+  loadFoodDatabase().catch((err) =>
+    console.error("Erreur chargement food_db:", err),
+  );
 }
 
 // --- PERSISTENCE ---
@@ -69,13 +105,44 @@ function loadAppState() {
     const history = localStorage.getItem(STORAGE_KEYS.HISTORY);
     const settings = localStorage.getItem(STORAGE_KEYS.SETTINGS);
     const shoppingList = localStorage.getItem(STORAGE_KEYS.SHOPPING_LIST);
-    const nutritionHistory = localStorage.getItem(STORAGE_KEYS.NUTRITION_HISTORY);
+    const nutritionHistory = localStorage.getItem(
+      STORAGE_KEYS.NUTRITION_HISTORY,
+    );
+    const community = localStorage.getItem(STORAGE_KEYS.COMMUNITY);
 
     if (favorites) appState.favorites = JSON.parse(favorites);
     if (history) appState.history = JSON.parse(history);
-    if (settings) appState.settings = JSON.parse(settings);
+    if (settings) {
+      appState.settings = JSON.parse(settings);
+      if (appState.settings.darkMode) {
+        document.body.classList.add("dark-theme");
+      }
+    }
     if (shoppingList) appState.shoppingList = JSON.parse(shoppingList);
-    if (nutritionHistory) appState.nutritionHistory = JSON.parse(nutritionHistory);
+    if (nutritionHistory)
+      appState.nutritionHistory = JSON.parse(nutritionHistory);
+    if (community) appState.community = JSON.parse(community);
+
+    // Simuler quelques recettes si la communauté est vide (pour tester l'UI)
+    if (appState.community.length === 0) {
+      appState.community = [
+        {
+          nom: "Pâtes du Chef Anonyme",
+          author: "Anonyme",
+          publishedAt: new Date().toISOString(),
+          temps: "15 min",
+          difficulte: "Facile",
+          portions: 2,
+          calories_portion: 400,
+          ingredients: ["200g de pâtes", "1 sauce tomate", "Fromage râpé"],
+          etapes: [
+            "Cuire les pâtes (10 min)",
+            "Réchauffer la sauce (3 min)",
+            "Mélanger avec le fromage (2 min)",
+          ],
+        },
+      ];
+    }
   } catch (e) {
     console.error("Erreur chargement état:", e);
   }
@@ -83,11 +150,30 @@ function loadAppState() {
 
 function saveAppState() {
   try {
-    localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(appState.favorites));
-    localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(appState.history));
-    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appState.settings));
-    localStorage.setItem(STORAGE_KEYS.SHOPPING_LIST, JSON.stringify(appState.shoppingList));
-    localStorage.setItem(STORAGE_KEYS.NUTRITION_HISTORY, JSON.stringify(appState.nutritionHistory));
+    localStorage.setItem(
+      STORAGE_KEYS.FAVORITES,
+      JSON.stringify(appState.favorites),
+    );
+    localStorage.setItem(
+      STORAGE_KEYS.HISTORY,
+      JSON.stringify(appState.history),
+    );
+    localStorage.setItem(
+      STORAGE_KEYS.SETTINGS,
+      JSON.stringify(appState.settings),
+    );
+    localStorage.setItem(
+      STORAGE_KEYS.SHOPPING_LIST,
+      JSON.stringify(appState.shoppingList),
+    );
+    localStorage.setItem(
+      STORAGE_KEYS.NUTRITION_HISTORY,
+      JSON.stringify(appState.nutritionHistory),
+    );
+    localStorage.setItem(
+      STORAGE_KEYS.COMMUNITY,
+      JSON.stringify(appState.community),
+    );
   } catch (e) {
     console.error("Erreur sauvegarde état:", e);
   }
@@ -95,14 +181,26 @@ function saveAppState() {
 
 // --- EVENT LISTENERS ---
 function initEventListeners() {
-  document.getElementById("takePictureBtn").addEventListener("click", debounce(takePictureForChat, 300));
-  document.getElementById("selectPictureBtn").addEventListener("click", debounce(selectPictureForChat, 300));
-  document.getElementById("clearPictureBtn").addEventListener("click", clearPicture);
-  document.getElementById("sendBtn").addEventListener("click", debounce(sendToOpenAI, 500));
+  document
+    .getElementById("takePictureBtn")
+    .addEventListener("click", debounce(takePictureForChat, 300));
+  document
+    .getElementById("selectPictureBtn")
+    .addEventListener("click", debounce(selectPictureForChat, 300));
+  document
+    .getElementById("clearPictureBtn")
+    .addEventListener("click", clearPicture);
+  document
+    .getElementById("sendBtn")
+    .addEventListener("click", debounce(sendToOpenAI, 500));
 
   // Sélection du mode chef
-  document.getElementById("modeBasiqueBtn").addEventListener("click", () => setChefMode("basique"));
-  document.getElementById("modeEtoileBtn").addEventListener("click", () => setChefMode("etoile"));
+  document
+    .getElementById("modeBasiqueBtn")
+    .addEventListener("click", () => setChefMode("basique"));
+  document
+    .getElementById("modeEtoileBtn")
+    .addEventListener("click", () => setChefMode("etoile"));
 
   // Navigation
   document.querySelectorAll(".nav-item").forEach((item) => {
@@ -129,7 +227,7 @@ function setChefMode(mode) {
   chefMode = mode;
 
   // Mettre à jour l'UI
-  document.querySelectorAll(".mode-btn").forEach(btn => {
+  document.querySelectorAll(".mode-btn").forEach((btn) => {
     btn.classList.remove("active");
   });
 
@@ -175,6 +273,7 @@ function handleNavigation(e) {
   if (targetId === "view-favorites") renderFavorites();
   if (targetId === "view-history") renderHistory();
   if (targetId === "view-shopping") renderShoppingList();
+  if (targetId === "view-community") renderCommunity();
 }
 
 // --- CAMERA & GALERIE ---
@@ -238,7 +337,11 @@ function clearPicture() {
 
 function onCameraFail(msg) {
   console.error("Erreur caméra:", msg);
-  if (msg && !msg.toLowerCase().includes("cancel") && !msg.toLowerCase().includes("no image")) {
+  if (
+    msg &&
+    !msg.toLowerCase().includes("cancel") &&
+    !msg.toLowerCase().includes("no image")
+  ) {
     showToast("Impossible d'accéder à la caméra");
   }
 }
@@ -296,8 +399,14 @@ function startTimer(stepId, duration) {
     clearInterval(activeTimers[stepId].interval);
   }
 
-  const timerBtn = document.querySelector(`[data-step-id="${stepId}"] .timer-btn`);
+  const timerBtn = document.querySelector(
+    `[data-step-id="${stepId}"] .timer-btn`,
+  );
   if (!timerBtn) return;
+
+  // Récupérer le libellé de l'étape pour la notification
+  const stepEl = document.querySelector(`[data-step-id="${stepId}"]`);
+  const stepText = stepEl ? stepEl.textContent.replace(/\d{2}:\d{2}/, "").trim().substring(0, 60) : "Étape de cuisson";
 
   let remaining = duration;
   timerBtn.classList.add("running");
@@ -313,23 +422,33 @@ function startTimer(stepId, duration) {
         delete activeTimers[stepId];
         timerBtn.classList.remove("running");
         timerBtn.classList.add("finished");
-        timerBtn.innerHTML = `<span>✅ Terminé!</span>`;
+        timerBtn.innerHTML = `<span>✅ Terminé !</span>`;
 
-        // Notification sonore/vibration
+        // --- VIBRATION ---
         if (navigator.vibrate) {
-          navigator.vibrate([200, 100, 200, 100, 200]);
+          navigator.vibrate([300, 100, 300, 100, 300, 100, 500]);
         }
+
+        // --- SON ---
+        playTimerSound();
+
+        // --- NOTIFICATION SYSTEME ---
+        sendTimerNotification(stepText, duration);
+
         showToast("⏰ Timer terminé !");
 
-        // Reset après 3 secondes
+        // Reset après 4 secondes
         setTimeout(() => {
           timerBtn.classList.remove("finished");
           timerBtn.innerHTML = `<span>⏱️ ${formatTime(duration)}</span>`;
-        }, 3000);
+        }, 4000);
       }
     }, 1000),
     duration: duration,
   };
+
+  // Demander permission notification au premier démarrage
+  requestNotificationPermission();
 }
 
 function stopTimer(stepId) {
@@ -338,7 +457,9 @@ function stopTimer(stepId) {
     const duration = activeTimers[stepId].duration;
     delete activeTimers[stepId];
 
-    const timerBtn = document.querySelector(`[data-step-id="${stepId}"] .timer-btn`);
+    const timerBtn = document.querySelector(
+      `[data-step-id="${stepId}"] .timer-btn`,
+    );
     if (timerBtn) {
       timerBtn.classList.remove("running");
       timerBtn.innerHTML = `<span>⏱️ ${formatTime(duration)}</span>`;
@@ -354,8 +475,126 @@ function toggleTimer(stepId, duration) {
   }
 }
 
+// --- SON TIMER ---
+function playTimerSound() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+
+    // Séquence de 3 bips descendants
+    const beeps = [
+      { freq: 880, start: 0,    duration: 0.18 },
+      { freq: 880, start: 0.25, duration: 0.18 },
+      { freq: 1100, start: 0.5, duration: 0.4  },
+    ];
+
+    beeps.forEach(({ freq, start, duration }) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+
+      gain.gain.setValueAtTime(0, ctx.currentTime + start);
+      gain.gain.linearRampToValueAtTime(0.6, ctx.currentTime + start + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + duration);
+
+      osc.start(ctx.currentTime + start);
+      osc.stop(ctx.currentTime + start + duration + 0.05);
+    });
+
+    // Fermer le contexte audio après 2s
+    setTimeout(() => ctx.close().catch(() => {}), 2000);
+  } catch (e) {
+    console.warn("Son timer non disponible:", e);
+  }
+}
+
+// --- NOTIFICATION SYSTEME ---
+function requestNotificationPermission() {
+  // Cordova local-notification (Android natif)
+  if (window.cordova && cordova.plugins && cordova.plugins.notification && cordova.plugins.notification.local) {
+    cordova.plugins.notification.local.requestPermission((granted) => {
+      if (granted) {
+        console.log("Permission notifications locales accordée");
+      }
+    });
+    return;
+  }
+  // Fallback Web Notifications
+  if (!("Notification" in window)) return;
+  if (Notification.permission === "default") {
+    Notification.requestPermission().then((perm) => {
+      if (perm === "granted") {
+        showToast("🔔 Notifications activées !");
+      }
+    });
+  }
+}
+
+// Compteur d'ID unique pour les notifications
+let _notifId = 1;
+
+function sendTimerNotification(stepText, duration) {
+  const mins = Math.floor(duration / 60);
+  const secs = duration % 60;
+  const durationLabel = mins > 0
+    ? `${mins} min${secs > 0 ? ` ${secs}s` : ""}`
+    : `${secs}s`;
+
+  const title = "⏰ FrigoChef — Timer terminé !";
+  const text  = `${durationLabel} écoulés — ${stepText}`;
+
+  // ── Priorité 1 : Plugin Cordova (Android natif, app fermée) ──
+  if (window.cordova && cordova.plugins && cordova.plugins.notification && cordova.plugins.notification.local) {
+    try {
+      cordova.plugins.notification.local.schedule({
+        id:         _notifId++,
+        title:      title,
+        text:       text,
+        icon:       "res://ic_launcher",
+        smallIcon:  "res://ic_launcher",
+        sound:      true,
+        vibrate:    true,
+        priority:   2,
+        foreground: true,
+        trigger:    { at: new Date() },
+      });
+    } catch (e) {
+      console.warn("cordova-plugin-local-notification erreur:", e);
+    }
+    return;
+  }
+
+  // ── Priorité 2 : Web Notifications API (navigateur / fallback) ──
+  if (!("Notification" in window)) return;
+  if (Notification.permission !== "granted") return;
+  try {
+    const notif = new Notification(title, {
+      body:               text,
+      icon:               "img/logo.png",
+      badge:              "img/logo.png",
+      tag:                "frigochef-timer",
+      requireInteraction: true,
+      silent:             false,
+    });
+    setTimeout(() => notif.close(), 8000);
+    notif.onclick = () => { window.focus(); notif.close(); };
+  } catch (e) {
+    console.warn("Web Notification impossible:", e);
+  }
+}
+
 // --- PORTIONS ---
-function adjustPortions(recipeId, newPortions, originalPortions, originalIngredients) {
+function adjustPortions(
+  recipeId,
+  newPortions,
+  originalPortions,
+  originalIngredients,
+) {
   const ratio = newPortions / originalPortions;
   const card = document.querySelector(`[data-recipe-id="${recipeId}"]`);
   if (!card) return;
@@ -366,12 +605,40 @@ function adjustPortions(recipeId, newPortions, originalPortions, originalIngredi
     portionDisplay.textContent = newPortions;
   }
 
-  // Mettre à jour les calories
+  // Mettre à jour les calories — tag fallback (sans carte nutrition)
   const caloriesTag = card.querySelector(".tag.calories");
   if (caloriesTag) {
     const originalCalories = parseInt(caloriesTag.dataset.originalCalories) || 0;
-    // Les calories par portion restent les mêmes, mais on peut afficher le total
-    caloriesTag.innerHTML = `🔥 ${originalCalories} kcal/pers`;
+    if (originalCalories > 0) {
+      const totalCalories = Math.round(originalCalories * newPortions);
+      caloriesTag.innerHTML = `🔥 ${originalCalories} kcal/pers · ${totalCalories} kcal total <small>(estimé IA)</small>`;
+    }
+  }
+
+  // Mettre à jour la carte nutrition détaillée si elle existe
+  const nutritionCard = card.querySelector(".nutrition-card");
+  if (nutritionCard) {
+    const calPerServing = parseInt(nutritionCard.dataset.caloriesPerServing) || 0;
+    const origServings = parseInt(nutritionCard.dataset.originalServings) || originalPortions;
+
+    // Mettre à jour le titre avec le nouveau nombre de portions
+    const nutritionTitle = nutritionCard.querySelector("h4");
+    if (nutritionTitle) {
+      nutritionTitle.innerHTML = `📊 Valeurs nutritionnelles <small>(par portion · ${newPortions} portion${newPortions > 1 ? "s" : ""} au total)</small>`;
+    }
+
+    // Mettre à jour l'affichage des calories (par portion = inchangé, total = mis à jour)
+    if (calPerServing > 0) {
+      const totalCalNutrition = Math.round(calPerServing * newPortions);
+      // Chercher le macro-item Calories
+      nutritionCard.querySelectorAll(".macro-item").forEach((item) => {
+        const label = item.querySelector(".macro-label");
+        const value = item.querySelector(".macro-value");
+        if (label && value && label.textContent.trim() === "Calories") {
+          value.innerHTML = `${calPerServing} kcal/pers <small style="color:var(--text-muted,#888)">· ${totalCalNutrition} kcal total</small>`;
+        }
+      });
+    }
   }
 
   // Recalculer les ingrédients
@@ -382,7 +649,8 @@ function adjustPortions(recipeId, newPortions, originalPortions, originalIngredi
     });
 
     ingredientsList.innerHTML = adjustedIngredients
-      .map((ing, i) => `
+      .map(
+        (ing, i) => `
         <li>
           <label>
             <input type="checkbox" id="ing-${recipeId}-${i}">
@@ -390,7 +658,8 @@ function adjustPortions(recipeId, newPortions, originalPortions, originalIngredi
           </label>
           <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
         </li>
-      `)
+      `,
+      )
       .join("");
 
     // Réattacher les listeners
@@ -399,26 +668,26 @@ function adjustPortions(recipeId, newPortions, originalPortions, originalIngredi
 }
 
 function adjustIngredientQuantity(ingredient, ratio) {
-  // Pattern pour trouver les quantités numériques
-  const patterns = [
-    /^(\d+(?:[.,]\d+)?)\s*(kg|g|ml|cl|l|cuillères?|càs|càc|cs|cc|pincées?|tranches?|gousses?|branches?|feuilles?|œufs?|oeufs?)?\s+(.*)$/i,
-    /^(\d+(?:[.,]\d+)?)\s+(.*)$/i,
-  ];
+  // Pattern 1: nombre + unité optionnelle + nom  (ex: "200g de poulet", "3 tomates", "1.5 oignon")
+  const patternWithUnit = /^(\d+(?:[.,]\d+)?)\s*(kg|g|ml|cl|l|cuillères?|càs|càc|cs|cc|pincées?|tranches?|gousses?|branches?|feuilles?|œufs?|oeufs?)\s+(.+)$/i;
+  // Pattern 2: nombre + espace + reste (sans unité reconnue)
+  const patternNoUnit = /^(\d+(?:[.,]\d+)?)\s+(.+)$/i;
 
-  for (const pattern of patterns) {
-    const match = ingredient.match(pattern);
-    if (match) {
-      let quantity = parseFloat(match[1].replace(",", "."));
-      const newQuantity = Math.round(quantity * ratio * 10) / 10; // Arrondir à 1 décimale
-      
-      if (match[3]) {
-        // Avec unité
-        return `${newQuantity} ${match[2]} ${match[3]}`;
-      } else {
-        // Sans unité
-        return `${newQuantity} ${match[2]}`;
-      }
-    }
+  let match = ingredient.match(patternWithUnit);
+  if (match) {
+    const quantity = parseFloat(match[1].replace(",", "."));
+    const newQuantity = Math.round(quantity * ratio * 10) / 10;
+    const unit = match[2];
+    const name = match[3];
+    return `${newQuantity} ${unit} ${name}`;
+  }
+
+  match = ingredient.match(patternNoUnit);
+  if (match) {
+    const quantity = parseFloat(match[1].replace(",", "."));
+    const newQuantity = Math.round(quantity * ratio * 10) / 10;
+    const name = match[2];
+    return `${newQuantity} ${name}`;
   }
 
   // Si pas de quantité trouvée, retourner tel quel
@@ -428,11 +697,16 @@ function adjustIngredientQuantity(ingredient, ratio) {
 // --- LISTE DE COURSES ---
 function addToShoppingList(ingredient) {
   // Nettoyer l'ingrédient (enlever quantités)
-  const cleanIngredient = ingredient.replace(/^\d+(?:[.,]\d+)?\s*(kg|g|ml|cl|l|cuillères?|càs|càc|cs|cc)?\s*/i, "").trim();
+  const cleanIngredient = ingredient
+    .replace(
+      /^\d+(?:[.,]\d+)?\s*(kg|g|ml|cl|l|cuillères?|càs|càc|cs|cc)?\s*/i,
+      "",
+    )
+    .trim();
 
   // Vérifier si déjà présent
   const exists = appState.shoppingList.some(
-    (item) => item.name.toLowerCase() === cleanIngredient.toLowerCase()
+    (item) => item.name.toLowerCase() === cleanIngredient.toLowerCase(),
   );
 
   if (exists) {
@@ -453,7 +727,9 @@ function addToShoppingList(ingredient) {
 }
 
 function removeFromShoppingList(itemId) {
-  appState.shoppingList = appState.shoppingList.filter((item) => item.id !== itemId);
+  appState.shoppingList = appState.shoppingList.filter(
+    (item) => item.id !== itemId,
+  );
   saveAppState();
   renderShoppingList();
 }
@@ -593,13 +869,40 @@ function getActiveFiltersPrompt() {
 
   // Liste des exclusions par filtre
   const exclusions = [];
-  activeFilters.forEach(id => {
-    switch(id) {
+  activeFilters.forEach((id) => {
+    switch (id) {
       case "vegetarian":
-        exclusions.push("viande", "poisson", "fruits de mer", "poulet", "bœuf", "porc", "jambon", "saucisse", "bacon");
+        exclusions.push(
+          "viande",
+          "poisson",
+          "fruits de mer",
+          "poulet",
+          "bœuf",
+          "porc",
+          "jambon",
+          "saucisse",
+          "bacon",
+        );
         break;
       case "vegan":
-        exclusions.push("viande", "poisson", "fruits de mer", "œufs", "lait", "fromage", "beurre", "crème", "yaourt", "miel", "poulet", "bœuf", "porc", "jambon", "saucisse", "bacon");
+        exclusions.push(
+          "viande",
+          "poisson",
+          "fruits de mer",
+          "œufs",
+          "lait",
+          "fromage",
+          "beurre",
+          "crème",
+          "yaourt",
+          "miel",
+          "poulet",
+          "bœuf",
+          "porc",
+          "jambon",
+          "saucisse",
+          "bacon",
+        );
         break;
       case "gluten-free":
         exclusions.push("pâtes", "pain", "farine de blé", "semoule");
@@ -610,9 +913,10 @@ function getActiveFiltersPrompt() {
     }
   });
 
-  const exclusionsText = exclusions.length > 0
-    ? `\n⛔ INGRÉDIENTS STRICTEMENT INTERDITS: ${exclusions.join(", ")}. Si un ingrédient interdit est dans la liste, NE PAS le  utiliser et proposer une alternative.`
-    : "";
+  const exclusionsText =
+    exclusions.length > 0
+      ? `\n⛔ INGRÉDIENTS STRICTEMENT INTERDITS: ${exclusions.join(", ")}. Si un ingrédient interdit est dans la liste, NE PAS le  utiliser et proposer une alternative.`
+      : "";
 
   return `\n🔒 CONTRAINTES OBLIGATOIRES: Les recettes doivent être ${filterPrompts.join(", ")}.${exclusionsText}`;
 }
@@ -633,6 +937,15 @@ function renderSettings() {
   }).join("");
 
   container.innerHTML = `
+    <div class="settings-section">
+      <h4>🌙 Apparence</h4>
+      <label class="theme-toggle">
+        <span>Mode Sombre</span>
+        <input type="checkbox" id="darkModeToggle" ${appState.settings.darkMode ? "checked" : ""}>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
     <div class="settings-section">
       <h4>🥗 Préférences alimentaires</h4>
       <p class="settings-hint">Les recettes respecteront ces contraintes</p>
@@ -655,6 +968,20 @@ function renderSettings() {
     </div>
   `;
 
+  document.getElementById("darkModeToggle")?.addEventListener("change", (e) => {
+    const isDark = e.target.checked;
+    appState.settings.darkMode = isDark;
+
+    if (isDark) {
+      document.body.classList.add("dark-theme");
+      showToast("Mode sombre activé 🌙");
+    } else {
+      document.body.classList.remove("dark-theme");
+      showToast("Mode clair activé ☀️");
+    }
+    saveAppState();
+  });
+
   // Event listeners pour les filtres
   container.querySelectorAll(".filter-chip").forEach((chip) => {
     chip.addEventListener("click", () => {
@@ -668,7 +995,8 @@ function renderSettings() {
           appState.settings.dietaryFilters.push(filterId);
         }
       } else {
-        appState.settings.dietaryFilters = appState.settings.dietaryFilters.filter((id) => id !== filterId);
+        appState.settings.dietaryFilters =
+          appState.settings.dietaryFilters.filter((id) => id !== filterId);
       }
       saveAppState();
       showToast(checkbox.checked ? "Filtre activé" : "Filtre désactivé");
@@ -685,20 +1013,32 @@ function renderSettings() {
     }
   });
 
-  document.getElementById("clearFavoritesBtn")?.addEventListener("click", () => {
-    if (confirm("Effacer tous les favoris ?")) {
-      appState.favorites = [];
-      saveAppState();
-      renderFavorites();
-      showToast("Favoris effacés");
-    }
-  });
+  document
+    .getElementById("clearFavoritesBtn")
+    ?.addEventListener("click", () => {
+      if (confirm("Effacer tous les favoris ?")) {
+        appState.favorites = [];
+        saveAppState();
+        renderFavorites();
+        showToast("Favoris effacés");
+      }
+    });
 
-  document.getElementById("clearShoppingBtn")?.addEventListener("click", clearAllShoppingList);
+  document
+    .getElementById("clearShoppingBtn")
+    ?.addEventListener("click", clearAllShoppingList);
 }
 
 // --- HISTORIQUE ---
-function addToHistory(query, imageBase64, results, detectedIngredients = null, validatedIngredients = null, confidence = null, notes = null) {
+function addToHistory(
+  query,
+  imageBase64,
+  results,
+  detectedIngredients = null,
+  validatedIngredients = null,
+  confidence = null,
+  notes = null,
+) {
   const entry = {
     id: Date.now(),
     date: new Date().toISOString(),
@@ -710,7 +1050,7 @@ function addToHistory(query, imageBase64, results, detectedIngredients = null, v
     detectedIngredients: detectedIngredients, // Ingrédients détectés par l'IA
     validatedIngredients: validatedIngredients, // Ingrédients validés/modifiés par l'utilisateur (NOUVEAU)
     confidence: confidence,
-    notes: notes
+    notes: notes,
   };
 
   appState.history.unshift(entry);
@@ -735,21 +1075,23 @@ function renderHistory() {
     return;
   }
 
-  const historyHTML = appState.history.map((entry) => {
-    const date = new Date(entry.date);
-    const formattedDate = date.toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const historyHTML = appState.history
+    .map((entry) => {
+      const date = new Date(entry.date);
+      const formattedDate = date.toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
-    const recipesPreview = entry.results?.recettes
-      ?.slice(0, 2)
-      .map((r) => r.nom)
-      .join(", ") || "Aucune recette";
+      const recipesPreview =
+        entry.results?.recettes
+          ?.slice(0, 2)
+          .map((r) => r.nom)
+          .join(", ") || "Aucune recette";
 
-    return `
+      return `
       <div class="history-card" data-history-id="${entry.id}">
         <div class="history-header">
           <span class="history-icon">${entry.hasImage ? "📷" : "✏️"}</span>
@@ -769,7 +1111,8 @@ function renderHistory() {
         </div>
       </div>
     `;
-  }).join("");
+    })
+    .join("");
 
   container.innerHTML = historyHTML;
 
@@ -813,29 +1156,34 @@ function replayHistory(historyId) {
         detectedIngredientsForValidation = entry.validatedIngredients;
 
         // Restaurer aussi dans la barre de recherche
-        document.getElementById("question").value = entry.validatedIngredients.join(", ");
+        document.getElementById("question").value =
+          entry.validatedIngredients.join(", ");
 
         // Afficher l'écran de validation avec les ingrédients validés
         setTimeout(() => {
           showIngredientValidationScreen(
             entry.validatedIngredients,
             entry.confidence || "high",
-            "Ingrédients validés restaurés depuis l'historique"
+            "Ingrédients validés restaurés depuis l'historique",
           );
         }, 100);
 
         showToast("✅ Photo et ingrédients validés restaurés");
-      } else if (entry.detectedIngredients && entry.detectedIngredients.length > 0) {
+      } else if (
+        entry.detectedIngredients &&
+        entry.detectedIngredients.length > 0
+      ) {
         // Fallback sur les ingrédients détectés (si pas de validation)
         detectedIngredientsForValidation = entry.detectedIngredients;
 
-        document.getElementById("question").value = entry.detectedIngredients.join(", ");
+        document.getElementById("question").value =
+          entry.detectedIngredients.join(", ");
 
         setTimeout(() => {
           showIngredientValidationScreen(
             entry.detectedIngredients,
             entry.confidence || "medium",
-            "Ingrédients détectés restaurés depuis l'historique"
+            "Ingrédients détectés restaurés depuis l'historique",
           );
         }, 100);
 
@@ -848,7 +1196,8 @@ function replayHistory(historyId) {
       // ✅ Recherche textuelle manuelle : restaurer les ingrédients validés
       if (entry.validatedIngredients && entry.validatedIngredients.length > 0) {
         // Restaurer dans la barre de recherche
-        document.getElementById("question").value = entry.validatedIngredients.join(", ");
+        document.getElementById("question").value =
+          entry.validatedIngredients.join(", ");
 
         detectedIngredientsForValidation = entry.validatedIngredients;
 
@@ -857,7 +1206,7 @@ function replayHistory(historyId) {
           showIngredientValidationScreen(
             entry.validatedIngredients,
             "high",
-            "Ingrédients restaurés depuis l'historique"
+            "Ingrédients restaurés depuis l'historique",
           );
         }, 100);
 
@@ -886,7 +1235,9 @@ function viewHistoryResults(historyId) {
 
 // --- FAVORIS ---
 function toggleFavorite(recipe) {
-  const existingIndex = appState.favorites.findIndex((f) => f.nom === recipe.nom);
+  const existingIndex = appState.favorites.findIndex(
+    (f) => f.nom === recipe.nom,
+  );
 
   if (existingIndex >= 0) {
     appState.favorites.splice(existingIndex, 1);
@@ -924,12 +1275,246 @@ function renderFavorites() {
     return;
   }
 
-  const favoritesHTML = appState.favorites.map((recipe) => {
-    return createRecipeCardHTML(recipe, true);
+  const favoritesHTML = appState.favorites
+    .map((recipe) => createFavoriteAccordionHTML(recipe))
+    .join("");
+
+  container.innerHTML = `<div class="favorites-list">${favoritesHTML}</div>`;
+
+  // Accordéon
+  container.querySelectorAll(".fav-accordion-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      const item = header.closest(".fav-accordion-item");
+      const body = item.querySelector(".fav-accordion-body");
+      const isOpen = item.classList.contains("open");
+
+      // Fermer tous les autres
+      container.querySelectorAll(".fav-accordion-item.open").forEach((openItem) => {
+        if (openItem !== item) {
+          openItem.classList.remove("open");
+          openItem.querySelector(".fav-accordion-body").style.maxHeight = null;
+        }
+      });
+
+      if (isOpen) {
+        item.classList.remove("open");
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + "px";
+        setTimeout(() => {
+          if (item.classList.contains("open")) {
+            body.style.maxHeight = body.scrollHeight + "px";
+          }
+        }, 300);
+      }
+    });
+  });
+
+  // Boutons d'action dans les accordéons favoris
+  container.querySelectorAll(".fav-accordion-item").forEach((item) => {
+    const recipeName = item.dataset.recipeName;
+    const recipe = appState.favorites.find((r) => r.nom === recipeName);
+    if (!recipe) return;
+
+    const recipeId = item.dataset.recipeId;
+    const originalPortions = parseInt(item.dataset.originalPortions) || 2;
+    const ingredientsJSON = (item.dataset.originalIngredients || "[]")
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'");
+    const originalIngredients = JSON.parse(ingredientsJSON);
+
+    // Contrôle portions
+    let currentPortions = originalPortions;
+    const minusBtn = item.querySelector(".fav-portion-btn.minus");
+    const plusBtn = item.querySelector(".fav-portion-btn.plus");
+
+    minusBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (currentPortions > 1) {
+        currentPortions--;
+        item.querySelector(".fav-portion-value").textContent = currentPortions;
+        adjustFavPortions(item, recipeId, currentPortions, originalPortions, originalIngredients);
+      }
+    });
+
+    plusBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (currentPortions < 12) {
+        currentPortions++;
+        item.querySelector(".fav-portion-value").textContent = currentPortions;
+        adjustFavPortions(item, recipeId, currentPortions, originalPortions, originalIngredients);
+      }
+    });
+
+    // Bouton retirer des favoris
+    const removeFavBtn = item.querySelector(".fav-remove-btn");
+    removeFavBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleFavorite(recipe);
+    });
+
+    // Bouton partage
+    const shareBtn = item.querySelector(".fav-share-btn");
+    shareBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      shareRecipe(recipe);
+    });
+
+    // Bouton publier en communauté
+    const publishBtn = item.querySelector(".fav-publish-btn");
+    publishBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      publishToCommunity(recipe);
+    });
+
+    // Boutons ajout liste de courses
+    item.querySelectorAll(".add-to-list-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        addToShoppingList(btn.dataset.ingredient);
+      });
+    });
+  });
+}
+
+function adjustFavPortions(item, recipeId, newPortions, originalPortions, originalIngredients) {
+  const ratio = newPortions / originalPortions;
+
+  // Mettre à jour tag calories fallback
+  const caloriesTag = item.querySelector(".fav-tag.fav-tag-calories");
+  if (caloriesTag) {
+    const origCal = parseInt(caloriesTag.dataset.originalCalories) || 0;
+    if (origCal > 0) {
+      caloriesTag.innerHTML = `🔥 ${origCal} kcal/pers · ${Math.round(origCal * newPortions)} kcal total`;
+    }
+  }
+
+  // Mettre à jour la liste des ingrédients
+  const ingredientsList = item.querySelector(".fav-ingredients-list");
+  if (ingredientsList && originalIngredients) {
+    const adjusted = originalIngredients.map((ing) => adjustIngredientQuantity(ing, ratio));
+    ingredientsList.innerHTML = adjusted.map((ing, i) => `
+      <li>
+        <label>
+          <input type="checkbox" id="fav-ing-${recipeId}-${i}">
+          <span>${escapeHtml(ing)}</span>
+        </label>
+        <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
+      </li>`).join("");
+    // Réattacher les listeners d'ajout liste
+    ingredientsList.querySelectorAll(".add-to-list-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        addToShoppingList(btn.dataset.ingredient);
+      });
+    });
+  }
+
+  // Recalculer taille accordéon après changement de contenu
+  const body = item.querySelector(".fav-accordion-body");
+  if (body && item.classList.contains("open")) {
+    body.style.maxHeight = body.scrollHeight + "px";
+  }
+}
+
+function createFavoriteAccordionHTML(recipe) {
+  const recipeId = recipe.id || Date.now() + Math.random();
+  const portions = recipe.portions || 2;
+  const calories = recipe.calories_portion || null;
+  const savedAt = recipe.savedAt
+    ? new Date(recipe.savedAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })
+    : "";
+
+  // Aperçu ingrédients (3 premiers)
+  const ingPreview = (recipe.ingredients || []).slice(0, 3).map((i) => escapeHtml(i)).join(", ");
+  const ingMore = recipe.ingredients && recipe.ingredients.length > 3
+    ? ` <span class="acc-ing-more">+${recipe.ingredients.length - 3}</span>` : "";
+
+  // Ingrédients complets
+  const ingredientsHTML = (recipe.ingredients || []).map((ing, i) => `
+    <li>
+      <label>
+        <input type="checkbox" id="fav-ing-${recipeId}-${i}">
+        <span>${escapeHtml(ing)}</span>
+      </label>
+      <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
+    </li>`).join("");
+
+  // Étapes
+  const stepsHTML = (recipe.etapes || []).map((step, i) => {
+    const stepId = `fav-step-${recipeId}-${i}`;
+    const timerDuration = parseTimeFromStep(step);
+    const timerBtn = timerDuration
+      ? `<button class="timer-btn" onclick="toggleTimer('${stepId}', ${timerDuration})"><span>⏱️ ${formatTime(timerDuration)}</span></button>`
+      : "";
+    return `<li data-step-id="${stepId}">${escapeHtml(step)}${timerBtn}</li>`;
   }).join("");
 
-  container.innerHTML = `<div class="favorites-grid">${favoritesHTML}</div>`;
-  attachRecipeCardListeners(container);
+  const astuceHTML = recipe.astuce_chef
+    ? `<div class="chef-tip"><span class="tip-icon">💡</span> ${escapeHtml(recipe.astuce_chef)}</div>` : "";
+
+  const caloriesTag = calories
+    ? `<span class="fav-tag fav-tag-calories" data-original-calories="${calories}">🔥 ${calories} kcal/pers</span>` : "";
+
+  const ingredientsJSON = JSON.stringify(recipe.ingredients || [])
+    .replace(/'/g, "&apos;")
+    .replace(/"/g, "&quot;");
+
+  return `
+    <div class="fav-accordion-item" data-recipe-name="${escapeHtml(recipe.nom)}" data-recipe-id="${recipeId}" data-original-portions="${portions}" data-original-ingredients="${ingredientsJSON}">
+      <div class="fav-accordion-header">
+        <div class="acc-header-main">
+          <div class="acc-title-row">
+            <h3 class="acc-recipe-name">${escapeHtml(recipe.nom)}</h3>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-meta">
+            <span class="fav-tag">⏱️ ${escapeHtml(recipe.temps || "?")}</span>
+            <span class="fav-tag">👨‍🍳 ${escapeHtml(recipe.difficulte || "Moyen")}</span>
+            ${caloriesTag}
+            ${savedAt ? `<span class="fav-tag fav-tag-date">💾 ${savedAt}</span>` : ""}
+          </div>
+          <div class="acc-ing-preview">🛒 <span>${ingPreview}${ingMore}</span></div>
+        </div>
+      </div>
+
+      <div class="fav-accordion-body">
+        <div class="acc-body-inner">
+
+          <!-- Contrôle des portions -->
+          <div class="fav-portion-control">
+            <span class="fav-portion-label">👥 Portions :</span>
+            <div class="fav-portion-buttons">
+              <button class="fav-portion-btn minus">−</button>
+              <span class="fav-portion-value">${portions}</span>
+              <button class="fav-portion-btn plus">+</button>
+            </div>
+          </div>
+
+          <h4>🛒 Ingrédients</h4>
+          <ul class="ingredients-list fav-ingredients-list">${ingredientsHTML}</ul>
+
+          <h4>📝 Préparation</h4>
+          <ol class="steps-list">${stepsHTML}</ol>
+
+          ${astuceHTML}
+
+          <div class="acc-actions">
+            <button class="action-btn fav-remove-btn active" aria-label="Retirer des favoris" title="Retirer des favoris">
+              <span>❤️</span>
+            </button>
+            <button class="action-btn fav-share-btn" aria-label="Partager" title="Partager">
+              <span>📤</span>
+            </button>
+            <button class="action-btn fav-publish-btn" aria-label="Publier" title="Publier dans la communauté">
+              <span>🌍</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 // --- PARTAGE ---
@@ -937,14 +1522,16 @@ function shareRecipe(recipe) {
   const shareText = formatRecipeForShare(recipe);
 
   if (navigator.share) {
-    navigator.share({
-      title: recipe.nom,
-      text: shareText,
-    }).catch((err) => {
-      if (err.name !== "AbortError") {
-        fallbackShare(shareText);
-      }
-    });
+    navigator
+      .share({
+        title: recipe.nom,
+        text: shareText,
+      })
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          fallbackShare(shareText);
+        }
+      });
   } else {
     fallbackShare(shareText);
   }
@@ -978,11 +1565,14 @@ function formatRecipeForShare(recipe) {
 
 function fallbackShare(text) {
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      showToast("Recette copiée !");
-    }).catch(() => {
-      showToast("Erreur lors de la copie");
-    });
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        showToast("Recette copiée !");
+      })
+      .catch(() => {
+        showToast("Erreur lors de la copie");
+      });
   } else {
     const textarea = document.createElement("textarea");
     textarea.value = text;
@@ -1090,7 +1680,8 @@ RÉPONSE EN JSON UNIQUEMENT:
   "notes": "Commentaire optionnel si image floue ou ambiguë"
 }`;
 
-  const userText = "Identifie les ingrédients." + (question ? " Info: " + question : "");
+  const userText =
+    "Identifie les ingrédients." + (question ? " Info: " + question : "");
 
   let messages = [
     { role: "system", content: systemPrompt },
@@ -1138,8 +1729,11 @@ RÉPONSE EN JSON UNIQUEMENT:
     const parsedData = JSON.parse(content);
 
     detectedIngredientsForValidation = parsedData.ingredients_detectes || [];
-    showIngredientValidationScreen(detectedIngredientsForValidation, parsedData.confidence, parsedData.notes);
-
+    showIngredientValidationScreen(
+      detectedIngredientsForValidation,
+      parsedData.confidence,
+      parsedData.notes,
+    );
   } catch (err) {
     console.error("Erreur détection ingrédients:", err);
     responseArea.innerHTML = `
@@ -1210,7 +1804,8 @@ RÉPONSE EN JSON UNIQUEMENT:
   "notes": "Commentaire optionnel si image floue ou ambiguë"
 }`;
 
-  const userText = "Identifie les ingrédients." + (question ? " Info: " + question : "");
+  const userText =
+    "Identifie les ingrédients." + (question ? " Info: " + question : "");
 
   let messages = [
     { role: "system", content: systemPrompt },
@@ -1266,10 +1861,10 @@ RÉPONSE EN JSON UNIQUEMENT:
 
       try {
         const cleanedContent = content
-          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
-          .replace(/\n/g, '\\n')
-          .replace(/\r/g, '\\r')
-          .replace(/\t/g, '\\t');
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+          .replace(/\n/g, "\\n")
+          .replace(/\r/g, "\\r")
+          .replace(/\t/g, "\\t");
 
         parsedData = JSON.parse(cleanedContent);
         console.log("JSON ingrédients nettoyé et parsé");
@@ -1279,8 +1874,11 @@ RÉPONSE EN JSON UNIQUEMENT:
     }
 
     detectedIngredientsForValidation = parsedData.ingredients_detectes || [];
-    showIngredientValidationScreen(detectedIngredientsForValidation, parsedData.confidence, parsedData.notes);
-
+    showIngredientValidationScreen(
+      detectedIngredientsForValidation,
+      parsedData.confidence,
+      parsedData.notes,
+    );
   } catch (err) {
     console.error("Erreur détection ingrédients:", err);
     responseArea.innerHTML = `
@@ -1302,16 +1900,26 @@ function showIngredientValidationScreen(ingredients, confidence, notes) {
   const responseArea = document.getElementById("responseArea");
 
   let confidenceBadge = "";
-  if (confidence === "high") confidenceBadge = '<span class="confidence-badge high">✅ Confiance élevée</span>';
-  else if (confidence === "medium") confidenceBadge = '<span class="confidence-badge medium">⚠️ Confiance moyenne</span>';
-  else if (confidence === "low") confidenceBadge = '<span class="confidence-badge low">⚠️ Confiance faible</span>';
+  if (confidence === "high")
+    confidenceBadge =
+      '<span class="confidence-badge high">✅ Confiance élevée</span>';
+  else if (confidence === "medium")
+    confidenceBadge =
+      '<span class="confidence-badge medium">⚠️ Confiance moyenne</span>';
+  else if (confidence === "low")
+    confidenceBadge =
+      '<span class="confidence-badge low">⚠️ Confiance faible</span>';
 
-  const ingredientsHTML = ingredients.map((ing, i) => `
+  const ingredientsHTML = ingredients
+    .map(
+      (ing, i) => `
     <div class="ingredient-validation-item" data-index="${i}">
       <input type="text" class="ingredient-input" value="${escapeHtml(ing)}" data-index="${i}">
       <button class="ingredient-delete-btn" onclick="removeValidationIngredient(${i})">✕</button>
     </div>
-  `).join("");
+  `,
+    )
+    .join("");
 
   responseArea.innerHTML = `
     <div class="ingredient-validation-card">
@@ -1393,8 +2001,8 @@ async function confirmIngredientsAndGenerateRecipes() {
   // Récupérer les valeurs finales depuis les inputs
   const inputs = document.querySelectorAll(".ingredient-input");
   const finalIngredients = Array.from(inputs)
-    .map(input => input.value.trim())
-    .filter(v => v.length > 0);
+    .map((input) => input.value.trim())
+    .filter((v) => v.length > 0);
 
   if (finalIngredients.length === 0) {
     showToast("Ajoutez au moins un ingrédient");
@@ -1406,19 +2014,89 @@ async function confirmIngredientsAndGenerateRecipes() {
   if (activeFilters.length > 0) {
     const forbiddenIngredients = [];
 
-    activeFilters.forEach(filterId => {
+    activeFilters.forEach((filterId) => {
       const forbiddenList = {
-        "vegetarian": ["viande", "poisson", "fruits de mer", "poulet", "boeuf", "bœuf", "porc", "jambon", "saucisse", "bacon", "canard", "agneau", "veau", "lapin", "thon", "saumon", "crevette"],
-        "vegan": ["viande", "poisson", "fruits de mer", "oeuf", "œuf", "lait", "fromage", "beurre", "crème", "creme", "yaourt", "miel", "poulet", "boeuf", "bœuf", "porc", "jambon", "saucisse", "bacon", "canard", "agneau", "veau", "lapin", "thon", "saumon", "crevette", "parmesan", "mozzarella", "emmental"],
-        "gluten-free": ["pâtes", "pates", "pain", "farine de blé", "farine de ble", "semoule", "blé", "ble", "orge"],
-        "lactose-free": ["lait", "fromage", "beurre", "crème", "creme", "yaourt", "parmesan", "mozzarella", "emmental", "chèvre", "chevre"]
+        vegetarian: [
+          "viande",
+          "poisson",
+          "fruits de mer",
+          "poulet",
+          "boeuf",
+          "bœuf",
+          "porc",
+          "jambon",
+          "saucisse",
+          "bacon",
+          "canard",
+          "agneau",
+          "veau",
+          "lapin",
+          "thon",
+          "saumon",
+          "crevette",
+        ],
+        vegan: [
+          "viande",
+          "poisson",
+          "fruits de mer",
+          "oeuf",
+          "œuf",
+          "lait",
+          "fromage",
+          "beurre",
+          "crème",
+          "creme",
+          "yaourt",
+          "miel",
+          "poulet",
+          "boeuf",
+          "bœuf",
+          "porc",
+          "jambon",
+          "saucisse",
+          "bacon",
+          "canard",
+          "agneau",
+          "veau",
+          "lapin",
+          "thon",
+          "saumon",
+          "crevette",
+          "parmesan",
+          "mozzarella",
+          "emmental",
+        ],
+        "gluten-free": [
+          "pâtes",
+          "pates",
+          "pain",
+          "farine de blé",
+          "farine de ble",
+          "semoule",
+          "blé",
+          "ble",
+          "orge",
+        ],
+        "lactose-free": [
+          "lait",
+          "fromage",
+          "beurre",
+          "crème",
+          "creme",
+          "yaourt",
+          "parmesan",
+          "mozzarella",
+          "emmental",
+          "chèvre",
+          "chevre",
+        ],
       };
 
       const forbidden = forbiddenList[filterId] || [];
 
-      finalIngredients.forEach(ing => {
+      finalIngredients.forEach((ing) => {
         const ingLower = ing.toLowerCase();
-        forbidden.forEach(forbiddenItem => {
+        forbidden.forEach((forbiddenItem) => {
           if (ingLower.includes(forbiddenItem)) {
             forbiddenIngredients.push({ ingredient: ing, raison: filterId });
           }
@@ -1428,15 +2106,18 @@ async function confirmIngredientsAndGenerateRecipes() {
 
     if (forbiddenIngredients.length > 0) {
       const filterLabels = {
-        "vegetarian": "végétarien",
-        "vegan": "végan",
+        vegetarian: "végétarien",
+        vegan: "végan",
         "gluten-free": "sans gluten",
-        "lactose-free": "sans lactose"
+        "lactose-free": "sans lactose",
       };
 
-      const messages = forbiddenIngredients.map(f =>
-        `❌ "${f.ingredient}" (incompatible avec le filtre ${filterLabels[f.raison]})`
-      ).join("<br>");
+      const messages = forbiddenIngredients
+        .map(
+          (f) =>
+            `❌ "${f.ingredient}" (incompatible avec le filtre ${filterLabels[f.raison]})`,
+        )
+        .join("<br>");
 
       const responseArea = document.getElementById("responseArea");
       responseArea.innerHTML = `
@@ -1445,7 +2126,7 @@ async function confirmIngredientsAndGenerateRecipes() {
           <h3>Ingrédients incompatibles</h3>
           <p>${messages}</p>
           <p style="margin-top: 1rem;">Veuillez retirer ces ingrédients ou désactiver les filtres dans les paramètres.</p>
-          <button class="retry-btn" onclick="showIngredientValidationScreen(${JSON.stringify(finalIngredients).replace(/"/g, '&quot;')}, 'medium', 'Certains ingrédients sont incompatibles avec vos filtres')">
+          <button class="retry-btn" onclick="showIngredientValidationScreen(${JSON.stringify(finalIngredients).replace(/"/g, "&quot;")}, 'medium', 'Certains ingrédients sont incompatibles avec vos filtres')">
             Retour à la validation
           </button>
         </div>
@@ -1638,11 +2319,16 @@ RÉPONSE EN JSON UNIQUEMENT:
         let cleanedContent = content;
 
         // Supprimer les caractères de contrôle
-        cleanedContent = cleanedContent.replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
+        cleanedContent = cleanedContent.replace(
+          /[\u0000-\u001F\u007F-\u009F]/g,
+          "",
+        );
 
         // Si le JSON est entouré de ```json et ```, les retirer
-        if (cleanedContent.includes('```json')) {
-          cleanedContent = cleanedContent.replace(/```json\s*/g, '').replace(/```\s*/g, '');
+        if (cleanedContent.includes("```json")) {
+          cleanedContent = cleanedContent
+            .replace(/```json\s*/g, "")
+            .replace(/```\s*/g, "");
         }
 
         // Trim
@@ -1664,12 +2350,11 @@ RÉPONSE EN JSON UNIQUEMENT:
       detectedIngredientsForValidation, // Ingrédients détectés initialement
       ingredients, // Ingrédients validés/modifiés (NOUVEAU)
       "medium",
-      null
+      null,
     );
 
     // Calculer et afficher avec nutrition
     await renderRecipesWithNutrition(parsedData, true);
-
   } catch (err) {
     console.error("Erreur génération recettes:", err);
     responseArea.innerHTML = `
@@ -1689,7 +2374,11 @@ RÉPONSE EN JSON UNIQUEMENT:
 
 // --- RENDER RECETTES AVEC NUTRITION ---
 
-async function renderRecipesWithNutrition(data, animate = true, isOffline = false) {
+async function renderRecipesWithNutrition(
+  data,
+  animate = true,
+  isOffline = false,
+) {
   const container = document.getElementById("responseArea");
 
   const offlineNotice = container.querySelector(".offline-notice");
@@ -1706,9 +2395,11 @@ async function renderRecipesWithNutrition(data, animate = true, isOffline = fals
     const filtersDiv = document.createElement("div");
     filtersDiv.className = "active-filters-display";
     const filterLabels = activeFilters
-      .map(id => {
-        const filter = DIETARY_FILTERS.find(f => f.id === id);
-        return filter ? `<span class="filter-badge">${filter.icon} ${filter.label}</span>` : "";
+      .map((id) => {
+        const filter = DIETARY_FILTERS.find((f) => f.id === id);
+        return filter
+          ? `<span class="filter-badge">${filter.icon} ${filter.label}</span>`
+          : "";
       })
       .filter(Boolean)
       .join("");
@@ -1747,9 +2438,17 @@ async function renderRecipesWithNutrition(data, animate = true, isOffline = fals
     let gi = null;
 
     try {
-      nutrition = await calculateRecipeNutrition(recipe.ingredients, recipe.portions || 2);
+      nutrition = await calculateRecipeNutrition(
+        recipe.ingredients,
+        recipe.portions || 2,
+      );
       gi = estimateGlycemicIndex(recipe.ingredients);
-      console.log("Nutrition calculée pour", recipe.nom, ":", nutrition ? "OUI" : "NON");
+      console.log(
+        "Nutrition calculée pour",
+        recipe.nom,
+        ":",
+        nutrition ? "OUI" : "NON",
+      );
     } catch (err) {
       console.warn("Erreur calcul nutrition pour", recipe.nom, err);
     }
@@ -1778,14 +2477,20 @@ async function renderRecipesWithNutrition(data, animate = true, isOffline = fals
   }
 }
 
-function createRecipeCardHTML(recipe, isFav = false, nutrition = null, gi = null) {
+function createRecipeCardHTML(
+  recipe,
+  isFav = false,
+  nutrition = null,
+  gi = null,
+) {
   const recipeId = recipe.id || Date.now() + Math.random();
   const favoriteClass = isFavorite(recipe.nom) ? "active" : "";
   const portions = recipe.portions || 2;
   const calories = recipe.calories_portion || null;
 
   const ingredientsHTML = recipe.ingredients
-    .map((ing, i) => `
+    .map(
+      (ing, i) => `
       <li>
         <label>
           <input type="checkbox" id="ing-${recipeId}-${i}">
@@ -1793,7 +2498,8 @@ function createRecipeCardHTML(recipe, isFav = false, nutrition = null, gi = null
         </label>
         <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
       </li>
-    `)
+    `,
+    )
     .join("");
 
   const stepsHTML = recipe.etapes
@@ -1814,9 +2520,13 @@ function createRecipeCardHTML(recipe, isFav = false, nutrition = null, gi = null
     <span class="tag level">👨‍🍳 ${escapeHtml(recipe.difficulte || "Moyen")}</span>
   `;
 
+  if (recipe.author) {
+    tagsHTML += `<span class="tag author">👤 Par ${escapeHtml(recipe.author)}</span>`;
+  }
+
   // Si pas de nutrition calculée, afficher les calories de l'IA en fallback
   if (!nutrition && calories) {
-    tagsHTML += `<span class="tag calories">🔥 ${calories} kcal <small>(estimé IA)</small></span>`;
+    tagsHTML += `<span class="tag calories" data-original-calories="${calories}">🔥 ${calories} kcal/pers <small>(estimé IA)</small></span>`;
   }
 
   // Astuce chef
@@ -1826,10 +2536,17 @@ function createRecipeCardHTML(recipe, isFav = false, nutrition = null, gi = null
 
   // Nutrition card (si disponible)
   const nutritionHTML = nutrition ? renderNutritionCard(nutrition, gi) : "";
-  console.log("Nutrition HTML pour", recipe.nom, ":", nutritionHTML ? "GÉNÉRÉ" : "VIDE");
+  console.log(
+    "Nutrition HTML pour",
+    recipe.nom,
+    ":",
+    nutritionHTML ? "GÉNÉRÉ" : "VIDE",
+  );
 
   // Échapper le JSON pour l'attribut HTML
-  const ingredientsJSON = JSON.stringify(recipe.ingredients).replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+  const ingredientsJSON = JSON.stringify(recipe.ingredients)
+    .replace(/'/g, "&apos;")
+    .replace(/"/g, "&quot;");
 
   return `
     <article class="recipe-card" data-recipe-id="${recipeId}" data-recipe-name="${escapeHtml(recipe.nom)}" data-original-portions="${portions}" data-original-ingredients="${ingredientsJSON}">
@@ -1868,6 +2585,15 @@ function createRecipeCardHTML(recipe, isFav = false, nutrition = null, gi = null
         <button class="action-btn share-btn" aria-label="Partager">
           <span>📤</span>
         </button>
+        ${
+          !recipe.author
+            ? `
+        <button class="action-btn publish-btn" aria-label="Publier à la communauté" title="Publier">
+          <span>🌍</span>
+        </button>
+        `
+            : ""
+        }
       </div>
     </article>
   `;
@@ -1886,20 +2612,25 @@ function attachRecipeCardListeners(container) {
     const originalIngredients = JSON.parse(ingredientsJSON);
 
     const recipe = findRecipeByName(recipeName);
-    if (!recipe) return;
 
     // Bouton favori
     const favoriteBtn = card.querySelector(".favorite-btn");
-    favoriteBtn?.addEventListener("click", () => {
-      toggleFavorite(recipe);
-      const isNowFav = isFavorite(recipe.nom);
-      favoriteBtn.classList.toggle("active", isNowFav);
-      favoriteBtn.querySelector("span").textContent = isNowFav ? "❤️" : "🤍";
-    });
+    if (recipe) {
+      favoriteBtn?.addEventListener("click", () => {
+        toggleFavorite(recipe);
+        const isNowFav = isFavorite(recipe.nom);
+        favoriteBtn.classList.toggle("active", isNowFav);
+        favoriteBtn.querySelector("span").textContent = isNowFav ? "❤️" : "🤍";
+      });
 
-    // Bouton partage
-    const shareBtn = card.querySelector(".share-btn");
-    shareBtn?.addEventListener("click", () => shareRecipe(recipe));
+      // Bouton partage
+      const shareBtn = card.querySelector(".share-btn");
+      shareBtn?.addEventListener("click", () => shareRecipe(recipe));
+
+      // Bouton de publication dans la communauté
+      const publishBtn = card.querySelector(".publish-btn");
+      publishBtn?.addEventListener("click", () => publishToCommunity(recipe));
+    }
 
     // Contrôle portions
     let currentPortions = originalPortions;
@@ -1909,14 +2640,24 @@ function attachRecipeCardListeners(container) {
     minusBtn?.addEventListener("click", () => {
       if (currentPortions > 1) {
         currentPortions--;
-        adjustPortions(recipeId, currentPortions, originalPortions, originalIngredients);
+        adjustPortions(
+          recipeId,
+          currentPortions,
+          originalPortions,
+          originalIngredients,
+        );
       }
     });
 
     plusBtn?.addEventListener("click", () => {
       if (currentPortions < 12) {
         currentPortions++;
-        adjustPortions(recipeId, currentPortions, originalPortions, originalIngredients);
+        adjustPortions(
+          recipeId,
+          currentPortions,
+          originalPortions,
+          originalIngredients,
+        );
       }
     });
 
@@ -1934,6 +2675,9 @@ function findRecipeByName(name) {
     if (fromHistory) return fromHistory;
   }
 
+  const fromCommunity = appState.community.find((r) => r.nom === name);
+  if (fromCommunity) return fromCommunity;
+
   return window._currentRecipes?.find((r) => r.nom === name);
 }
 
@@ -1941,10 +2685,14 @@ function findRecipeByName(name) {
 
 function initNutritionAnalysisListeners() {
   // Mode selector
-  document.querySelectorAll(".mode-btn").forEach(btn => {
+  document.querySelectorAll(".mode-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(".analysis-mode-content").forEach(c => c.classList.remove("active"));
+      document
+        .querySelectorAll(".mode-btn")
+        .forEach((b) => b.classList.remove("active"));
+      document
+        .querySelectorAll(".analysis-mode-content")
+        .forEach((c) => c.classList.remove("active"));
 
       btn.classList.add("active");
       const mode = btn.dataset.mode;
@@ -1953,23 +2701,45 @@ function initNutritionAnalysisListeners() {
   });
 
   // Analyse assiette
-  document.getElementById("takePlateBtn")?.addEventListener("click", () => takePictureFor("plate"));
-  document.getElementById("selectPlateBtn")?.addEventListener("click", () => selectPictureFor("plate"));
-  document.getElementById("clearPlateBtn")?.addEventListener("click", () => clearPictureFor("plate"));
-  document.getElementById("analyzePlateBtn")?.addEventListener("click", analyzePlate);
+  document
+    .getElementById("takePlateBtn")
+    ?.addEventListener("click", () => takePictureFor("plate"));
+  document
+    .getElementById("selectPlateBtn")
+    ?.addEventListener("click", () => selectPictureFor("plate"));
+  document
+    .getElementById("clearPlateBtn")
+    ?.addEventListener("click", () => clearPictureFor("plate"));
+  document
+    .getElementById("analyzePlateBtn")
+    ?.addEventListener("click", analyzePlate);
 
   // Analyse produit
-  document.getElementById("scanBarcodeBtn")?.addEventListener("click", scanProductBarcode);
-  document.getElementById("searchBarcodeBtn")?.addEventListener("click", searchManualBarcode);
-  document.getElementById("manualBarcodeInput")?.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      searchManualBarcode();
-    }
-  });
-  document.getElementById("takeLabelBtn")?.addEventListener("click", () => takePictureFor("label"));
-  document.getElementById("selectLabelBtn")?.addEventListener("click", () => selectPictureFor("label"));
-  document.getElementById("clearLabelBtn")?.addEventListener("click", () => clearPictureFor("label"));
-  document.getElementById("analyzeLabelBtn")?.addEventListener("click", analyzeLabel);
+  document
+    .getElementById("scanBarcodeBtn")
+    ?.addEventListener("click", scanProductBarcode);
+  document
+    .getElementById("searchBarcodeBtn")
+    ?.addEventListener("click", searchManualBarcode);
+  document
+    .getElementById("manualBarcodeInput")
+    ?.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        searchManualBarcode();
+      }
+    });
+  document
+    .getElementById("takeLabelBtn")
+    ?.addEventListener("click", () => takePictureFor("label"));
+  document
+    .getElementById("selectLabelBtn")
+    ?.addEventListener("click", () => selectPictureFor("label"));
+  document
+    .getElementById("clearLabelBtn")
+    ?.addEventListener("click", () => clearPictureFor("label"));
+  document
+    .getElementById("analyzeLabelBtn")
+    ?.addEventListener("click", analyzeLabel);
 }
 
 function takePictureFor(type) {
@@ -1985,7 +2755,7 @@ function takePictureFor(type) {
       correctOrientation: true,
       targetWidth: 800,
       targetHeight: 800,
-    }
+    },
   );
 }
 
@@ -2002,12 +2772,14 @@ function selectPictureFor(type) {
       correctOrientation: true,
       targetWidth: 800,
       targetHeight: 800,
-    }
+    },
   );
 }
 
 function onAnalysisPictureSuccess(imageData, type) {
-  let cleanBase64 = imageData.startsWith("data:image") ? imageData.split(",")[1] : imageData;
+  let cleanBase64 = imageData.startsWith("data:image")
+    ? imageData.split(",")[1]
+    : imageData;
   cleanBase64 = cleanBase64.replace(/\s/g, "");
 
   if (type === "plate") {
@@ -2110,8 +2882,16 @@ RÉPONSE EN JSON UNIQUEMENT (format strict ci-dessus):`;
           {
             role: "user",
             content: [
-              { type: "text", text: "Analyse cette assiette et estime les quantités." },
-              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${selectedPlateImageBase64}` } },
+              {
+                type: "text",
+                text: "Analyse cette assiette et estime les quantités.",
+              },
+              {
+                type: "image_url",
+                image_url: {
+                  url: `data:image/jpeg;base64,${selectedPlateImageBase64}`,
+                },
+              },
             ],
           },
         ],
@@ -2128,7 +2908,15 @@ RÉPONSE EN JSON UNIQUEMENT (format strict ci-dessus):`;
 
     // Calculer nutrition totale
     await loadFoodDatabase();
-    const totals = { calories: 0, proteines: 0, glucides: 0, lipides: 0, fibres: 0, sucres: 0, sodium: 0 };
+    const totals = {
+      calories: 0,
+      proteines: 0,
+      glucides: 0,
+      lipides: 0,
+      fibres: 0,
+      sucres: 0,
+      sodium: 0,
+    };
     const foundFoods = [];
 
     for (const item of result.aliments) {
@@ -2153,16 +2941,21 @@ RÉPONSE EN JSON UNIQUEMENT (format strict ci-dessus):`;
     if (totals.calories > 800) verdict = "Très calorique";
     else if (totals.lipides > 30) verdict = "Riche en graisses";
     else if (totals.sucres > 25) verdict = "Riche en sucres";
-    else if (totals.proteines > 30 && totals.fibres > 8) verdict = "Très équilibré";
+    else if (totals.proteines > 30 && totals.fibres > 8)
+      verdict = "Très équilibré";
 
-    const alimentsHTML = foundFoods.map((f, index) => `
-      <div class="plate-item ${f.found ? '' : 'not-found'}">
+    const alimentsHTML = foundFoods
+      .map(
+        (f, index) => `
+      <div class="plate-item ${f.found ? "" : "not-found"}">
         <span class="plate-item-name">${escapeHtml(f.nom)}</span>
         <span class="plate-item-qty">${f.quantite_g}g</span>
-        ${!f.found ? '<small class="data-warning">⚠️ Données nutritionnelles non disponibles</small>' : ''}
+        ${!f.found ? '<small class="data-warning">⚠️ Données nutritionnelles non disponibles</small>' : ""}
         <button class="remove-item-btn" data-index="${index}" title="Retirer">✕</button>
       </div>
-    `).join("");
+    `,
+      )
+      .join("");
 
     resultArea.innerHTML = `
       <div class="plate-analysis-card">
@@ -2209,7 +3002,10 @@ RÉPONSE EN JSON UNIQUEMENT (format strict ci-dessus):`;
     `;
 
     // Stocker les données pour modification ultérieure
-    resultArea.dataset.plateData = JSON.stringify({ aliments: foundFoods, totals });
+    resultArea.dataset.plateData = JSON.stringify({
+      aliments: foundFoods,
+      totals,
+    });
 
     // Attacher les event listeners pour ajouter/retirer ingrédients
     attachPlateModificationListeners();
@@ -2223,7 +3019,6 @@ RÉPONSE EN JSON UNIQUEMENT (format strict ci-dessus):`;
       nutrition: totals,
       verdict,
     });
-
   } catch (err) {
     console.error("Erreur analyse assiette:", err);
     resultArea.innerHTML = `<div class="error-card"><span class="error-icon">😕</span><p>Erreur lors de l'analyse</p><small>${err.message}</small></div>`;
@@ -2289,7 +3084,7 @@ function attachPlateModificationListeners() {
   });
 
   // Boutons de suppression
-  document.querySelectorAll(".remove-item-btn").forEach(btn => {
+  document.querySelectorAll(".remove-item-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const index = parseInt(e.currentTarget.dataset.index);
       const resultArea = document.getElementById("plateAnalysisResult");
@@ -2308,7 +3103,15 @@ async function recalculatePlateNutrition() {
   const plateData = JSON.parse(resultArea.dataset.plateData);
 
   // Recalculer nutrition
-  const totals = { calories: 0, proteines: 0, glucides: 0, lipides: 0, fibres: 0, sucres: 0, sodium: 0 };
+  const totals = {
+    calories: 0,
+    proteines: 0,
+    glucides: 0,
+    lipides: 0,
+    fibres: 0,
+    sucres: 0,
+    sodium: 0,
+  };
   const foundFoods = [];
 
   for (const item of plateData.aliments) {
@@ -2333,17 +3136,22 @@ async function recalculatePlateNutrition() {
   if (totals.calories > 800) verdict = "Très calorique";
   else if (totals.lipides > 30) verdict = "Riche en graisses";
   else if (totals.sucres > 25) verdict = "Riche en sucres";
-  else if (totals.proteines > 30 && totals.fibres > 8) verdict = "Très équilibré";
+  else if (totals.proteines > 30 && totals.fibres > 8)
+    verdict = "Très équilibré";
 
   // Réafficher
-  const alimentsHTML = foundFoods.map((f, index) => `
-    <div class="plate-item ${f.found ? '' : 'not-found'}">
+  const alimentsHTML = foundFoods
+    .map(
+      (f, index) => `
+    <div class="plate-item ${f.found ? "" : "not-found"}">
       <span class="plate-item-name">${escapeHtml(f.nom)}</span>
       <span class="plate-item-qty">${f.quantite_g}g</span>
-      ${!f.found ? '<small class="data-warning">⚠️ Données nutritionnelles non disponibles</small>' : ''}
+      ${!f.found ? '<small class="data-warning">⚠️ Données nutritionnelles non disponibles</small>' : ""}
       <button class="remove-item-btn" data-index="${index}" title="Retirer">✕</button>
     </div>
-  `).join("");
+  `,
+    )
+    .join("");
 
   resultArea.innerHTML = `
     <div class="plate-analysis-card">
@@ -2387,7 +3195,10 @@ async function recalculatePlateNutrition() {
   `;
 
   // Mettre à jour les données stockées
-  resultArea.dataset.plateData = JSON.stringify({ aliments: foundFoods, totals });
+  resultArea.dataset.plateData = JSON.stringify({
+    aliments: foundFoods,
+    totals,
+  });
 
   // Réattacher les listeners
   attachPlateModificationListeners();
@@ -2416,7 +3227,6 @@ async function scanProductBarcode() {
       barcode: barcode,
       data: product,
     });
-
   } catch (err) {
     console.error("Erreur scan:", err);
     if (!err.message.includes("annulé")) {
@@ -2473,7 +3283,6 @@ async function searchManualBarcode() {
 
     // Vider le champ après succès
     input.value = "";
-
   } catch (err) {
     console.error("Erreur recherche manuelle:", err);
     showToast("❌ Erreur lors de la recherche");
@@ -2540,8 +3349,16 @@ RÉPONSE EN JSON UNIQUEMENT:
           {
             role: "user",
             content: [
-              { type: "text", text: "Extrais les données nutritionnelles de cette étiquette." },
-              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${selectedLabelImageBase64}` } },
+              {
+                type: "text",
+                text: "Extrais les données nutritionnelles de cette étiquette.",
+              },
+              {
+                type: "image_url",
+                image_url: {
+                  url: `data:image/jpeg;base64,${selectedLabelImageBase64}`,
+                },
+              },
             ],
           },
         ],
@@ -2582,7 +3399,6 @@ RÉPONSE EN JSON UNIQUEMENT:
       imageThumb: selectedLabelImageBase64.substring(0, 100),
       data: fakeProduct,
     });
-
   } catch (err) {
     console.error("Erreur analyse étiquette:", err);
     resultArea.innerHTML = `<div class="error-card"><span class="error-icon">😕</span><p>Erreur lors de l'analyse</p><small>${err.message}</small></div>`;
@@ -2604,13 +3420,15 @@ function displayProductAnalysis(product) {
     ? `<div class="nova-badge nova-${product.novaGroup}">NOVA ${product.novaGroup}</div>`
     : "";
 
-  const issuesHTML = verdict.issues.length > 0
-    ? `<div class="verdict-issues"><h5>⚠️ Points d'attention</h5><ul>${verdict.issues.map(i => `<li>${i}</li>`).join("")}</ul></div>`
-    : "";
+  const issuesHTML =
+    verdict.issues.length > 0
+      ? `<div class="verdict-issues"><h5>⚠️ Points d'attention</h5><ul>${verdict.issues.map((i) => `<li>${i}</li>`).join("")}</ul></div>`
+      : "";
 
-  const positivesHTML = verdict.positives.length > 0
-    ? `<div class="verdict-positives"><h5>✅ Points positifs</h5><ul>${verdict.positives.map(p => `<li>${p}</li>`).join("")}</ul></div>`
-    : "";
+  const positivesHTML =
+    verdict.positives.length > 0
+      ? `<div class="verdict-positives"><h5>✅ Points positifs</h5><ul>${verdict.positives.map((p) => `<li>${p}</li>`).join("")}</ul></div>`
+      : "";
 
   const resultArea = document.getElementById("productAnalysisResult");
   resultArea.innerHTML = `
@@ -2663,12 +3481,23 @@ function renderNutritionHistory() {
     return;
   }
 
-  const historyHTML = appState.nutritionHistory.map((entry, i) => {
-    const date = new Date(entry.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-    const icon = entry.type === "plate" ? "🍽️" : "🏷️";
-    const title = entry.type === "plate" ? "Analyse d'assiette" : entry.type === "product" ? "Produit scanné" : "Étiquette analysée";
+  const historyHTML = appState.nutritionHistory
+    .map((entry, i) => {
+      const date = new Date(entry.date).toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      const icon = entry.type === "plate" ? "🍽️" : "🏷️";
+      const title =
+        entry.type === "plate"
+          ? "Analyse d'assiette"
+          : entry.type === "product"
+            ? "Produit scanné"
+            : "Étiquette analysée";
 
-    return `
+      return `
       <div class="nutrition-history-item">
         <span class="history-icon">${icon}</span>
         <div class="history-info">
@@ -2677,7 +3506,8 @@ function renderNutritionHistory() {
         </div>
       </div>
     `;
-  }).join("");
+    })
+    .join("");
 
   container.innerHTML = historyHTML;
 }
@@ -2734,13 +3564,4 @@ function renderRecipes(data, animate = true, isOffline = false) {
     }, 100);
   }
 }
-
-// Écouter les changements de connexion
-window.addEventListener("online", () => {
-  showToast("Connexion rétablie ✅");
-});
-
-window.addEventListener("offline", () => {
-  showToast("Mode hors-ligne 📴");
-});
 

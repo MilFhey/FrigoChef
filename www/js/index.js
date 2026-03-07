@@ -404,6 +404,10 @@ function startTimer(stepId, duration) {
   );
   if (!timerBtn) return;
 
+  // Récupérer le libellé de l'étape pour la notification
+  const stepEl = document.querySelector(`[data-step-id="${stepId}"]`);
+  const stepText = stepEl ? stepEl.textContent.replace(/\d{2}:\d{2}/, "").trim().substring(0, 60) : "Étape de cuisson";
+
   let remaining = duration;
   timerBtn.classList.add("running");
   timerBtn.innerHTML = `<span class="timer-display">${formatTime(remaining)}</span>`;
@@ -418,23 +422,33 @@ function startTimer(stepId, duration) {
         delete activeTimers[stepId];
         timerBtn.classList.remove("running");
         timerBtn.classList.add("finished");
-        timerBtn.innerHTML = `<span>✅ Terminé!</span>`;
+        timerBtn.innerHTML = `<span>✅ Terminé !</span>`;
 
-        // Notification sonore/vibration
+        // --- VIBRATION ---
         if (navigator.vibrate) {
-          navigator.vibrate([200, 100, 200, 100, 200]);
+          navigator.vibrate([300, 100, 300, 100, 300, 100, 500]);
         }
+
+        // --- SON ---
+        playTimerSound();
+
+        // --- NOTIFICATION SYSTEME ---
+        sendTimerNotification(stepText, duration);
+
         showToast("⏰ Timer terminé !");
 
-        // Reset après 3 secondes
+        // Reset après 4 secondes
         setTimeout(() => {
           timerBtn.classList.remove("finished");
           timerBtn.innerHTML = `<span>⏱️ ${formatTime(duration)}</span>`;
-        }, 3000);
+        }, 4000);
       }
     }, 1000),
     duration: duration,
   };
+
+  // Demander permission notification au premier démarrage
+  requestNotificationPermission();
 }
 
 function stopTimer(stepId) {
@@ -461,6 +475,120 @@ function toggleTimer(stepId, duration) {
   }
 }
 
+// --- SON TIMER ---
+function playTimerSound() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+
+    // Séquence de 3 bips descendants
+    const beeps = [
+      { freq: 880, start: 0,    duration: 0.18 },
+      { freq: 880, start: 0.25, duration: 0.18 },
+      { freq: 1100, start: 0.5, duration: 0.4  },
+    ];
+
+    beeps.forEach(({ freq, start, duration }) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+
+      gain.gain.setValueAtTime(0, ctx.currentTime + start);
+      gain.gain.linearRampToValueAtTime(0.6, ctx.currentTime + start + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + duration);
+
+      osc.start(ctx.currentTime + start);
+      osc.stop(ctx.currentTime + start + duration + 0.05);
+    });
+
+    // Fermer le contexte audio après 2s
+    setTimeout(() => ctx.close().catch(() => {}), 2000);
+  } catch (e) {
+    console.warn("Son timer non disponible:", e);
+  }
+}
+
+// --- NOTIFICATION SYSTEME ---
+function requestNotificationPermission() {
+  // Cordova local-notification (Android natif)
+  if (window.cordova && cordova.plugins && cordova.plugins.notification && cordova.plugins.notification.local) {
+    cordova.plugins.notification.local.requestPermission((granted) => {
+      if (granted) {
+        console.log("Permission notifications locales accordée");
+      }
+    });
+    return;
+  }
+  // Fallback Web Notifications
+  if (!("Notification" in window)) return;
+  if (Notification.permission === "default") {
+    Notification.requestPermission().then((perm) => {
+      if (perm === "granted") {
+        showToast("🔔 Notifications activées !");
+      }
+    });
+  }
+}
+
+// Compteur d'ID unique pour les notifications
+let _notifId = 1;
+
+function sendTimerNotification(stepText, duration) {
+  const mins = Math.floor(duration / 60);
+  const secs = duration % 60;
+  const durationLabel = mins > 0
+    ? `${mins} min${secs > 0 ? ` ${secs}s` : ""}`
+    : `${secs}s`;
+
+  const title = "⏰ FrigoChef — Timer terminé !";
+  const text  = `${durationLabel} écoulés — ${stepText}`;
+
+  // ── Priorité 1 : Plugin Cordova (Android natif, app fermée) ──
+  if (window.cordova && cordova.plugins && cordova.plugins.notification && cordova.plugins.notification.local) {
+    try {
+      cordova.plugins.notification.local.schedule({
+        id:       _notifId++,
+        title:    title,
+        text:     text,
+        icon:     "res://ic_launcher",
+        smallIcon:"res://ic_launcher",
+        sound:    true,
+        vibrate:  true,
+        priority: 2,         // HIGH
+        foreground: true,    // afficher même app au premier plan
+        // trigger immédiat (at: now)
+        trigger:  { at: new Date() },
+      });
+    } catch (e) {
+      console.warn("cordova-plugin-local-notification erreur:", e);
+    }
+    return;
+  }
+
+  // ── Priorité 2 : Web Notifications API (navigateur / fallback) ──
+  if (!("Notification" in window)) return;
+  if (Notification.permission !== "granted") return;
+  try {
+    const notif = new Notification(title, {
+      body:             text,
+      icon:             "img/logo.png",
+      badge:            "img/logo.png",
+      tag:              "frigochef-timer",
+      requireInteraction: true,
+      silent:           false,
+    });
+    setTimeout(() => notif.close(), 8000);
+    notif.onclick = () => { window.focus(); notif.close(); };
+  } catch (e) {
+    console.warn("Web Notification impossible:", e);
+  }
+}
+
 // --- PORTIONS ---
 function adjustPortions(
   recipeId,
@@ -478,13 +606,40 @@ function adjustPortions(
     portionDisplay.textContent = newPortions;
   }
 
-  // Mettre à jour les calories
+  // Mettre à jour les calories — tag fallback (sans carte nutrition)
   const caloriesTag = card.querySelector(".tag.calories");
   if (caloriesTag) {
-    const originalCalories =
-      parseInt(caloriesTag.dataset.originalCalories) || 0;
-    // Les calories par portion restent les mêmes, mais on peut afficher le total
-    caloriesTag.innerHTML = `🔥 ${originalCalories} kcal/pers`;
+    const originalCalories = parseInt(caloriesTag.dataset.originalCalories) || 0;
+    if (originalCalories > 0) {
+      const totalCalories = Math.round(originalCalories * newPortions);
+      caloriesTag.innerHTML = `🔥 ${originalCalories} kcal/pers · ${totalCalories} kcal total <small>(estimé IA)</small>`;
+    }
+  }
+
+  // Mettre à jour la carte nutrition détaillée si elle existe
+  const nutritionCard = card.querySelector(".nutrition-card");
+  if (nutritionCard) {
+    const calPerServing = parseInt(nutritionCard.dataset.caloriesPerServing) || 0;
+    const origServings = parseInt(nutritionCard.dataset.originalServings) || originalPortions;
+
+    // Mettre à jour le titre avec le nouveau nombre de portions
+    const nutritionTitle = nutritionCard.querySelector("h4");
+    if (nutritionTitle) {
+      nutritionTitle.innerHTML = `📊 Valeurs nutritionnelles <small>(par portion · ${newPortions} portion${newPortions > 1 ? "s" : ""} au total)</small>`;
+    }
+
+    // Mettre à jour l'affichage des calories (par portion = inchangé, total = mis à jour)
+    if (calPerServing > 0) {
+      const totalCalNutrition = Math.round(calPerServing * newPortions);
+      // Chercher le macro-item Calories
+      nutritionCard.querySelectorAll(".macro-item").forEach((item) => {
+        const label = item.querySelector(".macro-label");
+        const value = item.querySelector(".macro-value");
+        if (label && value && label.textContent.trim() === "Calories") {
+          value.innerHTML = `${calPerServing} kcal/pers <small style="color:var(--text-muted,#888)">· ${totalCalNutrition} kcal total</small>`;
+        }
+      });
+    }
   }
 
   // Recalculer les ingrédients
@@ -514,26 +669,26 @@ function adjustPortions(
 }
 
 function adjustIngredientQuantity(ingredient, ratio) {
-  // Pattern pour trouver les quantités numériques
-  const patterns = [
-    /^(\d+(?:[.,]\d+)?)\s*(kg|g|ml|cl|l|cuillères?|càs|càc|cs|cc|pincées?|tranches?|gousses?|branches?|feuilles?|œufs?|oeufs?)?\s+(.*)$/i,
-    /^(\d+(?:[.,]\d+)?)\s+(.*)$/i,
-  ];
+  // Pattern 1: nombre + unité optionnelle + nom  (ex: "200g de poulet", "3 tomates", "1.5 oignon")
+  const patternWithUnit = /^(\d+(?:[.,]\d+)?)\s*(kg|g|ml|cl|l|cuillères?|càs|càc|cs|cc|pincées?|tranches?|gousses?|branches?|feuilles?|œufs?|oeufs?)\s+(.+)$/i;
+  // Pattern 2: nombre + espace + reste (sans unité reconnue)
+  const patternNoUnit = /^(\d+(?:[.,]\d+)?)\s+(.+)$/i;
 
-  for (const pattern of patterns) {
-    const match = ingredient.match(pattern);
-    if (match) {
-      let quantity = parseFloat(match[1].replace(",", "."));
-      const newQuantity = Math.round(quantity * ratio * 10) / 10; // Arrondir à 1 décimale
+  let match = ingredient.match(patternWithUnit);
+  if (match) {
+    const quantity = parseFloat(match[1].replace(",", "."));
+    const newQuantity = Math.round(quantity * ratio * 10) / 10;
+    const unit = match[2];
+    const name = match[3];
+    return `${newQuantity} ${unit} ${name}`;
+  }
 
-      if (match[3]) {
-        // Avec unité
-        return `${newQuantity} ${match[2]} ${match[3]}`;
-      } else {
-        // Sans unité
-        return `${newQuantity} ${match[2]}`;
-      }
-    }
+  match = ingredient.match(patternNoUnit);
+  if (match) {
+    const quantity = parseFloat(match[1].replace(",", "."));
+    const newQuantity = Math.round(quantity * ratio * 10) / 10;
+    const name = match[2];
+    return `${newQuantity} ${name}`;
   }
 
   // Si pas de quantité trouvée, retourner tel quel
@@ -1122,13 +1277,245 @@ function renderFavorites() {
   }
 
   const favoritesHTML = appState.favorites
-    .map((recipe) => {
-      return createRecipeCardHTML(recipe, true);
-    })
+    .map((recipe) => createFavoriteAccordionHTML(recipe))
     .join("");
 
-  container.innerHTML = `<div class="favorites-grid">${favoritesHTML}</div>`;
-  attachRecipeCardListeners(container);
+  container.innerHTML = `<div class="favorites-list">${favoritesHTML}</div>`;
+
+  // Accordéon
+  container.querySelectorAll(".fav-accordion-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      const item = header.closest(".fav-accordion-item");
+      const body = item.querySelector(".fav-accordion-body");
+      const isOpen = item.classList.contains("open");
+
+      // Fermer tous les autres
+      container.querySelectorAll(".fav-accordion-item.open").forEach((openItem) => {
+        if (openItem !== item) {
+          openItem.classList.remove("open");
+          openItem.querySelector(".fav-accordion-body").style.maxHeight = null;
+        }
+      });
+
+      if (isOpen) {
+        item.classList.remove("open");
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + "px";
+        setTimeout(() => {
+          if (item.classList.contains("open")) {
+            body.style.maxHeight = body.scrollHeight + "px";
+          }
+        }, 300);
+      }
+    });
+  });
+
+  // Boutons d'action dans les accordéons favoris
+  container.querySelectorAll(".fav-accordion-item").forEach((item) => {
+    const recipeName = item.dataset.recipeName;
+    const recipe = appState.favorites.find((r) => r.nom === recipeName);
+    if (!recipe) return;
+
+    const recipeId = item.dataset.recipeId;
+    const originalPortions = parseInt(item.dataset.originalPortions) || 2;
+    const ingredientsJSON = (item.dataset.originalIngredients || "[]")
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'");
+    const originalIngredients = JSON.parse(ingredientsJSON);
+
+    // Contrôle portions
+    let currentPortions = originalPortions;
+    const minusBtn = item.querySelector(".fav-portion-btn.minus");
+    const plusBtn = item.querySelector(".fav-portion-btn.plus");
+
+    minusBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (currentPortions > 1) {
+        currentPortions--;
+        item.querySelector(".fav-portion-value").textContent = currentPortions;
+        adjustFavPortions(item, recipeId, currentPortions, originalPortions, originalIngredients);
+      }
+    });
+
+    plusBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (currentPortions < 12) {
+        currentPortions++;
+        item.querySelector(".fav-portion-value").textContent = currentPortions;
+        adjustFavPortions(item, recipeId, currentPortions, originalPortions, originalIngredients);
+      }
+    });
+
+    // Bouton retirer des favoris
+    const removeFavBtn = item.querySelector(".fav-remove-btn");
+    removeFavBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleFavorite(recipe);
+    });
+
+    // Bouton partage
+    const shareBtn = item.querySelector(".fav-share-btn");
+    shareBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      shareRecipe(recipe);
+    });
+
+    // Bouton publier en communauté
+    const publishBtn = item.querySelector(".fav-publish-btn");
+    publishBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      publishToCommunity(recipe);
+    });
+
+    // Boutons ajout liste de courses
+    item.querySelectorAll(".add-to-list-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        addToShoppingList(btn.dataset.ingredient);
+      });
+    });
+  });
+}
+
+function adjustFavPortions(item, recipeId, newPortions, originalPortions, originalIngredients) {
+  const ratio = newPortions / originalPortions;
+
+  // Mettre à jour tag calories fallback
+  const caloriesTag = item.querySelector(".fav-tag.fav-tag-calories");
+  if (caloriesTag) {
+    const origCal = parseInt(caloriesTag.dataset.originalCalories) || 0;
+    if (origCal > 0) {
+      caloriesTag.innerHTML = `🔥 ${origCal} kcal/pers · ${Math.round(origCal * newPortions)} kcal total`;
+    }
+  }
+
+  // Mettre à jour la liste des ingrédients
+  const ingredientsList = item.querySelector(".fav-ingredients-list");
+  if (ingredientsList && originalIngredients) {
+    const adjusted = originalIngredients.map((ing) => adjustIngredientQuantity(ing, ratio));
+    ingredientsList.innerHTML = adjusted.map((ing, i) => `
+      <li>
+        <label>
+          <input type="checkbox" id="fav-ing-${recipeId}-${i}">
+          <span>${escapeHtml(ing)}</span>
+        </label>
+        <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
+      </li>`).join("");
+    // Réattacher les listeners d'ajout liste
+    ingredientsList.querySelectorAll(".add-to-list-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        addToShoppingList(btn.dataset.ingredient);
+      });
+    });
+  }
+
+  // Recalculer taille accordéon après changement de contenu
+  const body = item.querySelector(".fav-accordion-body");
+  if (body && item.classList.contains("open")) {
+    body.style.maxHeight = body.scrollHeight + "px";
+  }
+}
+
+function createFavoriteAccordionHTML(recipe) {
+  const recipeId = recipe.id || Date.now() + Math.random();
+  const portions = recipe.portions || 2;
+  const calories = recipe.calories_portion || null;
+  const savedAt = recipe.savedAt
+    ? new Date(recipe.savedAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })
+    : "";
+
+  // Aperçu ingrédients (3 premiers)
+  const ingPreview = (recipe.ingredients || []).slice(0, 3).map((i) => escapeHtml(i)).join(", ");
+  const ingMore = recipe.ingredients && recipe.ingredients.length > 3
+    ? ` <span class="acc-ing-more">+${recipe.ingredients.length - 3}</span>` : "";
+
+  // Ingrédients complets
+  const ingredientsHTML = (recipe.ingredients || []).map((ing, i) => `
+    <li>
+      <label>
+        <input type="checkbox" id="fav-ing-${recipeId}-${i}">
+        <span>${escapeHtml(ing)}</span>
+      </label>
+      <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
+    </li>`).join("");
+
+  // Étapes
+  const stepsHTML = (recipe.etapes || []).map((step, i) => {
+    const stepId = `fav-step-${recipeId}-${i}`;
+    const timerDuration = parseTimeFromStep(step);
+    const timerBtn = timerDuration
+      ? `<button class="timer-btn" onclick="toggleTimer('${stepId}', ${timerDuration})"><span>⏱️ ${formatTime(timerDuration)}</span></button>`
+      : "";
+    return `<li data-step-id="${stepId}">${escapeHtml(step)}${timerBtn}</li>`;
+  }).join("");
+
+  const astuceHTML = recipe.astuce_chef
+    ? `<div class="chef-tip"><span class="tip-icon">💡</span> ${escapeHtml(recipe.astuce_chef)}</div>` : "";
+
+  const caloriesTag = calories
+    ? `<span class="fav-tag fav-tag-calories" data-original-calories="${calories}">🔥 ${calories} kcal/pers</span>` : "";
+
+  const ingredientsJSON = JSON.stringify(recipe.ingredients || [])
+    .replace(/'/g, "&apos;")
+    .replace(/"/g, "&quot;");
+
+  return `
+    <div class="fav-accordion-item" data-recipe-name="${escapeHtml(recipe.nom)}" data-recipe-id="${recipeId}" data-original-portions="${portions}" data-original-ingredients="${ingredientsJSON}">
+      <div class="fav-accordion-header">
+        <div class="acc-header-main">
+          <div class="acc-title-row">
+            <h3 class="acc-recipe-name">${escapeHtml(recipe.nom)}</h3>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-meta">
+            <span class="fav-tag">⏱️ ${escapeHtml(recipe.temps || "?")}</span>
+            <span class="fav-tag">👨‍🍳 ${escapeHtml(recipe.difficulte || "Moyen")}</span>
+            ${caloriesTag}
+            ${savedAt ? `<span class="fav-tag fav-tag-date">💾 ${savedAt}</span>` : ""}
+          </div>
+          <div class="acc-ing-preview">🛒 <span>${ingPreview}${ingMore}</span></div>
+        </div>
+      </div>
+
+      <div class="fav-accordion-body">
+        <div class="acc-body-inner">
+
+          <!-- Contrôle des portions -->
+          <div class="fav-portion-control">
+            <span class="fav-portion-label">👥 Portions :</span>
+            <div class="fav-portion-buttons">
+              <button class="fav-portion-btn minus">−</button>
+              <span class="fav-portion-value">${portions}</span>
+              <button class="fav-portion-btn plus">+</button>
+            </div>
+          </div>
+
+          <h4>🛒 Ingrédients</h4>
+          <ul class="ingredients-list fav-ingredients-list">${ingredientsHTML}</ul>
+
+          <h4>📝 Préparation</h4>
+          <ol class="steps-list">${stepsHTML}</ol>
+
+          ${astuceHTML}
+
+          <div class="acc-actions">
+            <button class="action-btn fav-remove-btn active" aria-label="Retirer des favoris" title="Retirer des favoris">
+              <span>❤️</span>
+            </button>
+            <button class="action-btn fav-share-btn" aria-label="Partager" title="Partager">
+              <span>📤</span>
+            </button>
+            <button class="action-btn fav-publish-btn" aria-label="Publier" title="Publier dans la communauté">
+              <span>🌍</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 // --- PARTAGE ---
@@ -2140,7 +2527,7 @@ function createRecipeCardHTML(
 
   // Si pas de nutrition calculée, afficher les calories de l'IA en fallback
   if (!nutrition && calories) {
-    tagsHTML += `<span class="tag calories">🔥 ${calories} kcal <small>(estimé IA)</small></span>`;
+    tagsHTML += `<span class="tag calories" data-original-calories="${calories}">🔥 ${calories} kcal/pers <small>(estimé IA)</small></span>`;
   }
 
   // Astuce chef
@@ -3232,11 +3619,172 @@ function renderCommunity() {
   );
 
   const communityHTML = sortedCommunity
-    .map((recipe) => {
-      return createRecipeCardHTML(recipe, false);
+    .map((recipe) => createCommunityAccordionHTML(recipe))
+    .join("");
+
+  container.innerHTML = `<div class="community-list">${communityHTML}</div>`;
+
+  // Gestion de l'accordéon
+  container.querySelectorAll(".community-accordion-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      const item = header.closest(".community-accordion-item");
+      const body = item.querySelector(".community-accordion-body");
+      const isOpen = item.classList.contains("open");
+
+      // Fermer tous les autres
+      container.querySelectorAll(".community-accordion-item.open").forEach((openItem) => {
+        if (openItem !== item) {
+          openItem.classList.remove("open");
+          openItem.querySelector(".community-accordion-body").style.maxHeight = null;
+        }
+      });
+
+      // Toggle celui-ci
+      if (isOpen) {
+        item.classList.remove("open");
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + "px";
+        // Réajuster si le contenu change (ex: images chargées)
+        setTimeout(() => {
+          if (item.classList.contains("open")) {
+            body.style.maxHeight = body.scrollHeight + "px";
+          }
+        }, 300);
+      }
+    });
+  });
+
+  // Boutons favoris et partage dans les accordéons
+  container.querySelectorAll(".community-accordion-item").forEach((item) => {
+    const recipeName = item.dataset.recipeName;
+    const recipe = appState.community.find((r) => r.nom === recipeName);
+    if (!recipe) return;
+
+    const favBtn = item.querySelector(".acc-favorite-btn");
+    if (favBtn) {
+      favBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleFavorite(recipe);
+        const isNowFav = isFavorite(recipe.nom);
+        favBtn.classList.toggle("active", isNowFav);
+        favBtn.querySelector("span").textContent = isNowFav ? "❤️" : "🤍";
+      });
+    }
+
+    const shareBtn = item.querySelector(".acc-share-btn");
+    if (shareBtn) {
+      shareBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        shareRecipe(recipe);
+      });
+    }
+
+    // Boutons ajout liste de courses
+    item.querySelectorAll(".add-to-list-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        addToShoppingList(btn.dataset.ingredient);
+      });
+    });
+  });
+}
+
+function createCommunityAccordionHTML(recipe) {
+  const recipeId = recipe.id || Date.now() + Math.random();
+  const portions = recipe.portions || 2;
+  const calories = recipe.calories_portion || null;
+  const author = recipe.author || "Anonyme";
+  const publishedAt = recipe.publishedAt
+    ? new Date(recipe.publishedAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })
+    : "";
+  const isFav = isFavorite(recipe.nom);
+
+  // Résumé ingrédients (les 3 premiers)
+  const ingPreview = (recipe.ingredients || [])
+    .slice(0, 3)
+    .map((i) => escapeHtml(i))
+    .join(", ");
+  const ingMore = recipe.ingredients && recipe.ingredients.length > 3
+    ? ` <span class="acc-ing-more">+${recipe.ingredients.length - 3}</span>`
+    : "";
+
+  // Ingrédients complets
+  const ingredientsHTML = (recipe.ingredients || [])
+    .map((ing, i) => `
+      <li>
+        <label>
+          <input type="checkbox" id="acc-ing-${recipeId}-${i}">
+          <span>${escapeHtml(ing)}</span>
+        </label>
+        <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
+      </li>`)
+    .join("");
+
+  // Étapes
+  const stepsHTML = (recipe.etapes || [])
+    .map((step, i) => {
+      const stepId = `acc-step-${recipeId}-${i}`;
+      const timerDuration = parseTimeFromStep(step);
+      const timerBtn = timerDuration
+        ? `<button class="timer-btn" onclick="toggleTimer('${stepId}', ${timerDuration})"><span>⏱️ ${formatTime(timerDuration)}</span></button>`
+        : "";
+      return `<li data-step-id="${stepId}">${escapeHtml(step)}${timerBtn}</li>`;
     })
     .join("");
 
-  container.innerHTML = `<div class="community-grid">${communityHTML}</div>`;
-  attachRecipeCardListeners(container);
+  // Astuce chef
+  const astuceHTML = recipe.astuce_chef
+    ? `<div class="chef-tip"><span class="tip-icon">💡</span> ${escapeHtml(recipe.astuce_chef)}</div>`
+    : "";
+
+  // Calories tag
+  const caloriesTag = calories
+    ? `<span class="acc-tag">🔥 ${calories} kcal/pers</span>`
+    : "";
+
+  return `
+    <div class="community-accordion-item" data-recipe-name="${escapeHtml(recipe.nom)}">
+      <div class="community-accordion-header">
+        <div class="acc-header-main">
+          <div class="acc-title-row">
+            <h3 class="acc-recipe-name">${escapeHtml(recipe.nom)}</h3>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-meta">
+            <span class="acc-tag">⏱️ ${escapeHtml(recipe.temps || "?")}</span>
+            <span class="acc-tag">👨‍🍳 ${escapeHtml(recipe.difficulte || "Moyen")}</span>
+            ${caloriesTag}
+            <span class="acc-tag acc-tag-author">👤 ${escapeHtml(author)}</span>
+            ${publishedAt ? `<span class="acc-tag acc-tag-date">📅 ${publishedAt}</span>` : ""}
+          </div>
+          <div class="acc-ing-preview">
+            🛒 <span>${ingPreview}${ingMore}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="community-accordion-body">
+        <div class="acc-body-inner">
+          <h4>🛒 Ingrédients <small>(${portions} portion${portions > 1 ? "s" : ""})</small></h4>
+          <ul class="ingredients-list">${ingredientsHTML}</ul>
+
+          <h4>📝 Préparation</h4>
+          <ol class="steps-list">${stepsHTML}</ol>
+
+          ${astuceHTML}
+
+          <div class="acc-actions">
+            <button class="action-btn acc-favorite-btn ${isFav ? "active" : ""}" aria-label="Ajouter aux favoris">
+              <span>${isFav ? "❤️" : "🤍"}</span>
+            </button>
+            <button class="action-btn acc-share-btn" aria-label="Partager">
+              <span>📤</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }

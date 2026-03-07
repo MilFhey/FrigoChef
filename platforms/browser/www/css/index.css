@@ -11,7 +11,7 @@
   --radius-l: 24px;
   --radius-m: 16px;
   --radius-s: 8px;
-  
+
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -28,7 +28,9 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
   background-color: var(--bg-app);
   color: var(--text-dark);
   display: flex;
@@ -146,7 +148,9 @@ header p {
   font-size: 24px;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  transition:
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,7 +229,11 @@ header p {
 
 .mode-btn.active {
   border-color: var(--primary);
-  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(29, 209, 161, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 107, 0.1),
+    rgba(29, 209, 161, 0.1)
+  );
 }
 
 .mode-icon {
@@ -294,7 +302,9 @@ textarea::placeholder {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  transition: background 0.3s, transform 0.2s;
+  transition:
+    background 0.3s,
+    transform 0.2s;
   -webkit-user-select: none;
   user-select: none;
   min-height: 52px;
@@ -328,8 +338,12 @@ textarea::placeholder {
 }
 
 @keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
 }
 
 /* Analyse & Suggestion */
@@ -658,8 +672,13 @@ textarea::placeholder {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .timer-display {
@@ -704,7 +723,9 @@ textarea::placeholder {
   border-radius: 50%;
   font-size: 18px;
   cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
+  transition:
+    transform 0.2s,
+    background 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -723,8 +744,13 @@ textarea::placeholder {
 }
 
 @keyframes heartPop {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.3); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
 }
 
 /* Erreur */
@@ -784,8 +810,12 @@ textarea::placeholder {
 }
 
 @keyframes rotation {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* GESTION DES VUES */
@@ -799,8 +829,14 @@ textarea::placeholder {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1, transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* EMPTY STATE */
@@ -828,7 +864,136 @@ textarea::placeholder {
   font-size: 14px;
 }
 
-/* FAVORIS GRID */
+/* FAVORIS ACCORDÉON */
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.fav-accordion-item {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fav-accordion-item.open {
+  border-color: #ff6b6b;
+  box-shadow: 0 6px 20px rgba(255,107,107,0.15);
+}
+
+.fav-accordion-header {
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  background: #ffffff;
+}
+
+.fav-accordion-header:active {
+  background: #f8f9fa;
+}
+
+.fav-accordion-item.open .acc-chevron {
+  transform: rotate(90deg);
+}
+
+.fav-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #f0f2f5;
+  color: #718093;
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.fav-tag-calories {
+  background: rgba(255,107,107,0.1);
+  color: #ff6b6b;
+}
+
+.fav-tag-date {
+  background: transparent;
+  color: #aaa;
+  font-size: 10px;
+}
+
+.fav-accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+/* Contrôle des portions dans les favoris */
+.fav-portion-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f9fa;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  margin-top: 4px;
+}
+
+.fav-portion-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2f3640;
+}
+
+.fav-portion-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fav-portion-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #ff6b6b;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+  line-height: 1;
+}
+
+.fav-portion-btn:active {
+  transform: scale(0.9);
+  background: #ee5253;
+}
+
+.fav-portion-value {
+  font-size: 16px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  color: #2f3640;
+}
+
+.fav-ingredients-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+
+/* ANCIEN - conservé pour compatibilité */
 .favorites-grid {
   display: flex;
   flex-direction: column;
@@ -839,6 +1004,165 @@ textarea::placeholder {
   animation: none;
   opacity: 1;
   transform: none;
+}
+
+.community-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+/* COMMUNITY ACCORDION */
+.community-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.community-accordion-item {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.community-accordion-item.open {
+  border-color: #ff6b6b;
+  box-shadow: 0 6px 20px rgba(255,107,107,0.15);
+}
+
+.community-accordion-header {
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  background: #ffffff;
+}
+
+.community-accordion-header:active {
+  background: #f8f9fa;
+}
+
+.acc-header-main {
+  width: 100%;
+}
+
+.acc-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.acc-recipe-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2f3640;
+  margin: 0;
+  flex: 1;
+  line-height: 1.35;
+}
+
+.acc-chevron {
+  font-size: 1.5rem;
+  color: #ff6b6b;
+  font-weight: 700;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  line-height: 1;
+  display: inline-block;
+}
+
+.community-accordion-item.open .acc-chevron {
+  transform: rotate(90deg);
+}
+
+.acc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 7px;
+}
+
+.acc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #f0f2f5;
+  color: #718093;
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.acc-tag-author {
+  background: rgba(255,107,107,0.12);
+  color: #ff6b6b;
+}
+
+.acc-tag-date {
+  background: transparent;
+  color: #aaa;
+  font-size: 10px;
+}
+
+.acc-ing-preview {
+  font-size: 12px;
+  color: #718093;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.acc-ing-more {
+  display: inline-block;
+  background: #ff6b6b;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+/* Corps accordéon — fermé par défaut */
+.community-accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.community-accordion-item.open .community-accordion-body {
+  /* max-height défini par JS via style inline */
+}
+
+.acc-body-inner {
+  padding: 0 16px 18px;
+  border-top: 1px solid #eee;
+}
+
+.acc-body-inner h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2f3640;
+  margin: 14px 0 8px;
+}
+
+.acc-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
 }
 
 /* HISTORIQUE */
@@ -2038,11 +2362,26 @@ textarea::placeholder {
   font-size: 14px;
 }
 
-.nutriscore-a { background: #038141; color: white; }
-.nutriscore-b { background: #85bb2f; color: white; }
-.nutriscore-c { background: #fecb02; color: #333; }
-.nutriscore-d { background: #ee8100; color: white; }
-.nutriscore-e { background: #e63e11; color: white; }
+.nutriscore-a {
+  background: #038141;
+  color: white;
+}
+.nutriscore-b {
+  background: #85bb2f;
+  color: white;
+}
+.nutriscore-c {
+  background: #fecb02;
+  color: #333;
+}
+.nutriscore-d {
+  background: #ee8100;
+  color: white;
+}
+.nutriscore-e {
+  background: #e63e11;
+  color: white;
+}
 
 .nova-badge {
   padding: 8px 16px;
@@ -2053,10 +2392,22 @@ textarea::placeholder {
   color: var(--text-dark);
 }
 
-.nova-1 { background: #c8e6c9; color: #2e7d32; }
-.nova-2 { background: #fff9c4; color: #f57f17; }
-.nova-3 { background: #ffccbc; color: #d84315; }
-.nova-4 { background: #ffcdd2; color: #c62828; }
+.nova-1 {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+.nova-2 {
+  background: #fff9c4;
+  color: #f57f17;
+}
+.nova-3 {
+  background: #ffccbc;
+  color: #d84315;
+}
+.nova-4 {
+  background: #ffcdd2;
+  color: #c62828;
+}
 
 .verdict-main {
   text-align: center;
@@ -2311,4 +2662,222 @@ textarea::placeholder {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ===========================
+   MODE SOMBRE (DARK THEME)
+   =========================== */
+body.dark-theme {
+  --primary: #ff7979; /* Un peu plus clair pour le contraste */
+  --primary-dark: #ff6b6b;
+  --secondary: #20e2ad;
+  --bg-app: #121212; /* Fond d'appli très sombre */
+  --text-dark: #f5f6fa; /* Texte clair */
+  --text-gray: #a4b0be;
+  --card-bg: #1e1e1e; /* Fond des cartes légèrement plus clair que le fond */
+  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Ajustements spécifiques pour éléments avec des couleurs fixes */
+body.dark-theme .image-wrapper {
+  background: #2f3640;
+}
+body.dark-theme .image-wrapper.empty {
+  border-color: #576574;
+  background: #1e1e1e;
+}
+body.dark-theme .fab-btn.secondary {
+  background: #2f3640;
+  color: white;
+}
+body.dark-theme .mode-buttons,
+body.dark-theme .input-group,
+body.dark-theme .bottom-navbar {
+  background: #1e1e1e;
+}
+body.dark-theme .mode-btn {
+  border-color: #2f3640;
+  background: #1e1e1e;
+}
+body.dark-theme .bottom-navbar {
+  border-top: 1px solid #2f3640;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+}
+body.dark-theme .portion-control,
+body.dark-theme .plate-item,
+body.dark-theme .ingredient-validation-item,
+body.dark-theme .nutrition-table,
+body.dark-theme .verdict-main,
+body.dark-theme .settings-section {
+  background: #2f3640;
+}
+body.dark-theme textarea,
+body.dark-theme .input-group-barcode input,
+body.dark-theme .manual-ingredient-form input {
+  color: #f5f6fa;
+  background: transparent;
+}
+body.dark-theme .nutrition-row {
+  border-bottom-color: #4a5568;
+}
+body.dark-theme .shopping-divider {
+  border-top-color: #4a5568;
+}
+
+body.dark-theme .community-accordion-item {
+  background: #2a2d35;
+  border-color: transparent;
+}
+body.dark-theme .community-accordion-item.open {
+  border-color: #ff6b6b;
+}
+body.dark-theme .community-accordion-header {
+  background: #2a2d35;
+}
+body.dark-theme .community-accordion-header:active {
+  background: #1e1e1e;
+}
+body.dark-theme .acc-tag {
+  background: #3a3d45;
+  color: #ccc;
+}
+body.dark-theme .acc-tag-author {
+  background: rgba(255,107,107,0.2);
+  color: #ff6b6b;
+}
+body.dark-theme .acc-body-inner {
+  border-top-color: #3a3d45;
+}
+body.dark-theme .acc-actions {
+  border-top-color: #3a3d45;
+}
+body.dark-theme .acc-ing-preview {
+  color: #aaa;
+}
+body.dark-theme .acc-recipe-name {
+  color: #f5f6fa;
+}
+body.dark-theme .acc-body-inner h4 {
+  color: #f5f6fa;
+}
+
+/* Dark mode — Accordéon Favoris */
+body.dark-theme .fav-accordion-item {
+  background: #2a2d35;
+  border-color: transparent;
+}
+body.dark-theme .fav-accordion-item.open {
+  border-color: #ff6b6b;
+}
+body.dark-theme .fav-accordion-header {
+  background: #2a2d35;
+}
+body.dark-theme .fav-accordion-header:active {
+  background: #1e1e1e;
+}
+body.dark-theme .fav-tag {
+  background: #3a3d45;
+  color: #ccc;
+}
+body.dark-theme .fav-tag-calories {
+  background: rgba(255,107,107,0.2);
+  color: #ff6b6b;
+}
+body.dark-theme .fav-portion-control {
+  background: #1e1e1e;
+}
+body.dark-theme .fav-portion-label,
+body.dark-theme .fav-portion-value {
+  color: #f5f6fa;
+}
+
+/* Switch Toggle pour les réglages */
+.theme-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.theme-toggle input {
+  display: none;
+}
+.toggle-slider {
+  width: 50px;
+  height: 28px;
+  background-color: #ccc;
+  border-radius: 30px;
+  position: relative;
+  transition: 0.4s;
+}
+.toggle-slider:before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+input:checked + .toggle-slider {
+  background-color: var(--primary);
+}
+input:checked + .toggle-slider:before {
+  transform: translateX(22px);
+}
+/* ===========================
+   CORRECTIONS MODE SOMBRE
+   =========================== */
+
+/* 1. Bouton "Trouver des recettes" */
+body.dark-theme .generate-btn {
+  background: var(
+    --primary
+  ); /* Au lieu de var(--text-dark) qui devenait blanc */
+  color: #ffffff;
+}
+body.dark-theme .generate-btn:disabled {
+  background: #4a5568;
+  color: #a0aec0;
+}
+
+/* 2. Filtres dans les Réglages */
+body.dark-theme .filter-chip {
+  background: #2f3640; /* Fond gris foncé */
+}
+body.dark-theme .filter-chip.active {
+  background: rgba(46, 125, 50, 0.2); /* Vert très sombre */
+  border-color: #4caf50;
+}
+body.dark-theme .filter-chip.active .filter-label {
+  color: #81c784; /* Texte vert clair lisible */
+}
+
+/* 3. Cartes de l'Historique */
+body.dark-theme .history-card {
+  background: var(--card-bg); /* Applique le fond sombre de la carte */
+}
+body.dark-theme .history-btn.view {
+  background: #2f3640;
+  color: var(--text-dark);
+}
+
+/* 4. Corrections additionnelles (Liste de courses & placeholders) */
+body.dark-theme .shopping-items {
+  background: var(--card-bg);
+}
+body.dark-theme .shopping-item {
+  border-bottom-color: #2f3640;
+}
+body.dark-theme .shopping-action-btn.clear {
+  background: #2f3640;
+  color: var(--text-dark);
+}
+body.dark-theme textarea::placeholder,
+body.dark-theme .input-group-barcode input::placeholder {
+  color: #576574; /* Rend le texte fantôme "Ex: J'ai aussi des pâtes..." lisible */
 }

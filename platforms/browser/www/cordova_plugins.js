@@ -101,6 +101,14 @@ module.exports = [
         "id": "phonegap-plugin-barcodescanner.BarcodeScannerProxy",
         "pluginId": "phonegap-plugin-barcodescanner",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-local-notification/www/local-notification.js",
+        "id": "cordova-plugin-local-notification.LocalNotification",
+        "pluginId": "cordova-plugin-local-notification",
+        "clobbers": [
+            "cordova.plugins.notification.local"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -112,7 +120,8 @@ module.exports.metadata =
     "cordova-plugin-camera": "8.0.0",
     "cordova-plugin-android-permissions": "1.1.5",
     "cordova-plugin-geolocation": "5.0.0",
-    "phonegap-plugin-barcodescanner": "8.1.0"
+    "phonegap-plugin-barcodescanner": "8.1.0",
+    "cordova-plugin-local-notification": "1.2.3"
 }
 // BOTTOM OF METADATA
 });

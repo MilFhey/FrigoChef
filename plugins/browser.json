@@ -28,6 +28,9 @@
     },
     "phonegap-plugin-barcodescanner": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "com.frigochef.app"
     }
   },
   "dependent_plugins": {}

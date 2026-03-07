@@ -22,6 +22,9 @@
     <feature name="BarcodeScanner">
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
     <name>FrigoChef</name>
     <description>Application mobile intelligente pour générer des recettes personnalisées à partir des ingrédients de votre frigo</description>
     <author email="milfhey@github.com" href="https://github.com/MilFhey/FrigoChef">
@@ -39,6 +42,7 @@
     <icon density="xxhdpi" height="144" src="www/res/icon/android/xxhdpi.png" width="144" />
     <icon density="xxxhdpi" height="192" src="www/res/icon/android/xxxhdpi.png" width="192" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="GradlePluginKotlinEnabled" value="true" />
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/img/logo.png" />
     <preference name="AndroidWindowSplashScreenBackground" value="#4CAF50" />
     <preference name="SplashScreenDelay" value="3000" />

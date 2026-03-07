@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -28,7 +28,12 @@
 
     <main id="main-container" class="app-container">
       <!-- Vue Accueil -->
-      <div id="view-home" class="view-section active" role="tabpanel" aria-labelledby="nav-home">
+      <div
+        id="view-home"
+        class="view-section active"
+        role="tabpanel"
+        aria-labelledby="nav-home"
+      >
         <section class="scan-section" aria-label="Photo du frigo">
           <div id="imagePreview" class="image-wrapper empty">
             <div class="placeholder-content">
@@ -69,12 +74,22 @@
         <!-- Sélection du mode chef -->
         <section class="chef-mode-selector" aria-label="Mode de recettes">
           <div class="mode-buttons">
-            <button type="button" class="mode-btn active" data-mode="basique" id="modeBasiqueBtn">
+            <button
+              type="button"
+              class="mode-btn active"
+              data-mode="basique"
+              id="modeBasiqueBtn"
+            >
               <span class="mode-icon">🥘</span>
               <span class="mode-label">C'est la hess</span>
               <small class="mode-desc">Recettes simples</small>
             </button>
-            <button type="button" class="mode-btn" data-mode="etoile" id="modeEtoileBtn">
+            <button
+              type="button"
+              class="mode-btn"
+              data-mode="etoile"
+              id="modeEtoileBtn"
+            >
               <span class="mode-icon">⭐</span>
               <span class="mode-label">Surprends-moi</span>
               <small class="mode-desc">Recettes créatives</small>
@@ -84,7 +99,9 @@
 
         <section class="input-section" aria-label="Description des ingrédients">
           <div class="input-group">
-            <label for="question" class="visually-hidden">Ingrédients supplémentaires</label>
+            <label for="question" class="visually-hidden"
+              >Ingrédients supplémentaires</label
+            >
             <textarea
               id="question"
               rows="1"
@@ -99,11 +116,43 @@
           </div>
         </section>
 
-        <section id="responseArea" class="results-container" aria-live="polite" aria-label="Résultats"></section>
+        <section
+          id="responseArea"
+          class="results-container"
+          aria-live="polite"
+          aria-label="Résultats"
+        ></section>
+      </div>
+
+      <div
+        id="view-community"
+        class="view-section"
+        role="tabpanel"
+        aria-labelledby="nav-community"
+      >
+        <div class="view-header">
+          <h2>🌍 Communauté</h2>
+          <p
+            style="
+              text-align: center;
+              color: #666;
+              margin-bottom: 1rem;
+              font-size: 0.9rem;
+            "
+          >
+            Découvrez les recettes partagées par d'autres chefs anonymes !
+          </p>
+        </div>
+        <div id="community-content" class="view-content"></div>
       </div>
 
       <!-- Vue Favoris -->
-      <div id="view-favorites" class="view-section" role="tabpanel" aria-labelledby="nav-favorites">
+      <div
+        id="view-favorites"
+        class="view-section"
+        role="tabpanel"
+        aria-labelledby="nav-favorites"
+      >
         <div class="view-header">
           <h2>❤️ Mes Favoris</h2>
         </div>
@@ -111,7 +160,12 @@
       </div>
 
       <!-- Vue Liste de courses -->
-      <div id="view-shopping" class="view-section" role="tabpanel" aria-labelledby="nav-shopping">
+      <div
+        id="view-shopping"
+        class="view-section"
+        role="tabpanel"
+        aria-labelledby="nav-shopping"
+      >
         <div class="view-header">
           <h2>🛒 Liste de courses</h2>
         </div>
@@ -119,7 +173,12 @@
       </div>
 
       <!-- Vue Historique -->
-      <div id="view-history" class="view-section" role="tabpanel" aria-labelledby="nav-history">
+      <div
+        id="view-history"
+        class="view-section"
+        role="tabpanel"
+        aria-labelledby="nav-history"
+      >
         <div class="view-header">
           <h2>📋 Historique</h2>
         </div>
@@ -127,7 +186,12 @@
       </div>
 
       <!-- Vue Paramètres -->
-      <div id="view-settings" class="view-section" role="tabpanel" aria-labelledby="nav-settings">
+      <div
+        id="view-settings"
+        class="view-section"
+        role="tabpanel"
+        aria-labelledby="nav-settings"
+      >
         <div class="view-header">
           <h2>⚙️ Réglages</h2>
         </div>
@@ -135,7 +199,12 @@
       </div>
 
       <!-- Vue Analyse Nutritionnelle -->
-      <div id="view-nutrition-analysis" class="view-section" role="tabpanel" aria-labelledby="nav-nutrition">
+      <div
+        id="view-nutrition-analysis"
+        class="view-section"
+        role="tabpanel"
+        aria-labelledby="nav-nutrition"
+      >
         <div class="view-header">
           <h2>🔬 Analyse nutritionnelle</h2>
         </div>
@@ -163,9 +232,24 @@
                 </div>
               </div>
               <div class="floating-actions">
-                <button type="button" class="fab-btn secondary" id="selectPlateBtn">🖼️</button>
-                <button type="button" class="fab-btn primary" id="takePlateBtn">📷</button>
-                <button type="button" class="fab-btn delete" id="clearPlateBtn" style="display: none">✕</button>
+                <button
+                  type="button"
+                  class="fab-btn secondary"
+                  id="selectPlateBtn"
+                >
+                  🖼️
+                </button>
+                <button type="button" class="fab-btn primary" id="takePlateBtn">
+                  📷
+                </button>
+                <button
+                  type="button"
+                  class="fab-btn delete"
+                  id="clearPlateBtn"
+                  style="display: none"
+                >
+                  ✕
+                </button>
               </div>
             </div>
             <button id="analyzePlateBtn" class="analyze-btn" disabled>
@@ -212,9 +296,28 @@
                   </div>
                 </div>
                 <div class="floating-actions">
-                  <button type="button" class="fab-btn secondary" id="selectLabelBtn">🖼️</button>
-                  <button type="button" class="fab-btn primary" id="takeLabelBtn">📷</button>
-                  <button type="button" class="fab-btn delete" id="clearLabelBtn" style="display: none">✕</button>
+                  <button
+                    type="button"
+                    class="fab-btn secondary"
+                    id="selectLabelBtn"
+                  >
+                    🖼️
+                  </button>
+                  <button
+                    type="button"
+                    class="fab-btn primary"
+                    id="takeLabelBtn"
+                  >
+                    📷
+                  </button>
+                  <button
+                    type="button"
+                    class="fab-btn delete"
+                    id="clearLabelBtn"
+                    style="display: none"
+                  >
+                    ✕
+                  </button>
                 </div>
               </div>
               <button id="analyzeLabelBtn" class="analyze-btn" disabled>
@@ -227,13 +330,20 @@
           <!-- Historique des analyses -->
           <div class="analysis-history-section">
             <h3>📋 Historique des analyses</h3>
-            <div id="nutritionHistoryContent" class="nutrition-history-list"></div>
+            <div
+              id="nutritionHistoryContent"
+              class="nutrition-history-list"
+            ></div>
           </div>
         </div>
       </div>
     </main>
 
-    <nav class="bottom-navbar" role="tablist" aria-label="Navigation principale">
+    <nav
+      class="bottom-navbar"
+      role="tablist"
+      aria-label="Navigation principale"
+    >
       <button
         class="nav-item active"
         data-target="view-home"
@@ -245,6 +355,19 @@
         <span class="nav-icon" aria-hidden="true">🏠</span>
         <span class="nav-label">Cuisiner</span>
       </button>
+
+      <button
+        class="nav-item"
+        data-target="view-community"
+        id="nav-community"
+        role="tab"
+        aria-selected="false"
+        aria-controls="view-community"
+      >
+        <span class="nav-icon" aria-hidden="true">🌍</span>
+        <span class="nav-label">Public</span>
+      </button>
+
       <button
         class="nav-item"
         data-target="view-favorites"
