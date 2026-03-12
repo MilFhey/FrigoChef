@@ -9,13 +9,35 @@ let detectedIngredientsForValidation = null;
 let chefMode = "basique"; // "basique" ou "etoile"
 
 // Configuration
+// ⚠️ La clé API est stockée dans localStorage (Réglages > Clé API OpenAI)
+// Elle n'est JAMAIS écrite en dur dans le code source.
 const CONFIG = {
-  API_KEY:
-    "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",
+  API_KEY: "", // Ne pas remplir ici — utiliser getApiKey()
   API_URL: "https://api.openai.com/v1/chat/completions",
   MODEL: "gpt-4o-mini",
   MAX_TOKENS: 1500,
 };
+
+/**
+ * Retourne la clé API depuis localStorage.
+ * Affiche une alerte claire si elle est absente.
+ */
+function getApiKey() {
+  const key = localStorage.getItem("frigoChef_apiKey") || "";
+  if (!key || key.trim() === "") {
+    showToast(
+      "⚠️ Clé API OpenAI manquante — va dans Réglages pour la saisir",
+      4000,
+    );
+    // Naviguer vers les réglages
+    const settingsTab = document.querySelector('[data-target="view-settings"]');
+    if (settingsTab) settingsTab.click();
+    throw new Error(
+      "Clé API OpenAI non configurée. Va dans Réglages > Clé API OpenAI.",
+    );
+  }
+  return key.trim();
+}
 
 // Clés de stockage
 const STORAGE_KEYS = {
@@ -937,7 +959,36 @@ function renderSettings() {
     `;
   }).join("");
 
+  const savedApiKey = localStorage.getItem("frigoChef_apiKey") || "";
+  const apiKeyStatus = savedApiKey
+    ? `<span class="api-key-status ok">✅ Clé configurée (${savedApiKey.substring(0, 8)}...)</span>`
+    : `<span class="api-key-status missing">⚠️ Aucune clé configurée — l'IA ne fonctionnera pas</span>`;
+
   container.innerHTML = `
+    <div class="settings-section api-key-section">
+      <h4>🔑 Clé API OpenAI</h4>
+      <p class="settings-hint">Ta clé est stockée uniquement sur ton téléphone, jamais envoyée ailleurs.</p>
+      ${apiKeyStatus}
+      <div class="api-key-input-row">
+        <input
+          type="password"
+          id="apiKeyInput"
+          placeholder="sk-proj-..."
+          value="${savedApiKey}"
+          autocomplete="off"
+          class="api-key-input"
+        />
+        <button class="api-key-toggle-btn" id="apiKeyToggleBtn" title="Afficher/masquer">👁️</button>
+      </div>
+      <div class="api-key-actions">
+        <button class="settings-btn primary" id="saveApiKeyBtn">💾 Enregistrer la clé</button>
+        <button class="settings-btn danger-light" id="deleteApiKeyBtn">🗑️ Supprimer</button>
+      </div>
+      <p class="settings-hint small">
+        Obtenir une clé : <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--primary)">platform.openai.com/api-keys</a>
+      </p>
+    </div>
+
     <div class="settings-section">
       <h4>🌙 Apparence</h4>
       <label class="theme-toggle">
@@ -968,6 +1019,36 @@ function renderSettings() {
       </button>
     </div>
   `;
+
+  // --- Clé API ---
+  document.getElementById("saveApiKeyBtn")?.addEventListener("click", () => {
+    const val = document.getElementById("apiKeyInput")?.value?.trim() || "";
+    if (!val) {
+      showToast("⚠️ Saisis une clé avant d'enregistrer");
+      return;
+    }
+    if (!val.startsWith("sk-")) {
+      showToast("⚠️ La clé OpenAI doit commencer par 'sk-'");
+      return;
+    }
+    localStorage.setItem("frigoChef_apiKey", val);
+    showToast("✅ Clé API enregistrée !");
+    renderSettings(); // Rafraîchir pour afficher le statut
+  });
+
+  document.getElementById("deleteApiKeyBtn")?.addEventListener("click", () => {
+    if (confirm("Supprimer la clé API ? Tu ne pourras plus utiliser l'IA.")) {
+      localStorage.removeItem("frigoChef_apiKey");
+      showToast("Clé API supprimée");
+      renderSettings();
+    }
+  });
+
+  document.getElementById("apiKeyToggleBtn")?.addEventListener("click", () => {
+    const input = document.getElementById("apiKeyInput");
+    if (!input) return;
+    input.type = input.type === "password" ? "text" : "password";
+  });
 
   document.getElementById("darkModeToggle")?.addEventListener("change", (e) => {
     const isDark = e.target.checked;
@@ -1707,7 +1788,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -1831,7 +1912,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -2282,7 +2363,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -2874,7 +2955,7 @@ RÉPONSE EN JSON UNIQUEMENT (format strict ci-dessus):`;
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -3341,7 +3422,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,

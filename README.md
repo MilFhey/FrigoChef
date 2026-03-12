@@ -366,6 +366,7 @@ Les recettes communautaires s'affichent en **cartes accordéon repliées** :
 
 ### 8. Réglages
 
+- **🔑 Clé API OpenAI** : Saisie et sauvegarde sécurisée en `localStorage` (affichage masqué type password, bouton œil pour révéler, validation du préfixe `sk-`)
 - **Filtres alimentaires** : 7 toggles persistants
 - **Mode sombre** : Bascule dark theme complet
 - Sauvegardés en `localStorage` et rechargés au démarrage
@@ -515,7 +516,7 @@ Onglet Réglages → Section "Filtres alimentaires"
 | Analyse    | 🔬     | Assiette + Produit (scan/manuel/photo)        |
 | Courses    | 🛒     | Liste de courses                              |
 | Historique | 📋     | Historique des sessions                       |
-| Réglages  | ⚙️   | Filtres alimentaires + Dark mode              |
+| Réglages  | ⚙️   | Clé API OpenAI + Filtres alimentaires + Dark mode |
 
 ---
 
@@ -599,14 +600,19 @@ cordova platform add browser
 
 ### Configuration clé API OpenAI
 
-Éditer `www/js/index.js` — objet `CONFIG` (~ligne 12) :
+La clé API **ne doit jamais être écrite dans le code source** (risque de révocation automatique par OpenAI/GitHub).
 
-```javascript
-const CONFIG = {
-  API_KEY: "VOTRE_CLE_API_ICI",
-  // ...
-};
+**À la première utilisation de l'application :**
+
 ```
+Onglet Réglages → Section "🔑 Clé API OpenAI"
+→ Saisir la clé (commence par "sk-proj-...")
+→ Appuyer sur [💾 Enregistrer la clé]
+```
+
+La clé est stockée **uniquement dans le localStorage de l'appareil**, jamais transmise ni commitée.
+
+> Obtenir une clé : https://platform.openai.com/api-keys
 
 ### Build
 

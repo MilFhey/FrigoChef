@@ -9,13 +9,35 @@ let detectedIngredientsForValidation = null;
 let chefMode = "basique"; // "basique" ou "etoile"
 
 // Configuration
+// ⚠️ La clé API est stockée dans localStorage (Réglages > Clé API OpenAI)
+// Elle n'est JAMAIS écrite en dur dans le code source.
 const CONFIG = {
-  API_KEY:
-    "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",
+  API_KEY: "", // Ne pas remplir ici — utiliser getApiKey()
   API_URL: "https://api.openai.com/v1/chat/completions",
   MODEL: "gpt-4o-mini",
   MAX_TOKENS: 1500,
 };
+
+/**
+ * Retourne la clé API depuis localStorage.
+ * Affiche une alerte claire si elle est absente.
+ */
+function getApiKey() {
+  const key = localStorage.getItem("frigoChef_apiKey") || "";
+  if (!key || key.trim() === "") {
+    showToast(
+      "⚠️ Clé API OpenAI manquante — va dans Réglages pour la saisir",
+      4000,
+    );
+    // Naviguer vers les réglages
+    const settingsTab = document.querySelector('[data-target="view-settings"]');
+    if (settingsTab) settingsTab.click();
+    throw new Error(
+      "Clé API OpenAI non configurée. Va dans Réglages > Clé API OpenAI.",
+    );
+  }
+  return key.trim();
+}
 
 // Clés de stockage
 const STORAGE_KEYS = {
@@ -552,16 +574,17 @@ function sendTimerNotification(stepText, duration) {
   if (window.cordova && cordova.plugins && cordova.plugins.notification && cordova.plugins.notification.local) {
     try {
       cordova.plugins.notification.local.schedule({
-        id:         _notifId++,
-        title:      title,
-        text:       text,
-        icon:       "res://ic_launcher",
-        smallIcon:  "res://ic_launcher",
-        sound:      true,
-        vibrate:    true,
-        priority:   2,
-        foreground: true,
-        trigger:    { at: new Date() },
+        id:       _notifId++,
+        title:    title,
+        text:     text,
+        icon:     "res://ic_launcher",
+        smallIcon:"res://ic_launcher",
+        sound:    true,
+        vibrate:  true,
+        priority: 2,         // HIGH
+        foreground: true,    // afficher même app au premier plan
+        // trigger immédiat (at: now)
+        trigger:  { at: new Date() },
       });
     } catch (e) {
       console.warn("cordova-plugin-local-notification erreur:", e);
@@ -574,12 +597,12 @@ function sendTimerNotification(stepText, duration) {
   if (Notification.permission !== "granted") return;
   try {
     const notif = new Notification(title, {
-      body:               text,
-      icon:               "img/logo.png",
-      badge:              "img/logo.png",
-      tag:                "frigochef-timer",
+      body:             text,
+      icon:             "img/logo.png",
+      badge:            "img/logo.png",
+      tag:              "frigochef-timer",
       requireInteraction: true,
-      silent:             false,
+      silent:           false,
     });
     setTimeout(() => notif.close(), 8000);
     notif.onclick = () => { window.focus(); notif.close(); };
@@ -936,7 +959,36 @@ function renderSettings() {
     `;
   }).join("");
 
+  const savedApiKey = localStorage.getItem("frigoChef_apiKey") || "";
+  const apiKeyStatus = savedApiKey
+    ? `<span class="api-key-status ok">✅ Clé configurée (${savedApiKey.substring(0, 8)}...)</span>`
+    : `<span class="api-key-status missing">⚠️ Aucune clé configurée — l'IA ne fonctionnera pas</span>`;
+
   container.innerHTML = `
+    <div class="settings-section api-key-section">
+      <h4>🔑 Clé API OpenAI</h4>
+      <p class="settings-hint">Ta clé est stockée uniquement sur ton téléphone, jamais envoyée ailleurs.</p>
+      ${apiKeyStatus}
+      <div class="api-key-input-row">
+        <input
+          type="password"
+          id="apiKeyInput"
+          placeholder="sk-proj-..."
+          value="${savedApiKey}"
+          autocomplete="off"
+          class="api-key-input"
+        />
+        <button class="api-key-toggle-btn" id="apiKeyToggleBtn" title="Afficher/masquer">👁️</button>
+      </div>
+      <div class="api-key-actions">
+        <button class="settings-btn primary" id="saveApiKeyBtn">💾 Enregistrer la clé</button>
+        <button class="settings-btn danger-light" id="deleteApiKeyBtn">🗑️ Supprimer</button>
+      </div>
+      <p class="settings-hint small">
+        Obtenir une clé : <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--primary)">platform.openai.com/api-keys</a>
+      </p>
+    </div>
+
     <div class="settings-section">
       <h4>🌙 Apparence</h4>
       <label class="theme-toggle">
@@ -967,6 +1019,36 @@ function renderSettings() {
       </button>
     </div>
   `;
+
+  // --- Clé API ---
+  document.getElementById("saveApiKeyBtn")?.addEventListener("click", () => {
+    const val = document.getElementById("apiKeyInput")?.value?.trim() || "";
+    if (!val) {
+      showToast("⚠️ Saisis une clé avant d'enregistrer");
+      return;
+    }
+    if (!val.startsWith("sk-")) {
+      showToast("⚠️ La clé OpenAI doit commencer par 'sk-'");
+      return;
+    }
+    localStorage.setItem("frigoChef_apiKey", val);
+    showToast("✅ Clé API enregistrée !");
+    renderSettings(); // Rafraîchir pour afficher le statut
+  });
+
+  document.getElementById("deleteApiKeyBtn")?.addEventListener("click", () => {
+    if (confirm("Supprimer la clé API ? Tu ne pourras plus utiliser l'IA.")) {
+      localStorage.removeItem("frigoChef_apiKey");
+      showToast("Clé API supprimée");
+      renderSettings();
+    }
+  });
+
+  document.getElementById("apiKeyToggleBtn")?.addEventListener("click", () => {
+    const input = document.getElementById("apiKeyInput");
+    if (!input) return;
+    input.type = input.type === "password" ? "text" : "password";
+  });
 
   document.getElementById("darkModeToggle")?.addEventListener("change", (e) => {
     const isDark = e.target.checked;
@@ -1706,7 +1788,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -1830,7 +1912,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -2281,7 +2363,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -2873,7 +2955,7 @@ RÉPONSE EN JSON UNIQUEMENT (format strict ci-dessus):`;
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -3340,7 +3422,7 @@ RÉPONSE EN JSON UNIQUEMENT:
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.API_KEY}`,
+        Authorization: `Bearer ${getApiKey()}`,
       },
       body: JSON.stringify({
         model: CONFIG.MODEL,
@@ -3565,3 +3647,225 @@ function renderRecipes(data, animate = true, isOffline = false) {
   }
 }
 
+// Écouter les changements de connexion
+window.addEventListener("online", () => {
+  showToast("Connexion rétablie ✅");
+});
+
+window.addEventListener("offline", () => {
+  showToast("Mode hors-ligne 📴");
+});
+
+// --- COMMUNAUTÉ ---
+function publishToCommunity(recipe) {
+  // Vérifier si elle n'est pas déjà publiée
+  const alreadyPublished = appState.community.some((r) => r.nom === recipe.nom);
+  if (alreadyPublished) {
+    showToast("Tu as déjà partagé cette recette !");
+    return;
+  }
+
+  // Créer une copie de la recette avec les infos communautaires
+  const publicRecipe = {
+    ...recipe,
+    id: Date.now() + Math.random(),
+    author: "Anonyme",
+    publishedAt: new Date().toISOString(),
+  };
+
+  appState.community.unshift(publicRecipe);
+  saveAppState();
+
+  showToast("Recette publiée dans la communauté ! 🌍");
+}
+
+function renderCommunity() {
+  const container = document.getElementById("community-content");
+  if (!container) return;
+
+  if (appState.community.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <span class="empty-icon">🌍</span>
+        <p>La communauté est vide</p>
+        <small>Sois le premier à partager une recette !</small>
+      </div>
+    `;
+    return;
+  }
+
+  // Trier par date de publication (les plus récentes d'abord)
+  const sortedCommunity = [...appState.community].sort(
+    (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
+  );
+
+  const communityHTML = sortedCommunity
+    .map((recipe) => createCommunityAccordionHTML(recipe))
+    .join("");
+
+  container.innerHTML = `<div class="community-list">${communityHTML}</div>`;
+
+  // Gestion de l'accordéon
+  container.querySelectorAll(".community-accordion-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      const item = header.closest(".community-accordion-item");
+      const body = item.querySelector(".community-accordion-body");
+      const isOpen = item.classList.contains("open");
+
+      // Fermer tous les autres
+      container.querySelectorAll(".community-accordion-item.open").forEach((openItem) => {
+        if (openItem !== item) {
+          openItem.classList.remove("open");
+          openItem.querySelector(".community-accordion-body").style.maxHeight = null;
+        }
+      });
+
+      // Toggle celui-ci
+      if (isOpen) {
+        item.classList.remove("open");
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + "px";
+        // Réajuster si le contenu change (ex: images chargées)
+        setTimeout(() => {
+          if (item.classList.contains("open")) {
+            body.style.maxHeight = body.scrollHeight + "px";
+          }
+        }, 300);
+      }
+    });
+  });
+
+  // Boutons favoris et partage dans les accordéons
+  container.querySelectorAll(".community-accordion-item").forEach((item) => {
+    const recipeName = item.dataset.recipeName;
+    const recipe = appState.community.find((r) => r.nom === recipeName);
+    if (!recipe) return;
+
+    const favBtn = item.querySelector(".acc-favorite-btn");
+    if (favBtn) {
+      favBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleFavorite(recipe);
+        const isNowFav = isFavorite(recipe.nom);
+        favBtn.classList.toggle("active", isNowFav);
+        favBtn.querySelector("span").textContent = isNowFav ? "❤️" : "🤍";
+      });
+    }
+
+    const shareBtn = item.querySelector(".acc-share-btn");
+    if (shareBtn) {
+      shareBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        shareRecipe(recipe);
+      });
+    }
+
+    // Boutons ajout liste de courses
+    item.querySelectorAll(".add-to-list-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        addToShoppingList(btn.dataset.ingredient);
+      });
+    });
+  });
+}
+
+function createCommunityAccordionHTML(recipe) {
+  const recipeId = recipe.id || Date.now() + Math.random();
+  const portions = recipe.portions || 2;
+  const calories = recipe.calories_portion || null;
+  const author = recipe.author || "Anonyme";
+  const publishedAt = recipe.publishedAt
+    ? new Date(recipe.publishedAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })
+    : "";
+  const isFav = isFavorite(recipe.nom);
+
+  // Résumé ingrédients (les 3 premiers)
+  const ingPreview = (recipe.ingredients || [])
+    .slice(0, 3)
+    .map((i) => escapeHtml(i))
+    .join(", ");
+  const ingMore = recipe.ingredients && recipe.ingredients.length > 3
+    ? ` <span class="acc-ing-more">+${recipe.ingredients.length - 3}</span>`
+    : "";
+
+  // Ingrédients complets
+  const ingredientsHTML = (recipe.ingredients || [])
+    .map((ing, i) => `
+      <li>
+        <label>
+          <input type="checkbox" id="acc-ing-${recipeId}-${i}">
+          <span>${escapeHtml(ing)}</span>
+        </label>
+        <button class="add-to-list-btn" data-ingredient="${escapeHtml(ing)}" aria-label="Ajouter à la liste">+</button>
+      </li>`)
+    .join("");
+
+  // Étapes
+  const stepsHTML = (recipe.etapes || [])
+    .map((step, i) => {
+      const stepId = `acc-step-${recipeId}-${i}`;
+      const timerDuration = parseTimeFromStep(step);
+      const timerBtn = timerDuration
+        ? `<button class="timer-btn" onclick="toggleTimer('${stepId}', ${timerDuration})"><span>⏱️ ${formatTime(timerDuration)}</span></button>`
+        : "";
+      return `<li data-step-id="${stepId}">${escapeHtml(step)}${timerBtn}</li>`;
+    })
+    .join("");
+
+  // Astuce chef
+  const astuceHTML = recipe.astuce_chef
+    ? `<div class="chef-tip"><span class="tip-icon">💡</span> ${escapeHtml(recipe.astuce_chef)}</div>`
+    : "";
+
+  // Calories tag
+  const caloriesTag = calories
+    ? `<span class="acc-tag">🔥 ${calories} kcal/pers</span>`
+    : "";
+
+  return `
+    <div class="community-accordion-item" data-recipe-name="${escapeHtml(recipe.nom)}">
+      <div class="community-accordion-header">
+        <div class="acc-header-main">
+          <div class="acc-title-row">
+            <h3 class="acc-recipe-name">${escapeHtml(recipe.nom)}</h3>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-meta">
+            <span class="acc-tag">⏱️ ${escapeHtml(recipe.temps || "?")}</span>
+            <span class="acc-tag">👨‍🍳 ${escapeHtml(recipe.difficulte || "Moyen")}</span>
+            ${caloriesTag}
+            <span class="acc-tag acc-tag-author">👤 ${escapeHtml(author)}</span>
+            ${publishedAt ? `<span class="acc-tag acc-tag-date">📅 ${publishedAt}</span>` : ""}
+          </div>
+          <div class="acc-ing-preview">
+            🛒 <span>${ingPreview}${ingMore}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="community-accordion-body">
+        <div class="acc-body-inner">
+          <h4>🛒 Ingrédients <small>(${portions} portion${portions > 1 ? "s" : ""})</small></h4>
+          <ul class="ingredients-list">${ingredientsHTML}</ul>
+
+          <h4>📝 Préparation</h4>
+          <ol class="steps-list">${stepsHTML}</ol>
+
+          ${astuceHTML}
+
+          <div class="acc-actions">
+            <button class="action-btn acc-favorite-btn ${isFav ? "active" : ""}" aria-label="Ajouter aux favoris">
+              <span>${isFav ? "❤️" : "🤍"}</span>
+            </button>
+            <button class="action-btn acc-share-btn" aria-label="Partager">
+              <span>📤</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}

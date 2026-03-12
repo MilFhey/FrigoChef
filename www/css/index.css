@@ -1430,6 +1430,89 @@ textarea::placeholder {
   border: 1px solid #fed7d7;
 }
 
+.settings-btn.primary {
+  background: var(--primary);
+  color: white;
+}
+
+.settings-btn.danger-light {
+  background: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #fed7d7;
+}
+
+/* Clé API section */
+.api-key-section {
+  border: 2px solid #fff3cd;
+  background: #fffdf0;
+}
+
+.api-key-status {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.api-key-status.ok {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.api-key-status.missing {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.api-key-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.api-key-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: var(--radius-s);
+  font-size: 14px;
+  font-family: monospace;
+  background: white;
+  color: var(--text-dark);
+  outline: none;
+}
+
+.api-key-input:focus {
+  border-color: var(--primary);
+}
+
+.api-key-toggle-btn {
+  padding: 0 14px;
+  border: 1.5px solid #ddd;
+  border-radius: var(--radius-s);
+  background: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.api-key-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.api-key-actions .settings-btn {
+  flex: 1;
+  margin-top: 0;
+}
+
+.settings-hint.small {
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
 /* TOAST NOTIFICATION */
 .toast {
   position: fixed;
@@ -2881,3 +2964,40 @@ body.dark-theme textarea::placeholder,
 body.dark-theme .input-group-barcode input::placeholder {
   color: #576574; /* Rend le texte fantôme "Ex: J'ai aussi des pâtes..." lisible */
 }
+
+/* Dark mode — Section Clé API */
+body.dark-theme .api-key-section {
+  background: #2a2d35;
+  border-color: #5a4a1a;
+}
+body.dark-theme .api-key-status.ok {
+  background: rgba(46, 125, 50, 0.2);
+  color: #81c784;
+}
+body.dark-theme .api-key-status.missing {
+  background: rgba(230, 81, 0, 0.2);
+  color: #ffb74d;
+}
+body.dark-theme .api-key-input {
+  background: #1e1e1e;
+  border-color: #4a5568;
+  color: #f5f6fa;
+}
+body.dark-theme .api-key-input:focus {
+  border-color: var(--primary);
+}
+body.dark-theme .api-key-toggle-btn {
+  background: #2f3640;
+  border-color: #4a5568;
+  color: #f5f6fa;
+}
+body.dark-theme .settings-btn.primary {
+  background: var(--primary);
+  color: white;
+}
+body.dark-theme .settings-btn.danger-light {
+  background: rgba(229, 62, 62, 0.15);
+  color: #fc8181;
+  border-color: rgba(229, 62, 62, 0.3);
+}
+
