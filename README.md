@@ -98,7 +98,7 @@ Photo frigo → IA détecte les ingrédients → Écran de validation → IA gé
 
 - Image encodée en Base64 avant envoi
 - Badge de confiance affiché : Haute / Moyenne / Faible
-- Les condiments de base (sel, poivre) sont volontairement ignorés par le prompt de détection
+- Les condiments de base (sel, poivre) sont volontairement ignorés par le prompt de détection et supposés lors de la génération des recettes
 
 #### B. Mode "Saisie Manuelle"
 
